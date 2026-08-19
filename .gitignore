@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Editor / workspace
+*.code-workspace
+
+# Nimic din data/ nu se ignoră: latest.json e derivat dar versionabil (diff-abil),
+# scanurile sunt append-only și fac parte din seria de date.

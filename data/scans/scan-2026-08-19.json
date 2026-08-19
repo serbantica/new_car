@@ -1,0 +1,152 @@
+{
+  "scan_date": "2026-08-19",
+  "previous_scan": null,
+  "tip": "primul scan — baseline",
+  "sources_checked": 47,
+  "sources_failed": [
+    {"url": "vanzari.nissan.ro (3 pagini)", "motiv": "robots.txt / timeout"},
+    {"url": "stocuri.mgmotor.ro", "motiv": "robots.txt / timeout"},
+    {"url": "mgmotoriasi.ro lista-de-pret-mg-zs-hev.pdf", "motiv": "robots.txt, 2 incercari"},
+    {"url": "mgmotor.ro/model/zs-hybrid/preturi", "motiv": "404"},
+    {"url": "volkswagen.ro/t-cross/brosuri", "motiv": "404"},
+    {"url": "seat.ro/arona/date-tehnice", "motiv": "continut JS, nu s-a incarcat static"},
+    {"url": "skoda.ro/kamiq", "motiv": "lista de dotari necesita interactiune JS"},
+    {"url": "suzuki.ro/rabla, auto.suzuki.ro/cars/s-cross-hybrid", "motiv": "HTTP 403"},
+    {"url": "honda.asko.ro", "motiv": "HTTP 403"},
+    {"url": "exclusivauto.ro seat-arona", "motiv": "robots.txt"},
+    {"url": "tiriacauto.ro/auto-noi/skoda/kamiq", "motiv": "0 oferte in stoc"},
+    {"url": "LOT INTREG Stellantis (Avenger, Mokka, 600, 2008)", "motiv": "agentul de verificare oprit de limita de buget a organizatiei — NU o problema a surselor"}
+  ],
+  "models_found": 15,
+
+  "observatii_pret": [
+    {"model": "Suzuki Vitara", "echipare": "PASSION", "motorizare": "1.4 MHEV", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 22360, "tip_pret": "lista", "confidence": "estimated",
+     "url": "suzuki.ro/ListaPreturi.pdf", "data_document": "2024-06-01",
+     "avertisment": "lista veche de peste 2 ani"},
+
+    {"model": "Toyota Yaris Cross", "echipare": "BUSINESS", "motorizare": "1.5 Hybrid 116", "cutie": "ecvt", "tractiune": "2wd",
+     "pret_eur": 26904, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "toyota.ro lista MY26 V.06", "data_document": "2026-06",
+     "net_cu_rabla_eur": 24616},
+
+    {"model": "Kia Stonic", "echipare": "Trend", "motorizare": "1.0 T-GDI 100", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 22510, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "kia.auto-net.ro/lista_stonic.pdf"},
+    {"model": "Kia Stonic", "echipare": "Urban", "motorizare": "1.0 T-GDI 100", "cutie": "6MT",
+     "pret_eur": 19917, "tip_pret": "necunoscut", "confidence": "estimated",
+     "url": "kiaauto.ro/promotii/stonic", "valabil_pana": "2026-08-31",
+     "conflict": "identic numeric cu pretul de lista Urban, dar afisat alaturi de o reducere de 1.500 EUR conditionata de leasing Impuls, doar persoane juridice. Neclar daca include reducerea.",
+     "nota": "Urban nu atinge pragul de dotari — observatie de context, nu candidat"},
+
+    {"model": "Hyundai Bayon", "echipare": "Led Line", "motorizare": "1.0 90 CP", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 20691, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "hyundai-motor.ro/model/bayon/preturi", "valabil_pana": "2026-07-31",
+     "avertisment": "valabilitate EXPIRATA de 3 saptamani la data scanului"},
+    {"model": "Hyundai Bayon", "echipare": "Led Line", "motorizare": "1.0 90 CP", "cutie": "6MT",
+     "pret_eur": 18786, "tip_pret": "net_promotional", "denumire_reducere": "Remat",
+     "url": "hyundai-motor.ro/model/bayon/preturi",
+     "IMPORTANT": "diferenta 20.691 - 18.786 = 1.905 EUR, consistenta pe toate nivelurile. Se potriveste cu grila Rabla benzina (1.907 EUR). CONFIRMA D-022: 'Remat' = Rabla, pe pagina OFICIALA a importatorului."},
+
+    {"model": "Skoda Kamiq", "echipare": "Selection", "motorizare": "1.0 TSI 115", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 22406, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "skoda.metrotehnica.ro Pret-Skoda-Kamiq_CW32_2026_MY27.pdf", "data_document": "2026-CW32",
+     "nota": "cea mai recenta lista de preturi gasita in tot lotul — saptamana 32 din 2026"},
+
+    {"model": "Dacia Sandero Stepway", "echipare": "Expression", "motorizare": "TCe 110", "cutie": "manuala",
+     "pret_eur": 17000, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "serus-dacia.ro fisa PDF", "data_document": "2026-07-02",
+     "plus_pachet_clima_eur": 350, "total_configuratie_calificata_eur": 17350},
+
+    {"model": "Renault Captur", "echipare": "Techno", "motorizare": "mild hybrid 140 EDC", "cutie": "edc",
+     "pret_eur": 27800, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "serus-renault.ro fisa PDF MY26",
+     "plus_pachet_scaune_incalzite_eur": 200, "total_configuratie_calificata_eur": 28000},
+
+    {"model": "Nissan Juke", "echipare": "N-Design", "motorizare": "DIG-T 114", "cutie": "DCT",
+     "pret_eur": 30660, "tip_pret": "lista", "confidence": "confirmed", "url": "nissan.ro/promotii/oferta-juke.html"},
+    {"model": "Nissan Juke", "echipare": "N-Design", "motorizare": "DIG-T 114", "cutie": "DCT",
+     "pret_eur": 24660, "tip_pret": "net_promotional", "valabil_pana": "2026-08-31",
+     "url": "nissan.ro/promotii/oferta-juke.html"},
+
+    {"model": "Honda Jazz Crosstar", "echipare": "Executive", "motorizare": "1.5 e:HEV", "cutie": "ecvt",
+     "pret_eur": 27250, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "hondatrading.ro Honda-Jazz-Crosstar_Preturi_online-1.pdf",
+     "conflict": "un al doilea PDF Honda Trading, cu nume aproape identic, arata 26.950 EUR. Niciunul nu e datat."},
+    {"model": "Honda Jazz Crosstar", "echipare": "Executive", "motorizare": "1.5 e:HEV",
+     "pret_eur": 23950, "tip_pret": "net_promotional", "url": "hondatrading.ro"},
+
+    {"model": "Ford Puma", "echipare": "Titanium", "motorizare": "1.0 EcoBoost mHEV 125", "cutie": "manuala",
+     "pret_eur": 20800, "tip_pret": "lista", "confidence": "estimated",
+     "url": "ford.ro/PL-new-puma.pdf", "data_document": "2020-09-21",
+     "avertisment": "MY21.25 — lista veche de aproape 6 ani, live pe domeniul oficial"},
+    {"model": "Ford Puma", "echipare": "Titanium", "motorizare": "1.0 mHEV 125", "cutie": "manuala",
+     "pret_eur": 16800, "tip_pret": "net_promotional", "valabil_pana": "2026-09-30",
+     "url": "ford.ro/autoturisme/noul-puma/promotions/persoane-fizice",
+     "ambiguitate": "neclar daca 'de la 16.800' include deja Rabla+Ecotichet sau e pretul dinaintea lor"},
+
+    {"model": "Suzuki S-Cross", "echipare": "Passion", "motorizare": "1.4 MHEV", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 24350, "tip_pret": "lista", "confidence": "estimated",
+     "url": "suzuki.ro/ListaPreturi.pdf", "data_document": "2024-06-01",
+     "conflict": "PDF dealer Autonet, nedatat, arata 25.025 EUR pentru aceeasi configuratie"},
+    {"model": "Suzuki S-Cross", "echipare": "necunoscuta (probabil Cool)", "motorizare": "1.4 MHEV",
+     "pret_eur": 18060, "tip_pret": "net_promotional",
+     "url": "radacini.ro/oferte-masini/campanie-iunie-suzuki-s-cross",
+     "carantina": true, "motiv_carantina": "echiparea nu e specificata — cheia de identitate incompleta, nu intra in min()"},
+
+    {"model": "VW T-Cross", "echipare": "Prime", "motorizare": "1.0 TSI 115", "cutie": "DSG",
+     "pret_eur": 24309, "tip_pret": "lista", "confidence": "confirmed", "url": "shop.volkswagen.ro"},
+    {"model": "VW T-Cross", "echipare": "Prime", "motorizare": "1.0 TSI 115", "cutie": "DSG",
+     "pret_eur": 22800, "tip_pret": "net_promotional", "valabil_pana": "2026-08-31",
+     "url": "radacini.ro/campanie-rabla-2026-vw-t-cross",
+     "EXCLUS_DIN_NET": true,
+     "motiv_excludere": "reducerea e conditionata OBLIGATORIU de finantare captiva Porsche Finance + asigurare Porsche Asigurari. Conform price-model.md, cost mutat, nu eliminat."},
+
+    {"model": "VW Taigo", "echipare": "Prime", "motorizare": "1.0 TSI 115", "cutie": "DSG",
+     "pret_eur": 22675, "tip_pret": "net_promotional", "valabil_pana": "2026-08-31",
+     "url": "radacini.ro/campanie-rabla-2026-vw-taigo",
+     "EXCLUS_DIN_NET": true, "motiv_excludere": "acelasi — finantare captiva + asigurare obligatorii"},
+
+    {"model": "MG ZS Hybrid+", "echipare": "Exclusive", "motorizare": "1.5 Hybrid+",
+     "pret_eur": 27800, "tip_pret": "lista", "confidence": "estimated",
+     "url": "automotorsisport.ro", "data_document": "2024-09-01",
+     "avertisment": "pret de lansare, aproape 2 ani vechime"},
+
+    {"model": "SEAT Arona", "echipare": "FR", "motorizare": "1.0-1.5 TSI",
+     "pret_eur": 28825, "tip_pret": "lista", "confidence": "confirmed", "url": "seat.ro/arona/arona-fr",
+     "nota": "chiar si acest nivel pare sa nu aiba camera de marsarier — doar senzori"}
+  ],
+
+  "reduceri_clasificate": {
+    "confirmate_ca_rabla_stat_prin_testul_valorii": [
+      {"denumire_comerciala": "Remat", "marca": "Hyundai", "valoare_eur": 1905, "grila": 1907, "delta_eur": 2},
+      {"denumire_comerciala": "Rabla Clasic 2026", "marca": "Skoda", "valoare_lei": 10000, "valoare_eur": 1907, "grila": 1907, "delta_eur": 0},
+      {"denumire_comerciala": "Ecotichet", "marca": "Ford", "valoare_lei": 12000, "valoare_eur": 2289, "grila": 2288, "delta_eur": 1},
+      {"denumire_comerciala": "Ecoticket / Rabla 2026", "marca": "VW", "valoare_eur": 1908, "grila": 1907, "delta_eur": 1},
+      {"denumire_comerciala": "Rabla (ecotichet)", "marca": "Renault", "valoare_eur": 1909, "grila": 1907, "delta_eur": 2},
+      {"denumire_comerciala": "Ecotichet Rabla", "marca": "Dacia", "valoare_eur": 1909, "grila": 1907, "delta_eur": 2},
+      {"denumire_comerciala": "Rabla (voucher Radacini)", "marca": "Suzuki", "valoare_eur": 2300, "grila": 2288, "delta_eur": 12, "confidence": "probabil, rotunjire de marketing"}
+    ],
+    "respinse_ca_rabla_desi_poarta_numele": [
+      {"denumire_comerciala": "Rabla by Nissan", "valoare_eur": 2000, "grila_cea_mai_apropiata": 1907, "delta_eur": 93,
+       "compozitie_declarata": "1.500 EUR importator + 500 EUR dealer", "verdict": "reducere comerciala de marca"},
+      {"denumire_comerciala": "Rabla de la Ford", "valoare_eur": 2000, "grila_cea_mai_apropiata": 1907, "delta_eur": 93,
+       "verdict": "discount de brand care poarta numele Rabla; Ford ofera SEPARAT si Ecotichetul real de 12.000 lei"},
+      {"denumire_comerciala": "REMAT / Ecotichet 2025", "marca": "MG", "valoare_eur": 2400, "grila_cea_mai_apropiata": 2288, "delta_eur": 112,
+       "verdict": "nu se potriveste grilei; document din 2025"},
+      {"denumire_comerciala": "Ecotichet Mitsubishi", "valoare_eur": 1000, "verdict": "fix pe toate versiunile inclusiv PHEV — bonus de importator"}
+    ],
+    "conditionate_de_finantare_captiva_NU_intra_in_net": [
+      {"denumire": "Avantaj de pret Porsche (T-Cross DSG)", "valoare_eur": 5400, "conditie": "Porsche Finance + Porsche Asigurari"},
+      {"denumire": "Avantaj de pret Porsche (Taigo DSG)", "valoare_eur": 5800, "conditie": "Porsche Finance + Porsche Asigurari"},
+      {"denumire": "Drive Bonus (Skoda)", "valoare_eur": 1600, "conditie": "Casco Porsche Asigurari"},
+      {"denumire": "Renault Finance", "valoare_eur": 1500, "conditie": "leasing Renault Finance"},
+      {"denumire": "reducere Impuls Leasing (Kia)", "valoare_eur": 1500, "conditie": "leasing financiar, DOAR persoane juridice"}
+    ]
+  },
+
+  "note": [
+    "Prima observatie de dispersie de dealer nu s-a putut calcula pentru niciun model: nu s-au gasit doua observatii pe ACEEASI cheie completa. Dispersia ramane null, nu zero.",
+    "Cinci din cele sapte 'Rabla' identificate corect prin testul valorii poarta denumiri comerciale diferite. Testul functioneaza."
+  ]
+}

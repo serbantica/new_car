@@ -1,0 +1,554 @@
+# NEW_CAR — contractul de criterii
+# Sursă unică de adevăr pentru filtre, ponderi și parametri de cost.
+# Niciun prag de aici nu se rescrie în cod sau în dashboard: se citește de aici.
+
+version: 1
+updated: 2026-08-19
+owner: serban
+
+# ---------------------------------------------------------------------------
+# Referința: mașina actuală. Serveşte ca ancoră de comparaţie în dashboard.
+# ---------------------------------------------------------------------------
+reference_vehicle:
+  marca: Suzuki
+  model: Vitara
+  an: 2015
+  generatie: LY
+  motorizare: "1.6 benzină aspirat"
+  putere_cp: 120
+  cuplu_nm: 156
+  cuplu_rpm: 4400
+  lungime_mm: 4175
+  tractiune: AWD          # ALLGRIP
+  cutie: manuala
+  km_total: 150000
+  ani_detinere: 11
+  consum_real_l100: 8.6
+
+# ---------------------------------------------------------------------------
+# FILTRE HARD — elimină din listă. Puţine, deliberat.
+# ---------------------------------------------------------------------------
+hard_filters:
+  canal_vanzare:
+    - dealer_oficial            # exclusiv reţea oficială / importator
+  stare:
+    - nou_comanda
+    - nou_stoc_an_curent
+    - nou_stoc_an_anterior      # 0 km, an de fabricaţie precedent
+    - km_zero_demo              # înmatriculată pe dealer, garanţie întreagă
+  caroserie:
+    - crossover
+    - suv_subcompact
+    - suv_compact
+  propulsie:
+    - benzina                   # aspirat sau turbo, fără electrificare
+    - mhev_48v                  # mild hybrid
+    - hev                       # full hybrid
+    # exclus explicit: phev, bev, diesel, gpl_fabrica
+  lungime_mm:
+    min: 3900
+    max: 4450
+    # Ridicat de la 4300 la 4450 pe 2026-08-19 (D-015). Consecinţă: universul
+    # include acum SUV-uri compacte propriu-zise, nu doar sub-compacte. Filtrul
+    # care leagă lista nu mai e lungimea, ci preţul la pragul de dotări.
+  putere_cp:
+    min: 100
+    max: 200
+    # Ridicat de la 150 la 200 pe 2026-08-19 (D-017). Efect secundar util:
+    # intervalul de cuplu preferat (200-300 Nm) devine coerent cu puterea —
+    # la 150 CP plafon, foarte puţine motorizări îl atingeau.
+  # PRAG DE DOTĂRI — definit de Serban ca "minim caracteristicile Vitara 2015".
+  # Nu e o preferinţă, e un filtru: o maşină care nu-l atinge nu intră în listă,
+  # indiferent de preţ. Toate obligatorii, simultan.
+  dotari_minime:
+    - ac_automat                  # climatizare automată, nu manuală
+    - cruise_control              # pilot automat
+    - oglinzi_electrice
+    - geamuri_electrice
+    - scaune_fata_incalzite
+    - display_multimedia_android_auto
+    - camera_marsarier            # confirmat 2026-08-19; 360° NU e cerut
+  # Lista este ÎNCHISĂ. Confirmat de Serban 2026-08-19: restul dotărilor sunt
+  # opţionale. Nu se redeschide fără o intrare nouă în DECISIONS.md.
+
+  # PREŢUL NU E FILTRU HARD — vezi `marcaje`. MARCA NU E FILTRU — vezi
+  # `brand_policy`. Ambele prin D-016.
+
+# Înregistrate ca să nu fie reîntrebate la fiecare sesiune. NU sunt filtre,
+# NU punctează. Confirmat de Serban 2026-08-19: "restul dotările sunt opţionale".
+dotari_declarate_optionale:
+  - senzori_parcare
+  - climatronic_bi_zona
+  - orice_altceva
+
+  # PREŢUL NU MAI E FILTRU HARD — vezi `marcaje` mai jos şi D-016.
+
+# ---------------------------------------------------------------------------
+# MARCAJE — atribute care etichetează un rând, NU îl elimină.
+#
+# Principiul (D-016): un filtru care încodează o incertitudine, nu o cerinţă,
+# trebuie să fie marcaj, nu eliminator. Altfel proiectul îşi ascunde singur
+# datele pe care ar trebui să le folosească pentru a-şi testa propriile
+# presupuneri. Un rând costă câţiva tokeni; o presupunere netestată costă mai
+# mult.
+# ---------------------------------------------------------------------------
+marcaje:
+  buget:
+    tinta_eur: [20000, 25000]
+    toleranta_pct: 8
+    camp: in_buget                  # true | false
+    # Modelele peste plafon RĂMÂN în catalog, marcate `in_buget: false`, ca
+    # ancoră de referinţă: arată ce cumperi cu 3.000 EUR în plus. Interogarea
+    # implicită le ascunde (vezi query.filtru_implicit), dar sunt acolo.
+    rol_randuri_peste_buget: referinta
+
+  # PROVENIENŢĂ — trei câmpuri, nu unul. "Fără chinezeşti" înseamnă trei liste
+  # diferite, iar alegerea greşită taie exact ce nu voiai să tai.
+  provenienta:
+    campuri:
+      marca_origine:
+        descriere: "ţara de origine a MĂRCII, ca identitate istorică"
+        exemplu_capcana: "MG = Marea Britanie ca marcă, deşi e capital chinezesc
+                          şi producţie în China"
+      grup_proprietar:
+        descriere: "grupul care deţine marca — filtrul cel mai ascuţit dacă
+                    preocuparea e capitalul, nu sigla"
+        exemple: [Stellantis, VW Group, Toyota, Renault Group, Hyundai Motor
+                  Group, SAIC, Chery, Geely, Suzuki, Honda, Nissan, Mazda, Ford]
+        exemplu_capcana: "Volvo şi Polestar sunt mărci suedeze deţinute de Geely;
+                          Dacia e marcă românească deţinută de Renault"
+      tara_asamblare:
+        descriere: "ţara uzinei care produce versiunea vândută în România"
+        de_ce_conteaza: "afectează disponibilitatea pieselor şi termenele de
+                         livrare, independent de siglă"
+        exemplu_capcana: "Dacia Duster se produce în România; Suzuki Vitara în
+                          Ungaria; Toyota Yaris Cross în Franţa"
+
+    regula: "toate trei se completează pentru fiecare rând; niciunul nu e filtru
+             implicit. Serban filtrează pe care vrea, când vrea."
+    valoare_necunoscuta: null      # niciodată ghicită din siglă
+
+  incertitudine_reziduala:
+    camp: rezidualа_incerta         # true pentru mărci fără istoric în RO
+    # Înlocuieşte excluderea de marcă din D-008. Mărcile nou-intrate pe piaţa
+    # românească nu mai sunt eliminate: sunt marcate şi penalizate în scor,
+    # unde incertitudinea îşi are locul.
+    penalizare_scor: aplicata_la_fiabilitate_garantie
+
+# ---------------------------------------------------------------------------
+# REGULA DE SELECŢIE A ECHIPĂRII — ce anume intră în catalog per model.
+# ---------------------------------------------------------------------------
+selectie_echipare:
+  regula: cea_mai_ieftina_care_satisface_dotari_minime
+  # Un rând per model + motorizare + tracţiune + cutie. Echiparea aleasă este
+  # cea mai ieftină variantă comercializabilă care bifează TOATE dotările din
+  # hard_filters.dotari_minime. Nu "nivelul de mijloc" (arbitrar), nu "baza"
+  # (adesea nevandabilă şi sub prag).
+
+  pachete_de_optiuni:
+    permise: true
+    regula: "dacă pragul se atinge cu un pachet de opţiuni pe o echipare
+             inferioară şi iese mai ieftin decât urcarea de nivel, se
+             catalogheazăvarianta cu pachet"
+    consecinta: "preţul pachetului se adaugă la pret_lista şi se declară
+                 separat în campul `optiuni_incluse_eur`"
+
+  # MONOTONIA DOTĂRILOR (D-019). O dotare prezentă la un nivel se consideră
+  # prezentă şi la nivelurile superioare, chiar dacă nu e listată explicit acolo.
+  # Nu e o prezumţie comodă, ci modul corect de a citi sursa: producătorii
+  # publică nivelurile ca DELTĂ ("ce primeşti în plus faţă de Expression"), deci
+  # absenţa la un nivel superior înseamnă "nu se repetă", nu "nu există".
+  monotonie_dotari:
+    activa: true
+    confidence_rezultat: derived        # niciodată confirmed prin propagare
+    se_aplica_doar: scara_ierarhica_reala
+
+    exceptii_de_verificat_explicit:
+      # Nivelurile "laterale" NU sunt trepte superioare, sunt variante paralele.
+      # La ele monotonia nu se aplică — se verifică dotare cu dotare.
+      - GR Sport / N Line / R-Line / VZ      # orientate sportiv
+      - Adventure / Extreme / Trail          # orientate off-road
+      - orice nivel la acelaşi preţ cu altul # variante paralele, nu trepte
+    motiv_exceptii: "un nivel sportiv poate înlocui scaunele încălzite cu scaune
+                     sport neîncălzite; unul off-road poate renunţa la dotări de
+                     confort. Scara nu e întotdeauna monotonă."
+
+    regula_de_marcare: "orice dotare stabilită prin propagare poartă
+                        `metoda: monotonie` în `dotari_verificate`, ca să se
+                        vadă ce a fost citit şi ce a fost dedus"
+
+  campuri_obligatorii_per_rand:
+    - echipare_selectata          # numele comercial al nivelului
+    - optiuni_incluse             # listă; gol dacă pragul e atins din serie
+    - optiuni_incluse_eur         # 0 dacă nu s-a adăugat nimic
+    - motiv_selectie              # de ce ACEASTA şi nu cea de sub ea
+    - dotari_verificate           # dict dotare -> true/false/null
+
+  model_exclus_daca: "nicio echipare a modelului nu atinge pragul de dotări"
+  # Preţul nu mai intră în această regulă (D-016): un model scump care bifează
+  # pragul rămâne în catalog, marcat `in_buget: false`.
+
+# ---------------------------------------------------------------------------
+# MĂRCI — politică deschisă (D-016).
+#
+# NU există listă de mărci. Lista anterioară de 17 nume era sinteza asistentului,
+# nu o cerinţă a lui Serban — corectat de el pe 2026-08-19: "poate intra orice
+# model în parametrii listaţi". Apartenenţa la catalog se decide EXCLUSIV prin
+# hard_filters. O marcă nu e nici inclusă, nici exclusă: e irelevantă ca filtru.
+# ---------------------------------------------------------------------------
+brand_policy:
+  mod: deschis
+  filtru_de_marca: null
+  regula: "orice marcă vândută prin reţea oficială în România, dacă un model al
+           ei trece hard_filters"
+
+  # Ce se întâmplă cu preocupările reale care generaseră vechea excludere:
+  # nu dispar, se mută din filtru în scor.
+  marci_fara_istoric_ro:
+    tratament: marcaj + penalizare_in_scor    # vezi marcaje.incertitudine_reziduala
+    nu: excludere
+    motiv: "reţeaua de service şi valoarea reziduală la 5 ani sunt incerte, nu
+            inexistente. Incertitudinea se cuantifică în scor, unde poate fi
+            testată, nu în filtru, unde devine invizibilă."
+
+# ---------------------------------------------------------------------------
+# CRITERII DE SCOR — nu elimină, punctează. Suma ponderilor = 1.00
+# ---------------------------------------------------------------------------
+scoring:
+  weights:
+  # PROFILE DE PONDERI. `default` este politica proiectului — clasamentul
+  # oficial, cel care se scrie în latest.json şi pe care se compară scanurile
+  # între ele. Celelalte sunt lentile alternative, invocabile la interogare.
+  # O interogare NU rescrie profilul default (vezi spec/query.md).
+  profil_activ: default
+
+  profiles:
+    default:
+      descriere: "politica proiectului: cost pe termen lung + fiabilitate"
+      tco_5_ani: 0.40             # departajarea principală
+      fiabilitate_garantie: 0.30  # a doua ca importanţă (11 ani de deţinere)
+      consum_real: 0.12
+      spatiu_ergonomie: 0.08
+      cuplu_disponibil: 0.05
+      bonus_mostenit: 0.05
+
+    cash_minim:
+      descriere: "ce scot azi din buzunar contează mai mult decât ce plătesc în 5 ani"
+      pret_net_estimat: 0.55
+      fiabilitate_garantie: 0.20
+      consum_real: 0.15
+      spatiu_ergonomie: 0.05
+      cuplu_disponibil: 0.05
+      bonus_mostenit: 0.00
+
+    continuitate_vitara:
+      descriere: "cât de aproape de maşina actuală: AWD, manuală, gardă la sol"
+      bonus_mostenit: 0.40
+      fiabilitate_garantie: 0.25
+      tco_5_ani: 0.20
+      cuplu_disponibil: 0.10
+      spatiu_ergonomie: 0.05
+      consum_real: 0.00
+
+    economie_carburant:
+      descriere: "răspunsul direct la cei 8.6 l/100km actuali"
+      consum_real: 0.45
+      tco_5_ani: 0.30
+      fiabilitate_garantie: 0.15
+      spatiu_ergonomie: 0.05
+      cuplu_disponibil: 0.05
+      bonus_mostenit: 0.00
+
+  bonus_mostenit:
+    # Moştenite de la Vitara. Contează, dar nu justifică amputarea listei.
+    tractiune_integrala: 0.6
+    cutie_manuala: 0.4
+
+  # Descompunerea celor 0.30 de la `fiabilitate_garantie`. Motivul separării:
+  # cele două jumătăţi au calităţi de date radical diferite şi a le amesteca
+  # într-o singură cifră ascunde exact asta.
+  fiabilitate_garantie_componente:
+    garantie: 0.60
+    # Ani/km şi condiţii, publicate de producător. confidence: confirmed.
+    fiabilitate_independenta: 0.40
+    # Studii de fiabilitate şi teste de durată din surse independente.
+    # confidence: estimated, ÎNTOTDEAUNA. Metodologiile diferă între surse,
+    # acoperirea pieţei româneşti e slabă, iar datele sunt adesea pe alte
+    # pieţe. Fiecare valoare poartă sursa şi anul studiului.
+    reguli:
+      - "minim 2 surse independente pentru a puncta; cu una singură, valoarea
+         se notează dar ponderea ei se redistribuie la garanţie"
+      - "un studiu mai vechi de 3 ani se marchează şi i se reduce greutatea"
+      - "fiabilitatea se atribuie combinaţiei motor+cutie, nu mărcii"
+
+  normalizare: min_max_pe_lista_filtrata
+  # Scorurile se calculează relativ la lista curentă, nu la o scală absolută:
+  # întrebarea utilă e "care e mai bună dintre cele disponibile acum".
+  # CONSECINŢĂ: scorurile NU sunt comparabile între două scanuri diferite.
+  # Comparabile între scanuri sunt doar valorile brute (preţ, consum, TCO).
+
+# ---------------------------------------------------------------------------
+# CONVENŢIE DE CUPLU — vezi CLAUDE.md §6.
+# Cuplul NU este filtru: nu se compară corect între tehnologii.
+# ---------------------------------------------------------------------------
+cuplu:
+  camp_principal: cuplu_termic_nm       # cuplul motorului termic
+  camp_secundar: cuplu_electric_nm      # doar HEV/MHEV, unde e publicat
+  camp_informativ: cuplu_sistem_nm      # cum îl declară producătorul
+  interval_preferat_nm: [200, 300]      # punctează, nu elimină
+  sub_prag_penalizare: gradual          # nu prag brutal
+
+# ---------------------------------------------------------------------------
+# PARAMETRI TCO 5 ANI
+# ---------------------------------------------------------------------------
+tco:
+  orizont_ani: 5
+  km_pe_an: 14000
+  km_pe_an_sursa: confirmat_de_serban    # 2026-08-19: "~14.000, ca până acum"
+
+  pret_benzina_eur_l: null            # se completează la primul scan, cu data
+  componente:
+    - pret_net_estimat
+    - combustibil
+    - rca
+    - casco                            # opţional, marcat separat
+    - revizii_periodice
+    - anvelope
+    - impozit_auto
+  valoare_reziduala:
+    metoda: procent_din_pret_lista_la_5_ani
+    sursa: "estimare pe segment; marcată confidence=estimated"
+
+# ---------------------------------------------------------------------------
+# MODELUL DE PREŢ — parametri; formula stă în spec/price-model.md
+# ---------------------------------------------------------------------------
+pret:
+  moneda: EUR
+  include_tva: true
+  rabla:
+    an_program: 2026
+    status: activ
+    verificat_la: 2026-08-19
+    surse: 2                           # toyota.ro/rabla + dacia.ro/blog/rabla-2026
+    confidence: confirmed
+
+    start: 2026-07-20
+    sfarsit: 2026-12-31                # sau epuizarea bugetului, care vine prima
+    buget_total_lei: 300000000
+    doar_persoane_fizice: true
+
+    # Ediţia 2026 nu mai are componente separate Clasic/Plus; o singură grilă,
+    # pe tip de propulsie a maşinii CUMPĂRATE.
+    prima_lei:
+      benzina: 10000
+      hibrid_non_plugin: 12000
+      plug_in_hybrid: 15000            # în afara universului nostru
+      electric: 18500                  # în afara universului nostru
+    plafon_pret_masina_noua_eur: 60000  # pentru benzină şi hibrid; irelevant aici
+
+    curs_eur_ron: 5.2442
+    curs_data: 2026-08-19
+    curs_sursa: BNR
+    prima_eur:
+      benzina: 1907
+      hibrid_non_plugin: 2288
+
+    eligibilitate_masina_casata:
+      vechime_minima_ani: 8
+      inmatriculata_in_romania: true
+      completa_si_functionala: true
+      casare_centru_autorizat: true
+      durata_minima_proprietate: null
+      # Cele două surse consultate NU menţionează o durată minimă de deţinere.
+      # Ediţiile anterioare au avut una. DE VERIFICAT direct în ghidul AFM
+      # înainte de a trata netul ca ferm.
+    vitara_2015_eligibila_pe_vechime: true   # 11 ani în 2026 > 8
+
+    # REZOLVAT PARŢIAL 2026-08-19: mild-hybrid-ul primeşte grila de HIBRID.
+    mhev_incadrare: hibrid_non_plugin
+    mhev_confidence: derived
+    mhev_dovada: "mitsubishi-motors.ro/masini/noul-asx/asx_oferta aplică un
+                  ecotichet de 2.294 EUR (≈12.000 lei, grila hibrid) pe ASX
+                  1.3 DI-T MHEV — nu 10.000 lei."
+    mhev_limitare: "practica unui singur importator, nu textul ghidului AFM.
+                    De coroborat cu a doua sursă înainte de confidence=confirmed."
+
+    regula: "program neconfirmat pentru anul curent => se tratează ca 0, cu notă"
+
+    # RISC DE ORIZONT — vezi DECISIONS.md D-014.
+    # Bugetul de 300 mil. lei acoperă ~25-30.000 de vouchere şi se epuizează
+    # istoric înainte de termen. Orizontul de achiziţie fiind incert, prima NU
+    # e o reducere pe care se poate conta la o dată arbitrară: e o fereastră
+    # anuală. Netul estimat afişează separat varianta CU şi FĂRĂ primă.
+  discount_neconditionat: include_in_net
+  discount_conditionat:
+    finantare_captiva: linie_separata   # NU intră în net
+    asigurare_la_dealer: linie_separata # NU intră în net
+    motiv: "cost mutat, nu cost eliminat"
+
+  # TAXONOMIA REDUCERILOR (D-021). Denumirile se imită între ele deliberat;
+  # tipul se stabileşte după CINE o dă, nu după cum se numeşte.
+  tipuri_reducere:
+    rabla_stat:
+      cine: statul_AFM
+      exemplu: "2.294 EUR pe mitsubishi-motors.ro; 'Remat' pe tiriacauto.ro"
+      sinonime_observate: [Rabla, Remat, ecotichet]
+      # 'Remat' e numele firmei care operează radierea maşinilor casate, folosit
+      # colocvial de dealeri pentru aceeaşi primă de stat. Nu e o schemă separată.
+
+    bonus_producator:
+      cine: importatorul
+      exemplu: "'Ecotichet Mitsubishi' 1.000 EUR, mtrgroup.ro — NU este Rabla"
+    bonus_dealer:
+      cine: dealerul
+      exemplu: null      # niciunul confirmat până acum
+    discount_comercial:
+      cine: oricine
+      contrapartida: nu
+    reducere_showroom:
+      cine: dealerul
+      cuantificabila_online: false
+
+  # CLASIFICAREA UNEI REDUCERI — valoarea întâi, numele al doilea (D-022).
+  # Denumirile comerciale sunt dovadă slabă: 'ecotichet' e folosit şi de stat,
+  # şi de importatori, pentru lucruri diferite.
+  clasificare_reducere:
+    ordinea_testelor:
+      1_valoare: "dacă valoarea se potriveşte cu grila Rabla pentru propulsia
+                  respectivă (10.000 / 12.000 / 15.000 / 18.500 lei), ESTE
+                  rabla_stat, oricum s-ar numi. Dacă nu se potriveşte, NU este."
+      2_co_ocurenta: "două denumiri în aceeaşi ofertă sau aceeaşi frază =
+                      reduceri distincte. Denumiri pe pagini diferite = se
+                      presupun SINONIME, nu se dublează."
+      3_emitent: "cine o acordă, dacă pagina o spune"
+    cand_valoarea_nu_e_defalcata: "testul 1 nu poate rula; decide testul 2"
+    prezumtie_implicita: sinonim   # nu 'schemă nouă'
+
+  # REGULA DE NECUMULARE — reducerile de casare presupun predarea unei maşini.
+  # Ai o singură maşină de predat.
+  reduceri_de_casare: [rabla_stat, bonus_producator, bonus_dealer]
+  regula_cumulare: "două reduceri de casare NU se însumează decât dacă sursa
+                    spune explicit că sunt cumulabile. Altfel se reţine cea mai
+                    mare; celelalte se consemnează cu aplicata=false şi motivul."
+  cumulabil_necunoscut_se_trateaza_ca: nu_cumula
+
+  reducere_showroom:
+    se_estimeaza: false
+    se_presupune_zero: false
+    camp: reducere_showroom_disponibila    # true/false — semnal de marjă
+    nota: "limita superioară a ce poate şti un motor de căutare web.
+           Restul se află la telefon."
+
+# ---------------------------------------------------------------------------
+# INTEROGARE — filtre şi ordonare ca parametri de rulare.
+# Gramatica şi regulile de răspuns stau în spec/query.md.
+# ---------------------------------------------------------------------------
+query:
+  # Chei de ordonare permise. Cele trei coloane de bani sunt distincte şi
+  # răspund la întrebări diferite — nu se substituie una alteia.
+  sort_keys:
+    pret_lista:          "preţ de catalog, înainte de orice reducere"
+    pret_net_estimat:    "cash out azi: listă − campanii necondiţionate − Rabla"
+    pret_net_fara_rabla: "acelaşi, dar fără primă — scenariul buget epuizat"
+    cost_total_5_ani:    "TCO: net + combustibil + asigurări + service − reziduală"
+    cost_pe_km:          "cost_total_5_ani / (km_pe_an × 5) — normalizator util"
+    scor:                "scorul profilului activ sau al celui cerut în interogare"
+    consum_real_l100: ~
+    putere_cp: ~
+    cuplu_termic_nm: ~
+    lungime_mm: ~
+    garantie_ani: ~
+    portbagaj_l: ~
+
+  sort_default: cost_total_5_ani
+  sort_secundar: pret_net_estimat      # departajează egalităţile
+
+  # Interogarea implicită ascunde rândurile de referinţă. Ele rămân în catalog
+  # şi se cer explicit: "arată şi peste buget" / "include referinţele".
+  filtru_implicit:
+    in_buget: true
+  # Când un răspuns ascunde rânduri prin acest filtru, o spune: raportarea de
+  # atriţie (spec/query.md §5) îl tratează ca pe orice alt filtru.
+
+  # Câmpuri pe care se poate filtra ad-hoc. Un filtru pe un câmp din afara
+  # acestei liste se refuză explicit, nu se aproximează.
+  filtrabile:
+    - marca
+    - model
+    - propulsie
+    - tractiune
+    - cutie
+    - stare
+    - lungime_mm
+    - putere_cp
+    - cuplu_termic_nm
+    - consum_real_l100
+    - garantie_ani
+    - portbagaj_l
+    - pret_lista
+    - pret_net_estimat
+    - cost_total_5_ani
+    - disponibil_bucuresti
+    - in_buget
+    - rezidualа_incerta
+    - marca_origine
+    - grup_proprietar
+    - tara_asamblare
+
+  # Reguli de răspuns la o interogare.
+  reguli:
+    raporteaza_atritia: true
+    # Fiecare filtru aplicat raportează câte modele a eliminat. "Optimul" dintr-o
+    # listă de 2 e o afirmaţie diferită de "optimul" dintr-o listă de 20, iar
+    # fără atriţie cele două arată identic.
+    pareto_daca_fara_castigator: true
+    # Când niciun model nu domină pe toate obiectivele cerute, se răspunde cu
+    # frontul Pareto (setul nedominat), nu cu un câştigător forţat prin ponderi
+    # inventate pe loc.
+    max_rezultate_implicit: 10
+    persista_interogarea: false
+    # O interogare ad-hoc nu modifică `profil_activ` şi nu se scrie în
+    # criteria.yaml. Dacă o lentilă merită păstrată, devine un profil nou,
+    # printr-o intrare în DECISIONS.md.
+
+# ---------------------------------------------------------------------------
+# SCANARE
+# ---------------------------------------------------------------------------
+scan:
+  cadenta: lunara
+  prag_alerta_variatie_pret_pct: 3     # sub asta nu se raportează ca schimbare
+
+  # OBSERVAŢII DE PREŢ — un model NU are un preţ, are o mulţime de observaţii.
+  # Formatul şi regulile complete în spec/price-model.md.
+  observatii_pret:
+    surse_per_model:
+      - importator                     # pagina de ofertă a importatorului
+      - dealer_oficial                 # stocul dealerilor din reţea
+    minim_dealeri_de_incercat: 2       # sub 2, dispersia rămâne null
+
+    cheie_obligatorie: [model_year, echipare, motorizare, cutie, tractiune]
+    # model_year ADĂUGAT 2026-08-19 (D-021): mtrgroup.ro publica, în august 2026,
+    # un tabel complet de preţuri marcat "VERSIUNE ASX MY23". Fără MY în cheie,
+    # o ofertă veche de trei ani de model intră în comparaţie ca actuală.
+    observatie_cu_cheie_incompleta: carantina
+    # NU intră în min(). Motivul e statistic: anunţul cel mai ieftin e sistematic
+    # cel mai puţin specificat, deci un min() naiv selectează listingul care omite
+    # detaliile şi produce un preţ care nu corespunde niciunei maşini reale.
+
+    dispersie_doar_in_aceeasi_cheie: true
+    dispersie_sub_2_observatii: null   # null, NU zero
+
+    valabilitate_oferta_obligatorie: true
+    oferta_expirata: "confidence=estimated + raportare explicită"
+    # Caz real 2026-08-19: pagina oficială Mitsubishi afişa o ofertă marcată
+    # "valabilă până la 31 Iulie 2026" — expirată de trei săptămâni, fără
+    # niciun avertisment pe pagină.
+
+    demo_mai_ieftin: nu_se_presupune
+    # Verificat pe aceeaşi cheie, niciodată dedus. Caz real: la acelaşi dealer,
+    # exemplarul de test-drive era mai SCUMP decât unul nou — alt motor.
+  consolidare: trimestriala
+  geografie:
+    prioritate: Bucuresti_Ilfov
+    acoperire: national
+    nota: "preţurile de listă sunt naţionale; stocul şi campaniile sunt locale"

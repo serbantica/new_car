@@ -1,0 +1,430 @@
+# NEW_CAR — registrul surselor
+#
+# POPULAT 2026-08-19 din primul scan real (47 surse încercate, 29 modele).
+# Acest fişier este ce face diferenţa dintre un scan de descoperire (scump) şi
+# un scan de actualizare (ieftin). Descoperirea s-a făcut o dată. Scanul lunar
+# citeşte de aici şi NU mai caută.
+
+version: 2
+updated: 2026-08-19
+populat_din: scan-2026-08-19
+
+# ===========================================================================
+# NIVELURI DE ÎNCREDERE
+# ===========================================================================
+trust_levels:
+  1_lista_pret_oficiala:
+    descriere: "lista de preţuri PDF a importatorului"
+    confidence_implicit: confirmed
+    acopera: [pret_lista, motorizari, garantie, dimensiuni]
+    NU_acopera: [dotari_pe_niveluri]
+
+  1b_brosura_tehnica:
+    descriere: "broşura tehnică cu tabelul complet de dotări pe niveluri"
+    confidence_implicit: confirmed
+    acopera: [dotari_pe_niveluri, echipare_selectata, optiuni_si_pachete]
+    rol: "sursă autoritativă pentru pragul de dotări"
+
+  2_dealer_lista_pret:
+    descriere: "lista de preţuri publicată de un dealer (adesea mai recentă decât cea a importatorului)"
+    confidence_implicit: confirmed
+    nota: "auto-net.ro, serus-*.ro şi metrotehnica.ro s-au dovedit sistematic
+           mai actuale şi mai complete decât paginile importatorilor"
+
+  2b_landing_campanie:
+    descriere: "pagina de campanie a unui dealer"
+    confidence_implicit: confirmed
+    acopera: [pret_promotional, tip_reducere, conditii_oferta]
+    de_ce_separat: "listingul de stoc al unui dealer NU conţine campaniile lui"
+
+  3_agregator:
+    confidence_implicit: derived
+    acopera: [descoperire_oferte]
+    nota: "anunţurile autovit.ro expiră şi returnează 410 — nu se salvează ca surse stabile"
+
+  4_presa_teste:
+    confidence_implicit: estimated
+    acopera: [consum_real, dimensiuni_cand_lipsesc_oficial]
+    nota: "NICIODATĂ pentru preţ"
+
+# ===========================================================================
+# SURSE VALIDATE — citite cu succes cel puţin o dată.
+# Scanul lunar le foloseşte DIRECT. Nu se caută nimic nou fără motiv.
+# ===========================================================================
+surse:
+
+  toyota:
+    - url: https://www.toyota.ro/content/dam/toyota/ro/nmsc/brosuri-liste-pret/liste-de-pret/Preturi_Yaris_Cross_Hybrid.pdf
+      nivel: 1
+      acopera: [Yaris Cross]
+      validat_la: 2026-08-19
+      fragilitate: stabil
+      calitate: "EXEMPLARĂ — datată şi versionată (MY26 V.06), preţuri cu şi fără
+                 TVA, cupluri separate termic/electric, garanţie, lungime"
+    - url: https://www.toyota.ro/rabla
+      nivel: 1
+      acopera: [grila_rabla]
+      validat_la: 2026-08-19
+
+  suzuki:
+    - url: https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf
+      nivel: 1
+      acopera: [Vitara, S-Cross]
+      validat_la: 2026-08-19
+      data_document: 2024-06-01
+      fragilitate: stabil
+      AVERTISMENT: "datată 01.06.2024 — peste 2 ani. confidence=estimated automat.
+                    Verifică la fiecare scan dacă s-a actualizat."
+    - url: https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf
+      nivel: 2
+      acopera: [Vitara]
+      validat_la: 2026-08-19
+      nota: "singura sursă cu tabel de dotări pe niveluri pentru Vitara; nedatată"
+    - url: https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_scross.pdf
+      nivel: 2
+      acopera: [S-Cross]
+      validat_la: 2026-08-19
+    - url: https://radacini.ro/oferte-masini/campanie-iunie-suzuki-s-cross
+      nivel: 2b
+      acopera: [S-Cross]
+      validat_la: 2026-08-19
+
+  kia:
+    - url: https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf
+      nivel: 2
+      acopera: [Stonic]
+      validat_la: 2026-08-19
+      calitate: "matrice S/O completă pe niveluri, cu coduri de opţiuni"
+    - url: https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_xceed.pdf
+      nivel: 2
+      acopera: [XCeed]
+      validat_la: 2026-08-19
+      AVERTISMENT: "promoţie expirată 31.03.2026 — caută versiune mai nouă"
+    - url: https://www.kia.ro/user/file/stiri-2025/stonic-my26/noul-kia-stonic-specificatii-tehnice.pdf
+      nivel: 1
+      acopera: [Stonic]
+      validat_la: 2026-08-19
+    - url: https://www.kia.ro/modele/xceed
+      nivel: 1
+      validat_la: 2026-08-19
+
+  hyundai:
+    - url: https://www.hyundai-motor.ro/model/kona/preturi
+      nivel: 1
+      acopera: [Kona]
+      validat_la: 2026-08-19
+      calitate: "BUNĂ — preţ listă şi net alături, reducerea defalcată"
+    - url: https://www.hyundai-motor.ro/model/kona/specificatii-tehnice
+      nivel: 1
+      validat_la: 2026-08-19
+    - url: https://www.hyundai-motor.ro/model/bayon/preturi
+      nivel: 1
+      acopera: [Bayon]
+      validat_la: 2026-08-19
+      nota: "reducerea se numeşte 'Remat' şi valorează 1.905 EUR = Rabla (D-022)"
+    - url: https://www.hyundai-motor.ro/download/s/bayon
+      nivel: 1b
+      validat_la: 2026-08-19
+      calitate: "singura broşură cu matrice completă de dotări din tot lotul Hyundai"
+
+  skoda:
+    - url: https://skoda.metrotehnica.ro/index.php/download_file/view/3081/153/
+      nivel: 2
+      acopera: [Kamiq]
+      validat_la: 2026-08-19
+      data_document: 2026-CW32
+      fragilitate: mediu
+      calitate: "CEA MAI RECENTĂ SURSĂ DIN TOT SCANUL — fişier
+                 Pret-Skoda-Kamiq_CW32_2026_MY27.pdf, actualizat săptămânal.
+                 Verifică dacă ID-ul din URL se schimbă la fiecare versiune."
+    - url: https://skoda.metrotehnica.ro/oferte-skoda-metrotehnica/kamiq/
+      nivel: 2b
+      validat_la: 2026-08-19
+
+  dacia:
+    - url: https://www.serus-dacia.ro/fise/dacia/Dacia%20Duster.pdf
+      nivel: 2
+      acopera: [Duster]
+      validat_la: 2026-08-19
+      data_document: 2026-07-01
+      calitate: "fişă completă cu pachete de opţiuni şi preţurile lor"
+    - url: https://www.serus-dacia.ro/fise/dacia/Dacia%20Sandero%20Stepway.pdf
+      nivel: 2
+      acopera: [Sandero Stepway]
+      validat_la: 2026-08-19
+      data_document: 2026-07-02
+    - url: https://vanzari.dacia.ro/exploreaza-gama/duster.html
+      nivel: 2b
+      validat_la: 2026-08-19
+      AVERTISMENT: "preţurile afişate includ DEJA Rabla şi reducerile —
+                    tip_pret=net_promotional, NU listă"
+    - url: https://www.dacia.ro/blog/rabla-2026.html
+      nivel: 1
+      acopera: [grila_rabla]
+      validat_la: 2026-08-19
+
+  renault:
+    - url: https://www.serus-renault.ro/fise/renault/Renault%20Captur.pdf
+      nivel: 2
+      acopera: [Captur]
+      validat_la: 2026-08-19
+    - url: https://www.serus-renault.ro/fise/renault/Renault%20Symbioz.pdf
+      nivel: 2
+      acopera: [Symbioz]
+      validat_la: 2026-08-19
+      data_document: 2026-03-10
+    - url: https://www.renault.ro/vehicule-hibride/captur-e-tech-hybrid/versiuni-preturi.html
+      nivel: 1
+      validat_la: 2026-08-19
+    - url: https://vanzari.renault.ro/exploreaza-gama/symbioz.html
+      nivel: 2b
+      validat_la: 2026-08-19
+
+  nissan:
+    - url: https://www.nissan.ro/promotii/oferta-juke.html
+      nivel: 1
+      acopera: [Juke]
+      validat_la: 2026-08-19
+      nota: "'Rabla by Nissan' 2.000 EUR NU e prima de stat — testul valorii"
+
+  honda:
+    - url: https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf
+      nivel: 1
+      acopera: [Jazz Crosstar]
+      validat_la: 2026-08-19
+      AVERTISMENT: "există un al doilea PDF cu nume aproape identic şi preţ
+                    diferit (26.950 vs 27.250). Niciunul datat. Verifică ambele."
+    - url: https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf
+      nivel: 1
+      acopera: [HR-V]
+      validat_la: 2026-08-19
+    - url: https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Preturi-si-Specificatii.pdf
+      nivel: 1
+      validat_la: 2026-08-19
+
+  ford:
+    - url: https://www.ford.ro/content/dam/guxeu/ro/documents/price-list/cars/PL-new-puma.pdf
+      nivel: 1
+      acopera: [Puma]
+      validat_la: 2026-08-19
+      data_document: 2020-09-21
+      AVERTISMENT: "MY21.25 — aproape 6 ani. Contrazice pagina de campanie
+                    curentă pe dotările standard. confidence=estimated."
+    - url: https://www.ford.ro/autoturisme/noul-puma/promotions/persoane-fizice
+      nivel: 2b
+      validat_la: 2026-08-19
+      nota: "'Rabla de la Ford' 2.000 EUR NU e prima de stat; Ecotichetul
+             separat de 12.000 lei ESTE"
+
+  peugeot:
+    - url: https://www.peugeot.ro/content/dam/peugeot/romania/preturi/2008-Lista-preturi-Lista-de-pret-valabila-incepand-cu-luna-august-2026.pdf
+      nivel: 1
+      acopera: [2008]
+      validat_la: 2026-08-19
+      data_document: 2026-08
+      fragilitate: fragil
+      AVERTISMENT: "URL-ul conţine luna — se schimbă lunar. Scanul trebuie să
+                    caute noul URL, nu să presupună că cel vechi merge."
+    - url: https://www.peugeot.ro/intretinere-si-service/asistenta-garantii/garantie.html
+      nivel: 1
+      acopera: [garantie_marca]
+      validat_la: 2026-08-19
+
+  citroen:
+    - url: https://www.citroen.ro/content/dam/citroen/romania/liste-de-preturi-2023/Citroen_C3_Aircross_Lista_de_preturi_08_2026.pdf
+      nivel: 1
+      acopera: [C3 Aircross]
+      validat_la: 2026-08-19
+      fragilitate: fragil
+      nota: "URL conţine luna (08_2026) — se schimbă"
+    - url: https://www.citroen.ro/mentine/garantie.html
+      nivel: 1
+      validat_la: 2026-08-19
+
+  opel:
+    - url: https://www.opel.ro/oferte/programul-rabla.html
+      nivel: 1
+      acopera: [grila_rabla]
+      validat_la: 2026-08-19
+      calitate: "confirmă grila oficială 10.000 / 12.000 lei"
+    - url: https://apancars.ro/ro/attachment?id_attachment=95
+      nivel: 2
+      acopera: [Mokka]
+      validat_la: 2026-08-19
+      data_document: 2024-11-01
+      nota: "singura sursă cu preţuri de opţiuni pentru Mokka; veche"
+
+  jeep_fiat:
+    - url: https://www.jeep.com/ro/after-sales/garantie-jeep.html
+      nivel: 1
+      acopera: [garantie_marca]
+      validat_la: 2026-08-19
+    - url: https://dabauto.ro/fca/oferta-fiat-600-hybrid/
+      nivel: 2b
+      acopera: [Fiat 600]
+      validat_la: 2026-08-19
+      data_document: 2026-04-28
+    - url: https://dabauto.ro/fca/oferta-jeep-avenger-termic/
+      nivel: 2b
+      acopera: [Jeep Avenger]
+      validat_la: 2026-08-19
+      AVERTISMENT: "oferta afişată expirase la 31.05.2026, pagina încă live"
+
+  mitsubishi:
+    - url: https://www.mitsubishi-motors.ro/masini/noul-asx/asx_oferta
+      nivel: 1
+      acopera: [ASX]
+      validat_la: 2026-08-19
+      calitate: "descompunere completă a preţului: listă − discount − ecotichet"
+      AVERTISMENT: "oferta era marcată valabilă până la 31.07.2026, încă live"
+    - url: https://mtrgroup.ro/oferta-asx/
+      nivel: 2
+      acopera: [ASX]
+      validat_la: 2026-08-19
+      AVERTISMENT: "tabel MY23 — trei ani de model vechime. 'Ecotichet
+                    Mitsubishi' 1.000 EUR e bonus de importator, NU Rabla."
+    - url: https://www.tiriacauto.ro/landing/mt-asx-iulie/669
+      nivel: 2b
+      acopera: [ASX]
+      validat_la: 2026-08-19
+      nota: "'Remat' inclus = Rabla (D-022)"
+
+  volkswagen_group:
+    - url: https://shop.volkswagen.ro/search?mg=T-Cross
+      nivel: 1
+      acopera: [T-Cross]
+      validat_la: 2026-08-19
+    - url: https://oferte.volkswagen.ro/rabla
+      nivel: 1
+      validat_la: 2026-08-19
+      nota: "'Avantaj de preţ Porsche' 5.400-5.800 EUR e CONDIŢIONAT de
+             Porsche Finance + Porsche Asigurări — NU intră în net"
+    - url: https://radacini.ro/oferte-masini/campanie-rabla-2026-vw-t-cross
+      nivel: 2b
+      validat_la: 2026-08-19
+    - url: https://radacini.ro/oferte-masini/campanie-rabla-2026-vw-taigo
+      nivel: 2b
+      validat_la: 2026-08-19
+    - url: https://www.seat.ro/arona/versiuni-caracteristici
+      nivel: 1
+      acopera: [Arona]
+      validat_la: 2026-08-19
+    - url: https://www.seat.ro/arona/arona-fr
+      nivel: 1
+      validat_la: 2026-08-19
+    - url: https://www.seat.ro/ateca/ateca-fr
+      nivel: 1
+      acopera: [Ateca]
+      validat_la: 2026-08-19
+      nota: "singurul nivel Ateca cu cameră de marşarier standard"
+    - url: https://www.seat.ro/ateca/ateca-reference
+      nivel: 1
+      validat_la: 2026-08-19
+    - url: https://www.seat.ro/ateca/ateca-style
+      nivel: 1
+      validat_la: 2026-08-19
+
+  mg:
+    - url: https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf
+      nivel: 1b
+      acopera: [ZS Hybrid+]
+      validat_la: 2026-08-19
+      calitate: "matrice de dotări; distinge '-' (indisponibil) de opţional"
+    - url: https://www.mit-motors.ro/mg_zs_hybrid/
+      nivel: 2
+      validat_la: 2026-08-19
+
+# ===========================================================================
+# LISTĂ NEAGRĂ — surse confirmate ca inaccesibile.
+# NU se reîncearcă la fiecare scan. Se revizuieşte o dată pe an.
+# Fără această listă, fiecare rulare lunară arde acelaşi buget pe 404-uri.
+# ===========================================================================
+lista_neagra:
+  robots_txt:
+    - https://www.opel.ro/content/dam/opel/romania/pricelists/    # toate PDF-urile
+    - https://vanzari.nissan.ro/                                   # tot domeniul
+    - https://stocuri.mgmotor.ro/
+    - https://mgmotoriasi.ro/wp-content/uploads/
+    - https://stoc.seat.ro/
+    - https://www.exclusivauto.ro/
+    - https://autolatest.ro/
+    - https://oferteopel.ro/
+    - https://ofertepeugeot.ro/
+    - https://www.ofertecitroen.ro/
+    - https://www.carx.it/
+    - https://evmarket.ro/
+  javascript_only:
+    - https://www.jeep.com/ro/preturi.html
+    - https://www.jeep.com/ro/oferte/
+    - https://www.opel.ro/                    # paginile de model
+    - https://www.fiat.com.ro/
+    - https://www.skoda.ro/kamiq              # lista de dotări cere JS
+    - https://www.seat.ro/arona/date-tehnice
+    - https://www.toyota.ro/new-cars/*/specifications
+    - https://configurator.volkswagen.ro/
+  http_403:
+    - https://suzuki.ro/rabla
+    - https://auto.suzuki.ro/cars/
+    - https://honda.asko.ro/
+    - https://www.autoitalia.ro/oferta-jeep-avenger-mhev
+  http_404:
+    - https://www.mgmotor.ro/model/zs-hybrid/preturi
+    - https://www.volkswagen.ro/t-cross/brosuri
+    - https://www.seat.ro/ateca/prezentare-generala
+    - https://www.seat.ro/ateca/oferte
+    - https://dabauto.ro/fca/oferta-jeep-compass-e-hybrid/
+  domeniu_mort:
+    - https://www.jeep.ro/          # "reserved domain"
+  efemer_nu_se_salveaza:
+    - https://www.autovit.ro/autoturisme/anunt/    # expiră cu 410 Gone
+
+# ===========================================================================
+# PROCEDURA DE SCAN LUNAR — ieftin prin construcţie
+# ===========================================================================
+procedura_scan_lunar:
+  principiu: "Scanul lunar ACTUALIZEAZĂ, nu descoperă. Catalogul tehnic
+              (data/models.json) NU se reverifică."
+
+  ce_NU_face:
+    - "NU foloseşte subagenţi. Ei au fost instrumentul potrivit pentru
+       descoperire paralelă pe 30 de modele necunoscute; sunt instrumentul
+       greşit pentru a citi 30 de URL-uri cunoscute."
+    - "NU face WebSearch decât dacă un URL din registru a murit."
+    - "NU reverifică lungimi, motorizări, cupluri, garanţii sau matricea de
+       dotări. Sunt în models.json."
+    - "NU reîncearcă nimic din lista neagră."
+
+  ce_face:
+    - "Pentru fiecare sursă validată: un WebFetch cu întrebare ÎNGUSTĂ —
+       'care e preţul pentru <echipare> <motorizare> <cutie>? ce reduceri
+       sunt listate şi cu ce valoare? până când e valabilă oferta?'"
+    - "Compară cu scanul precedent. Raportează DOAR delta peste pragul din
+       criteria.yaml (3%)."
+    - "Când o sursă returnează eroare de 3 ori consecutiv, o mută în lista
+       neagră şi caută UN înlocuitor — o singură dată, nu la fiecare rulare."
+
+  buget_estimat: "~30 apeluri WebFetch cu prompt scurt. Sub 10% din costul
+                  scanului de descoperire din 2026-08-19."
+
+  rulare: "sarcină programată, în sesiune nouă. NU într-o conversaţie lungă —
+           fiecare apel de tool reprocesează tot istoricul acumulat, ceea ce
+           a fost al doilea consumator ca mărime în sesiunea de descoperire."
+
+# ===========================================================================
+# REGULI DE INTERPRETARE
+# ===========================================================================
+reguli:
+  - "VÂRSTA SURSEI ESTE UN CÂMP, NU O PRESUPUNERE. Peste 12 luni →
+     confidence=estimated automat. Confirmate: ford.ro 2020, suzuki.ro 2024,
+     mtrgroup.ro MY23, apancars.ro 2024."
+  - "NU SE PRESUPUNE CĂ UN PREŢ AFIŞAT E PREŢ DE LISTĂ. dacia.ro şi
+     vanzari.dacia.ro publică direct net promoţional."
+  - "REDUCERILE SE CLASIFICĂ DUPĂ VALOARE, NU DUPĂ NUME. Grila 2026:
+     1.907 EUR benzină, 2.288 EUR hibrid. Testul a funcţionat 11 din 11."
+  - "REDUCERILE CONDIŢIONATE DE FINANŢARE CAPTIVĂ SAU ASIGURARE NU INTRĂ ÎN
+     NET. Grupul VW e cazul extrem: 5.400-5.800 EUR condiţionaţi."
+  - "O extragere implauzibilă dintr-un PDF este, prima dată, o întrebare prost
+     pusă — nu o sursă proastă. Cere citate EXACTE şi permite explicit
+     răspunsul 'nu apare în document'. Reîntreabă înainte să schimbi sursa."
+  - "Când două surse se contrazic, păstrează ambele valori cu sursele lor şi
+     marchează conflictul. Nu alege tăcut."

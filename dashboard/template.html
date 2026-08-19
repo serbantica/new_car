@@ -1,0 +1,804 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEW_CAR</title>
+
+<!--
+  dashboard/template.html — șablonul dashboard-ului NEW_CAR.
+  build.py înlocuiește marcajul de date (vezi script-ul application/json de mai jos)
+  cu conținutul data/latest.json și scrie dashboard/index.html.
+  NU edita index.html direct; editează acest șablon.
+
+  Reguli respectate (CLAUDE.md / HANDOFF §3 / query.md §8):
+    - un singur fișier, self-contained: CSS+JS inline, zero dependențe externe,
+      zero fetch (CORS pe file://), zero localStorage/sessionStorage.
+    - ZERO praguri hardcodate: totul se citește din DATA (config bakuit).
+    - filtrele se GENEREAZĂ din config.query.filtrabile (nu scrise de mână).
+    - un câmp fără corespondent în date (inclusiv homoglifa chirilică
+      `rezidualа_incerta`) => control dezactivat + marcat, NICIODATĂ filtru mut.
+    - vizibilitatea încrederii: fiecare celulă {v,c} stilată după confidence.
+    - cele 4 coloane de bani sunt distincte; niciuna nu se numește „prețul".
+-->
+
+<style>
+/* ---- Tokens: temă clară pe :root, temă întunecată sub media + [data-theme] ---- */
+:root {
+  color-scheme: light;
+  --plane:        #f4f4f1;   /* fundal pagină, neutru cu ușor bias rece */
+  --surface:      #fcfcfb;   /* carduri / tabel */
+  --surface-2:    #f0f0ec;   /* zebra / anteturi secundare */
+  --ink:          #14140f;
+  --ink-2:        #52514e;
+  --muted:        #7c7a74;
+  --line:         #e1e0d9;
+  --line-2:       #c8c7bf;
+  --accent:       #256abf;   /* interactiv / sortare activă */
+  --accent-soft:  #e4eefb;
+  /* confidence = status palette (icon+label obligatoriu, nu doar culoare) */
+  --c-confirmed:  #0ca30c;
+  --c-derived:    #256abf;
+  --c-estimated:  #b9820a;   /* pas mai închis decât warning pt contrast pe clar */
+  --c-null:       #7c7a74;
+  --ref:          #8a5cc4;   /* rânduri de referință / peste buget */
+  --warn-bg:      #fbf2dd;
+  --warn-line:    #e6c766;
+  --shadow:       0 1px 2px rgba(20,20,15,.06), 0 1px 8px rgba(20,20,15,.04);
+  --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --plane:        #0d0d0c;
+    --surface:      #1a1a19;
+    --surface-2:    #232321;
+    --ink:          #f4f3ee;
+    --ink-2:        #c3c2b7;
+    --muted:        #918f87;
+    --line:         #2c2c2a;
+    --line-2:       #3a3a37;
+    --accent:       #4c95ea;
+    --accent-soft:  #17273c;
+    --c-confirmed:  #2bbf2b;
+    --c-derived:    #4c95ea;
+    --c-estimated:  #e0a92a;
+    --c-null:       #918f87;
+    --ref:          #b18ce0;
+    --warn-bg:      #2a2410;
+    --warn-line:    #6b5a1e;
+    --shadow:       0 1px 2px rgba(0,0,0,.4), 0 1px 10px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --plane:#0d0d0c; --surface:#1a1a19; --surface-2:#232321;
+  --ink:#f4f3ee; --ink-2:#c3c2b7; --muted:#918f87; --line:#2c2c2a; --line-2:#3a3a37;
+  --accent:#4c95ea; --accent-soft:#17273c;
+  --c-confirmed:#2bbf2b; --c-derived:#4c95ea; --c-estimated:#e0a92a; --c-null:#918f87;
+  --ref:#b18ce0; --warn-bg:#2a2410; --warn-line:#6b5a1e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 1px 10px rgba(0,0,0,.3);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--plane);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1240px; margin: 0 auto; padding: 22px 18px 80px; }
+h1, h2, h3 { margin: 0; font-weight: 650; letter-spacing: -.01em; text-wrap: balance; }
+a { color: var(--accent); }
+.mono { font-family: var(--mono); }
+.tnum { font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); }
+
+/* ---- Header ---- */
+header.masthead { display: flex; flex-wrap: wrap; justify-content: space-between;
+  align-items: baseline; gap: 12px 20px; margin-bottom: 6px; }
+header.masthead h1 { font-size: 22px; }
+.scan-meta { font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+.scan-meta b { color: var(--ink); font-weight: 600; }
+.disclaimer { margin: 12px 0 0; padding: 11px 14px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink-2); font-size: 13px; box-shadow: var(--shadow); }
+.disclaimer strong { color: var(--ink); }
+.banner { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px;
+  background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--ink); }
+.banner .b-icon { font-weight: 700; margin-right: 6px; }
+
+/* ---- Layout: rail de control + zonă principală ---- */
+.grid { display: grid; grid-template-columns: 268px 1fr; gap: 18px; margin-top: 18px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; box-shadow: var(--shadow); }
+.card > .card-h { padding: 10px 13px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.card > .card-h h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--ink-2); font-weight: 650; }
+.rail { align-self: start; position: sticky; top: 12px; }
+.rail .card-body { padding: 12px 13px; }
+.rail section + section { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.rail h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--muted); margin-bottom: 9px; font-family: var(--mono); font-weight: 600; }
+
+/* ---- Butoane / controale ---- */
+.seg { display: flex; flex-direction: column; gap: 5px; }
+.seg button { text-align: left; font-family: inherit; font-size: 13px; cursor: pointer;
+  padding: 7px 9px; border-radius: 7px; border: 1px solid var(--line-2);
+  background: var(--surface); color: var(--ink); transition: background .12s, border-color .12s; }
+.seg button .desc { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; }
+.seg button:hover { border-color: var(--accent); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent);
+  color: var(--ink); }
+.seg button[aria-pressed="true"] .cov { color: var(--accent); }
+select, input[type="number"] { font-family: inherit; font-size: 13px; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; padding: 5px 7px; }
+select:focus, input:focus, button:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; }
+label { font-size: 13px; }
+.chk { display: flex; align-items: center; gap: 7px; padding: 2px 0; cursor: pointer; }
+.chk input { accent-color: var(--accent); width: 15px; height: 15px; }
+.chk .count { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+/* filtru generat */
+.filt { margin-bottom: 12px; }
+.filt-h { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.filt-h .name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.filt-h .key { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.filt.nodata { opacity: .62; }
+.filt.nodata .name { color: var(--muted); }
+.badge-nodata { font-family: var(--mono); font-size: 10px; padding: 1px 5px; border-radius: 4px;
+  background: var(--surface-2); border: 1px solid var(--line-2); color: var(--muted); }
+.badge-homoglif { background: var(--warn-bg); border-color: var(--warn-line); color: var(--ink); }
+.filt .range { display: flex; align-items: center; gap: 6px; }
+.filt .range input { width: 74px; }
+.filt .range span { color: var(--muted); font-size: 12px; }
+.filt .opts { display: flex; flex-direction: column; gap: 1px; max-height: 176px; overflow-y: auto; }
+.reset { font-size: 12px; background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; }
+
+/* ---- Lentila activă (traducerea vizibilă a interogării) ---- */
+.lens { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-bottom: 12px;
+  padding: 10px 13px; font-size: 13px; }
+.lens .k { color: var(--muted); font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+  letter-spacing: .05em; }
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 20px;
+  background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--ink); font-size: 12px; }
+.pill.dim { background: var(--surface-2); border-color: var(--line-2); color: var(--ink-2); }
+
+/* ---- Atriție ---- */
+.attr { padding: 12px 14px; margin-bottom: 12px; }
+.attr .row { display: grid; grid-template-columns: 1fr auto 120px; align-items: center;
+  gap: 10px; padding: 3px 0; font-size: 13px; }
+.attr .row.base { border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 4px; }
+.attr .lbl { color: var(--ink-2); }
+.attr .lbl b { color: var(--ink); font-family: var(--mono); }
+.attr .cut { font-family: var(--mono); text-align: right; color: var(--c-estimated); }
+.attr .cut.zero { color: var(--muted); }
+.attr .bar { height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.attr .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.attr .rem { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
+
+/* ---- Tabel ---- */
+.tbl-scroll { overflow-x: auto; border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+thead th { position: sticky; top: 0; background: var(--surface-2); z-index: 2;
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line-2);
+  font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2);
+  white-space: nowrap; }
+thead th.num { text-align: right; }
+thead th button { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+thead th button:hover { color: var(--accent); }
+thead th.sorted { color: var(--accent); }
+thead th .arr { font-size: 10px; }
+tbody td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tbody tr:hover { background: var(--accent-soft); }
+tbody tr.ref { }
+tbody tr.ref .model-cell::after { content: "referință"; margin-left: 7px; font-size: 10px;
+  font-family: var(--mono); color: var(--ref); border: 1px solid var(--ref); border-radius: 4px; padding: 0 4px; }
+tbody tr.nedet { }
+tbody tr.nedet .model-cell::after { content: "nedeterminat"; margin-left: 7px; font-size: 10px;
+  font-family: var(--mono); color: var(--c-estimated); border: 1px solid var(--warn-line);
+  border-radius: 4px; padding: 0 4px; }
+tbody tr.excl { opacity: .55; }
+.model-cell { font-weight: 600; }
+.model-cell .sub { display: block; font-weight: 400; font-size: 11px; color: var(--muted);
+  font-family: var(--mono); }
+.rank { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+/* celulă de bani cu confidence */
+.money { display: inline-flex; align-items: baseline; gap: 5px; }
+.money .v { font-variant-numeric: tabular-nums; }
+.cdot { font-size: 9px; line-height: 1; transform: translateY(-1px); }
+.c-confirmed .cdot { color: var(--c-confirmed); }
+.c-derived   .cdot { color: var(--c-derived); }
+.c-estimated .cdot { color: var(--c-estimated); }
+.c-estimated .v { text-decoration: underline dotted var(--c-estimated); text-underline-offset: 2px; }
+.c-null { color: var(--c-null); }
+.dash { color: var(--c-null); }
+
+/* scor + acoperire */
+.score { display: inline-flex; align-items: center; gap: 6px; }
+.score .val { font-variant-numeric: tabular-nums; font-weight: 600; }
+.cov { font-family: var(--mono); font-size: 10px; padding: 1px 4px; border-radius: 4px;
+  border: 1px solid var(--line-2); color: var(--muted); }
+.cov.weak { color: var(--c-estimated); border-color: var(--warn-line); background: var(--warn-bg); }
+
+/* detalii rând */
+tr.detail td { background: var(--surface-2); padding: 0; }
+tr.detail .inner { padding: 12px 16px; display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 14px; }
+tr.detail h4 { margin: 0 0 5px; font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--muted); font-family: var(--mono); }
+tr.detail ul { margin: 0; padding-left: 16px; }
+tr.detail li { margin: 2px 0; }
+tr.detail .kv { font-family: var(--mono); font-size: 12px; }
+.expand-btn { all: unset; cursor: pointer; color: var(--muted); font-family: var(--mono);
+  padding: 0 4px; }
+.expand-btn:hover { color: var(--accent); }
+
+/* legendă confidence */
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 0; font-size: 12px; color: var(--ink-2); }
+.legend .item { display: inline-flex; align-items: center; gap: 5px; }
+
+/* carantină + diagnostic */
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+@media (max-width: 900px) { .panels { grid-template-columns: 1fr; } }
+.panels .card-body { padding: 12px 14px; font-size: 13px; }
+.q-item { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.q-item:last-child { border-bottom: none; }
+.q-item .q-h { font-weight: 600; }
+.q-item .q-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.q-item .q-why { color: var(--ink-2); margin-top: 3px; }
+.diag dl { margin: 0; }
+.diag dt { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: .04em; margin-top: 8px; }
+.diag dd { margin: 2px 0 0; color: var(--ink-2); }
+.diag .missing { font-family: var(--mono); font-size: 12px; }
+
+footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
+
+.empty { padding: 40px; text-align: center; color: var(--muted); }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" id="app">
+  <div class="empty" id="boot">Se încarcă…</div>
+</div>
+
+<!-- Datele injectate de build.py. Marcajul __NCAR_DATA__ e înlocuit la build;
+     deschis direct (neînlocuit) e JSON invalid -> try/catch afișează mesajul de build. -->
+<script type="application/json" id="ncar-data">__NCAR_DATA__</script>
+
+<script>
+"use strict";
+(function () {
+  // ---- 1. Încarcă DATA (grațios dacă șablonul e deschis fără build) ----
+  let DATA = null;
+  try {
+    const raw = document.getElementById("ncar-data").textContent.trim();
+    if (raw) DATA = JSON.parse(raw);   // marcajul neînlocuit e JSON invalid -> catch
+  } catch (e) { DATA = null; }
+
+  const app = document.getElementById("app");
+  if (!DATA || !Array.isArray(DATA.modele)) {
+    app.innerHTML =
+      '<div class="empty"><h1>NEW_CAR</h1><p>Șablon negenerat.</p>' +
+      '<p class="mono">Rulează <b>python3 build.py</b> ca să produci ' +
+      'dashboard/index.html cu datele injectate.</p></div>';
+    return;
+  }
+
+  // ---- 2. Config & utilitare ----
+  const cfg = DATA.config || {};
+  const Q = cfg.query || {};
+  const PROFILES = cfg.scoring_profiles || {};
+  const profileNames = Object.keys(PROFILES);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const isNum = (v) => typeof v === "number" && isFinite(v);
+  // coerciție tolerantă: "4172-4197" -> 4172 pt filtrul de interval; altfel null
+  const toNum = (v) => {
+    if (isNum(v)) return v;
+    if (typeof v === "string") { const m = v.match(/-?\d+(\.\d+)?/); return m ? parseFloat(m[0]) : null; }
+    return null;
+  };
+  const fmtEur = (v) => isNum(v) ? v.toLocaleString("ro-RO") + " €" : null;
+  const CAT = (v) => (v == null || v === "") ? "— necunoscut" : String(v);
+
+  // ---- 3. FIELD_MAP: unde citește fiecare cheie din query.filtrabile ----
+  //   Praguri NU sunt aici — doar accesori de câmp (căi în date).
+  const B = (r, k) => (r.bani && r.bani[k]) ? r.bani[k].v : null;
+  const FIELD_MAP = {
+    marca:            { label: "Marcă",            kind: "cat", get: (r) => r.marca },
+    model:            { label: "Model",            kind: "cat", get: (r) => r.model },
+    propulsie:        { label: "Propulsie",        kind: "cat", get: (r) => r.propulsie },
+    tractiune:        { label: "Tracțiune",        kind: "cat", get: (r) => r.tractiune },
+    cutie:            { label: "Cutie",            kind: "cat", get: (r) => r.cutie },
+    stare:            { label: "Stare comercială", kind: "cat", get: (r) => r.stare },
+    lungime_mm:       { label: "Lungime (mm)",     kind: "num", get: (r) => r.lungime_mm },
+    putere_cp:        { label: "Putere (CP)",      kind: "num", get: (r) => r.putere_cp },
+    cuplu_termic_nm:  { label: "Cuplu termic (Nm)",kind: "num", get: (r) => r.cuplu_termic_nm },
+    consum_real_l100: { label: "Consum real l/100",kind: "num", get: (r) => r.consum_real_l100 },
+    garantie_ani:     { label: "Garanție (ani)",   kind: "num", get: (r) => r.garantie_ani },
+    portbagaj_l:      { label: "Portbagaj (l)",    kind: "num", get: (r) => r.portbagaj_l },
+    pret_lista:       { label: "Preț listă",       kind: "num", money: true, get: (r) => B(r, "pret_lista") },
+    pret_net_estimat: { label: "Net estimat",      kind: "num", money: true, get: (r) => B(r, "pret_net_estimat") },
+    cost_total_5_ani: { label: "TCO 5 ani",        kind: "num", money: true, get: (r) => B(r, "cost_total_5_ani") },
+    disponibil_bucuresti: { label: "Disponibil București", kind: "cat", get: (r) => r.disponibil_bucuresti },
+    in_buget:         { label: "În buget",         kind: "cat",
+                        get: (r) => (r.marcaje && r.marcaje.in_buget && r.marcaje.in_buget.stare) || "nedeterminat" },
+    marca_origine:    { label: "Marcă origine",    kind: "cat", get: (r) => r.marca_origine },
+    grup_proprietar:  { label: "Grup proprietar",  kind: "cat", get: (r) => r.grup_proprietar },
+    tara_asamblare:   { label: "Țară asamblare",   kind: "cat", get: (r) => r.tara_asamblare },
+  };
+
+  const MODELE = DATA.modele;
+
+  // ---- 4. Descrie fiecare filtru din filtrabile, detectând „fără date" ----
+  const filtrabile = Q.filtrabile || [];
+  const filterDefs = filtrabile.map((key) => {
+    const def = FIELD_MAP[key];
+    const nonAscii = /[^\x00-\x7F]/.test(key);          // homoglifă chirilică etc.
+    if (!def) {
+      return { key, label: key, kind: "nodata", reason: nonAscii
+        ? "cheie cu caractere non-ASCII (posibil homoglifă) — vezi DECISIONS.md" //
+        : "câmp necunoscut în date" };
+    }
+    // are corespondent? verifică dacă vreun rând produce o valoare non-null
+    const values = MODELE.map(def.get);
+    const anyData = values.some((v) => v != null && v !== "");
+    if (!anyData) return { key, label: def.label, kind: "nodata", reason: "niciun rând nu are acest câmp" };
+    if (def.kind === "num") {
+      const nums = values.map(toNum).filter(isNum);
+      return { key, label: def.label, kind: "num", get: def.get, money: !!def.money,
+        min: Math.min(...nums), max: Math.max(...nums) };
+    }
+    const uniq = Array.from(new Set(values.map((v) => (v == null || v === "") ? null : String(v))));
+    uniq.sort((a, b) => (a === null) - (b === null) || String(a).localeCompare(String(b), "ro"));
+    return { key, label: def.label, kind: "cat", get: def.get, options: uniq };
+  });
+
+  // ---- 5. Starea interfeței ----
+  // filtru implicit: in_buget:true => stările în buget {da, doar_cu_rabla}
+  const inBudgetStates = ["da", "doar_cu_rabla"];
+  const state = {
+    profile: profileNames.includes(cfg.profil_activ) ? cfg.profil_activ
+             : (profileNames.includes("default") ? "default" : profileNames[0]),
+    sortKey: null, sortDir: null,
+    filters: {},          // key -> Set (cat) sau {min,max} (num)
+    showExcluded: false,
+  };
+  // pre-selectează filtrul implicit
+  const fi = Q.filtru_implicit || {};
+  filterDefs.forEach((f) => {
+    if (f.kind === "cat") {
+      if (f.key === "in_buget" && fi.in_buget === true) {
+        state.filters[f.key] = new Set(f.options.filter((o) => inBudgetStates.includes(o)));
+      } else {
+        state.filters[f.key] = new Set(f.options); // toate bifate = fără restricție
+      }
+    } else if (f.kind === "num") {
+      state.filters[f.key] = { min: null, max: null };
+    }
+  });
+
+  // sortare implicită: sort_default; dacă e null peste tot -> cade pe sort_secundar
+  const scoreOf = (r, prof) => (r.scoruri && r.scoruri[prof]) ? r.scoruri[prof].scor : null;
+  const covOf = (r, prof) => (r.scoruri && r.scoruri[prof]) ? r.scoruri[prof].acoperire_pondere : null;
+  const sortVal = (r, key) => {
+    if (key === "scor") return scoreOf(r, state.profile);
+    if (FIELD_MAP[key]) return toNum(FIELD_MAP[key].get(r));
+    // chei numai-sortare (ex. pret_net_fara_rabla, cost_pe_km) din bani
+    return B(r, key);
+  };
+  const DIR_DESC = new Set(["scor", "putere_cp", "cuplu_termic_nm", "garantie_ani", "portbagaj_l"]);
+  const dirFor = (key) => DIR_DESC.has(key) ? "desc" : "asc";
+  let tcoFellBack = false;
+  (function initSort() {
+    const def = Q.sort_default || "pret_net_estimat";
+    const allNull = MODELE.every((r) => sortVal(r, def) == null);
+    if (allNull && Q.sort_secundar) { state.sortKey = Q.sort_secundar; tcoFellBack = true; }
+    else state.sortKey = def;
+    state.sortDir = dirFor(state.sortKey);
+  })();
+
+  // ---- 6. Clasificare rânduri ----
+  const isExcluded = (r) => !!r.exclus_din_catalog;
+  const isNedet   = (r) => !!r.rand_nedeterminat;
+  const isRef     = (r) => (r.marcaje && r.marcaje.in_buget && r.marcaje.in_buget.stare) === "nu";
+
+  // ---- 7. Aplică filtrele (cu atriție în ordine) ----
+  function computeAttrition() {
+    let rows = MODELE.filter((r) => state.showExcluded ? true : !isExcluded(r));
+    const universe = rows.length;
+    const steps = [];
+    filterDefs.forEach((f) => {
+      if (f.kind === "nodata") return;
+      const sel = state.filters[f.key];
+      let active = false, pred = () => true;
+      if (f.kind === "cat") {
+        // activ doar dacă NU sunt toate opțiunile bifate
+        if (sel.size < f.options.length) {
+          active = true;
+          pred = (r) => { const v = f.get(r); const key = (v == null || v === "") ? null : String(v); return sel.has(key); };
+        }
+      } else if (f.kind === "num") {
+        const { min, max } = sel;
+        if (min != null || max != null) {
+          active = true;
+          pred = (r) => { const n = toNum(f.get(r)); if (n == null) return false;
+            if (min != null && n < min) return false; if (max != null && n > max) return false; return true; };
+        }
+      }
+      if (!active) return;
+      const before = rows.length;
+      rows = rows.filter(pred);
+      steps.push({ label: describeFilter(f), cut: before - rows.length, remaining: rows.length });
+    });
+    return { universe, steps, rows };
+  }
+  function describeFilter(f) {
+    const sel = state.filters[f.key];
+    if (f.kind === "cat") {
+      const chosen = f.options.filter((o) => sel.has(o));
+      return f.label + " ∈ {" + chosen.map((o) => o === null ? "necunoscut" : o).join(", ") + "}";
+    }
+    const { min, max } = sel;
+    if (min != null && max != null) return f.label + " ∈ [" + min + ", " + max + "]";
+    if (min != null) return f.label + " ≥ " + min;
+    return f.label + " ≤ " + max;
+  }
+
+  // ---- 8. Sortare ----
+  function sortRows(rows) {
+    const k = state.sortKey, dir = state.sortDir === "desc" ? -1 : 1;
+    return rows.slice().sort((a, b) => {
+      const va = sortVal(a, k), vb = sortVal(b, k);
+      const na = va == null, nb = vb == null;
+      if (na && nb) return 0;
+      if (na) return 1;           // null-urile mereu la coadă
+      if (nb) return -1;
+      return (va - vb) * dir;
+    });
+  }
+
+  // ---- 9. Randare ----
+  const CONF_ICON = { confirmed: "●", derived: "◆", estimated: "▲" };
+  const CONF_LBL  = { confirmed: "confirmat", derived: "derivat", estimated: "estimat" };
+  function moneyCell(node) {
+    if (!node || node.v == null) return '<span class="dash" title="necunoscut">—</span>';
+    const c = node.c || "estimated";
+    const icon = CONF_ICON[c] || "▲";
+    const src = esc(node.s || node.sursa || node.baza || "");
+    const dd = node.data_document ? " · " + esc(node.data_document) : "";
+    const title = (CONF_LBL[c] || c) + (src ? " · " + src : "") + dd;
+    return '<span class="money c-' + c + '" title="' + title + '">' +
+      '<span class="cdot" aria-hidden="true">' + icon + '</span>' +
+      '<span class="v">' + esc(fmtEur(node.v)) + '</span></span>';
+  }
+  function scoreCell(r) {
+    const s = scoreOf(r, state.profile), cov = covOf(r, state.profile);
+    if (s == null) return '<span class="dash" title="prag dotări neconfirmat — nu se clasează">—</span>';
+    const weak = cov != null && cov < 0.5;
+    return '<span class="score"><span class="val tnum">' + s.toFixed(3) + '</span>' +
+      (cov != null ? '<span class="cov' + (weak ? " weak" : "") + '" title="acoperire pondere: ' +
+        Math.round(cov * 100) + '% din scor se sprijină pe date reale">' + Math.round(cov * 100) + '%</span>' : '') +
+      '</span>';
+  }
+
+  const bani = (r, k) => (r.bani && r.bani[k]) ? r.bani[k] : null;
+
+  function render() {
+    const { universe, steps, rows } = computeAttrition();
+    const sorted = sortRows(rows);
+    app.innerHTML =
+      renderHeader() +
+      '<div class="grid">' +
+        '<aside class="card rail" id="rail"></aside>' +
+        '<main id="main"></main>' +
+      '</div>' +
+      renderPanels();
+    document.getElementById("rail").innerHTML = renderRail();
+    document.getElementById("main").innerHTML =
+      renderLens(steps) + renderAttrition(universe, steps, sorted.length) + renderTable(sorted);
+    wireEvents();
+  }
+
+  function renderHeader() {
+    const d = DATA.diagnostic || {};
+    let banner = "";
+    if (d.tco && d.tco.tco_calculabil === false) {
+      banner = '<div class="banner"><span class="b-icon">⚠</span>' +
+        esc(d.tco.consecinta || "TCO indisponibil.") + '</div>';
+    }
+    return '<header class="masthead">' +
+      '<div><div class="eyebrow">tablou comparativ · mașini noi RO</div>' +
+      '<h1>NEW_CAR</h1></div>' +
+      '<div class="scan-meta">scan <b>' + esc(DATA.scan_date || "?") + '</b> · sursă <b>' +
+      esc(DATA.sursa_scan || "?") + '</b> · ' + MODELE.length + ' modele</div>' +
+      '</header>' +
+      '<div class="disclaimer"><strong>' + esc(DATA.antet_dashboard || "") + '</strong></div>' +
+      banner;
+  }
+
+  function renderRail() {
+    let h = '<div class="card-h"><h2>Control</h2><button class="reset" id="reset-all">resetează</button></div><div class="card-body">';
+    // profil
+    h += '<section><h3>Profil de scor</h3><div class="seg" id="seg-profile">';
+    profileNames.forEach((p) => {
+      const desc = PROFILES[p] && PROFILES[p].descriere ? PROFILES[p].descriere : "";
+      h += '<button data-profile="' + esc(p) + '" aria-pressed="' + (state.profile === p) + '">' +
+        esc(p) + '<span class="desc">' + esc(desc) + '</span></button>';
+    });
+    h += '</div><p style="font-size:11px;color:var(--muted);margin:8px 0 0">Profilul e o lentilă — nu rescrie criteria.yaml.</p></section>';
+    // sortare
+    h += '<section><h3>Sortare</h3><select id="sort-key">';
+    (Q.sort_keys || []).forEach((k) => {
+      const desc = (Q.sort_keys_descrieri && Q.sort_keys_descrieri[k]) || "";
+      h += '<option value="' + esc(k) + '"' + (state.sortKey === k ? " selected" : "") + ' title="' + esc(desc) + '">' + esc(k) + '</option>';
+    });
+    h += '</select> <select id="sort-dir"><option value="asc"' + (state.sortDir === "asc" ? " selected" : "") +
+      '>crescător</option><option value="desc"' + (state.sortDir === "desc" ? " selected" : "") + '>descrescător</option></select>';
+    if (tcoFellBack) h += '<p style="font-size:11px;color:var(--c-estimated);margin:7px 0 0">' +
+      'Sortarea implicită (' + esc(Q.sort_default) + ') e indisponibilă — TCO null peste tot; s-a trecut pe ' + esc(Q.sort_secundar) + '.</p>';
+    h += '</section>';
+    // filtre generate
+    h += '<section><h3>Filtre <span style="color:var(--muted);font-weight:400">(din query.filtrabile)</span></h3>';
+    filterDefs.forEach((f) => { h += renderFilter(f); });
+    // toggle excluse
+    h += '<label class="chk" style="margin-top:10px"><input type="checkbox" id="show-excl"' +
+      (state.showExcluded ? " checked" : "") + '> Arată rândurile excluse din catalog</label>';
+    h += '</section></div>';
+    return h;
+  }
+
+  function renderFilter(f) {
+    if (f.kind === "nodata") {
+      const cls = /[^\x00-\x7F]/.test(f.key) ? "badge-nodata badge-homoglif" : "badge-nodata";
+      return '<div class="filt nodata"><div class="filt-h"><span class="name">' + esc(f.label) +
+        '</span></div><span class="' + cls + '" title="' + esc(f.reason) +
+        '">filtru dezactivat · ' + esc(f.reason) + '</span></div>';
+    }
+    let h = '<div class="filt" data-key="' + esc(f.key) + '"><div class="filt-h"><span class="name">' +
+      esc(f.label) + '</span><span class="key">' + esc(f.key) + '</span></div>';
+    if (f.kind === "num") {
+      const s = state.filters[f.key];
+      h += '<div class="range"><input type="number" data-role="min" placeholder="' + Math.floor(f.min) +
+        '" value="' + (s.min != null ? s.min : "") + '"><span>–</span>' +
+        '<input type="number" data-role="max" placeholder="' + Math.ceil(f.max) +
+        '" value="' + (s.max != null ? s.max : "") + '"></div>';
+    } else {
+      const sel = state.filters[f.key];
+      h += '<div class="opts">';
+      f.options.forEach((o) => {
+        const val = o === null ? " null" : o;
+        const cnt = MODELE.filter((r) => { const v = f.get(r); const kk = (v == null || v === "") ? null : String(v); return kk === o; }).length;
+        h += '<label class="chk"><input type="checkbox" data-opt="' + esc(val) + '"' + (sel.has(o) ? " checked" : "") + '> ' +
+          '<span>' + esc(o === null ? "— necunoscut" : o) + '</span><span class="count">' + cnt + '</span></label>';
+      });
+      h += '</div>';
+    }
+    return h + '</div>';
+  }
+
+  function renderLens(steps) {
+    const activeFilters = steps.map((s) => '<span class="pill">' + esc(s.label) + '</span>').join("");
+    return '<div class="card lens"><span class="k">lentilă activă</span>' +
+      '<span class="pill">profil: ' + esc(state.profile) + '</span>' +
+      '<span class="pill">sortare: ' + esc(state.sortKey) + ' ' + (state.sortDir === "desc" ? "↓" : "↑") + '</span>' +
+      (activeFilters || '<span class="pill dim">fără filtre active</span>') + '</div>';
+  }
+
+  function renderAttrition(universe, steps, finalCount) {
+    let h = '<div class="card attr"><div class="row base"><span class="lbl">Universul de pornire</span>' +
+      '<span class="cut">&nbsp;</span><span class="rem"><b>' + universe + '</b> modele</span></div>';
+    if (!steps.length) {
+      h += '<div class="row"><span class="lbl" style="color:var(--muted)">niciun filtru nu taie rânduri</span><span></span><span class="rem">' + finalCount + '</span></div>';
+    }
+    steps.forEach((s) => {
+      const pct = universe ? Math.min(100, Math.round((s.cut / universe) * 100)) : 0;
+      h += '<div class="row"><span class="lbl">' + esc(s.label) + '</span>' +
+        '<span class="cut' + (s.cut === 0 ? " zero" : "") + '">' + (s.cut ? "−" + s.cut : "0") + '</span>' +
+        '<span class="bar"><i style="width:' + pct + '%"></i></span></div>' +
+        '<div class="row" style="padding-top:0"><span></span><span></span><span class="rem">' + s.remaining + ' rămase</span></div>';
+    });
+    return h + '</div>';
+  }
+
+  function renderTable(rows) {
+    if (!rows.length) return '<div class="card"><div class="empty">Niciun model nu trece filtrele active. ' +
+      'Relaxează o constrângere din stânga — linia care taie cel mai mult e cea care te costă.</div></div>';
+    const cols = [
+      { k: "rank", label: "#", num: false, sort: false },
+      { k: "model", label: "Model", num: false, sort: false },
+      { k: "propulsie", label: "Propulsie", num: false, sort: false },
+      { k: "putere_cp", label: "CP", num: true, sort: true },
+      { k: "cuplu_termic_nm", label: "Cuplu Nm", num: true, sort: true },
+      { k: "pret_lista", label: "Preț listă", num: true, sort: true },
+      { k: "pret_net_fara_rabla", label: "Net fără Rabla", num: true, sort: true },
+      { k: "pret_net_estimat", label: "Net estimat", num: true, sort: true },
+      { k: "cost_total_5_ani", label: "TCO 5 ani", num: true, sort: true },
+      { k: "scor", label: "Scor · " + state.profile, num: true, sort: true },
+      { k: "exp", label: "", num: false, sort: false },
+    ];
+    let h = '<div class="card"><div class="tbl-scroll"><table><thead><tr>';
+    cols.forEach((c) => {
+      const sorted = state.sortKey === c.k;
+      const arrow = sorted ? ' <span class="arr">' + (state.sortDir === "desc" ? "▼" : "▲") + '</span>' : "";
+      h += '<th class="' + (c.num ? "num " : "") + (sorted ? "sorted" : "") + '">' +
+        (c.sort ? '<button data-sort="' + c.k + '">' + esc(c.label) + arrow + '</button>' : esc(c.label)) + '</th>';
+    });
+    h += '</tr></thead><tbody>';
+    rows.forEach((r, i) => {
+      const rowCls = isExcluded(r) ? "excl" : isRef(r) ? "ref" : isNedet(r) ? "nedet" : "";
+      const rank = (isNedet(r) || isRef(r) || scoreOf(r, state.profile) == null) ? "·" : (i + 1);
+      h += '<tr class="' + rowCls + '" data-id="' + esc(r.id) + '">' +
+        '<td class="rank">' + rank + '</td>' +
+        '<td><span class="model-cell">' + esc(r.marca) + " " + esc(r.model) +
+          '</span><span class="sub">' + esc(r.echipare_selectata || "") + " · " + esc(r.cutie || "") + " · " + esc(r.tractiune || "") + '</span></td>' +
+        '<td>' + esc(r.propulsie || "") + '</td>' +
+        '<td class="num">' + (r.putere_cp != null ? esc(r.putere_cp) : '<span class="dash">—</span>') + '</td>' +
+        '<td class="num">' + (r.cuplu_termic_nm != null ? esc(r.cuplu_termic_nm) : '<span class="dash">—</span>') + '</td>' +
+        '<td class="num">' + moneyCell(bani(r, "pret_lista")) + '</td>' +
+        '<td class="num">' + moneyCell(bani(r, "pret_net_fara_rabla")) + '</td>' +
+        '<td class="num">' + moneyCell(bani(r, "pret_net_estimat")) + '</td>' +
+        '<td class="num">' + moneyCell(bani(r, "cost_total_5_ani")) + '</td>' +
+        '<td class="num">' + scoreCell(r) + '</td>' +
+        '<td><button class="expand-btn" data-exp="' + esc(r.id) + '" title="detalii">＋</button></td>' +
+        '</tr>';
+    });
+    h += '</tbody></table></div>' + renderLegend() + '</div>';
+    return h;
+  }
+
+  function renderLegend() {
+    return '<div class="legend"><span class="item"><span class="cdot c-confirmed" style="color:var(--c-confirmed)">●</span> confirmat</span>' +
+      '<span class="item"><span class="cdot" style="color:var(--c-derived)">◆</span> derivat</span>' +
+      '<span class="item"><span class="cdot" style="color:var(--c-estimated)">▲</span> estimat</span>' +
+      '<span class="item"><span class="dash">—</span> necunoscut</span>' +
+      '<span class="item" style="margin-left:auto;color:var(--muted)">badge % = cât din scor se sprijină pe date reale</span></div>';
+  }
+
+  function detailRow(r) {
+    const b = r.bani || {};
+    let parts = [];
+    // identitate
+    parts.push('<div><h4>Cheie identitate</h4><div class="kv">' + esc(r.id) + '</div>' +
+      (r.motiv_selectie ? '<p style="margin:6px 0 0">' + esc(r.motiv_selectie) + '</p>' : '') + '</div>');
+    // observații de preț
+    if (b.observatii && b.observatii.length) {
+      parts.push('<div><h4>Observații preț (' + b.nr_observatii + ')</h4><ul>' +
+        b.observatii.map((o) => '<li class="kv">' + esc(fmtEur(o.pret_eur) || o.pret_eur) + ' · ' + esc(o.tip_pret || "") +
+          ' · ' + esc(o.confidence || "") + (o.url ? ' · <a href="' + esc(o.url) + '" target="_blank" rel="noopener">sursă</a>' : "") +
+          (o.data_document ? ' · ' + esc(o.data_document) : "") +
+          (o.avertisment ? '<br><span style="color:var(--c-estimated)">' + esc(o.avertisment) + '</span>' : "") + '</li>').join("") + '</ul></div>');
+    }
+    // conflicte
+    if (r.conflicte && r.conflicte.length) {
+      parts.push('<div><h4>Conflicte de sursă</h4><ul>' +
+        r.conflicte.map((c) => '<li><b class="kv">' + esc(c.camp) + '</b>: ' + esc(c.nota) + '</li>').join("") + '</ul></div>');
+    }
+    // reduceri condiționate
+    if (b.reduceri_conditionate && b.reduceri_conditionate.length) {
+      parts.push('<div><h4>Reduceri condiționate (NU în net)</h4><ul>' +
+        b.reduceri_conditionate.map((x) => '<li class="kv">' + esc(JSON.stringify(x)) + '</li>').join("") + '</ul></div>');
+    }
+    // buget
+    const ib = r.marcaje && r.marcaje.in_buget;
+    if (ib) parts.push('<div><h4>Buget</h4><div class="kv">stare: ' + esc(ib.stare) + '<br>plafon: ' + esc(fmtEur(ib.plafon_eur)) +
+      '<br>fără Rabla: ' + esc(fmtEur(ib.valoare_fara_rabla_eur)) + '<br>cu Rabla: ' + esc(fmtEur(ib.valoare_cu_rabla_eur)) + '</div></div>');
+    return '<tr class="detail"><td colspan="11"><div class="inner">' + parts.join("") + '</div></td></tr>';
+  }
+
+  function renderPanels() {
+    return '<div class="panels">' + renderCarantina() + renderDiag() + '</div>' + renderFooter();
+  }
+  function renderCarantina() {
+    const c = DATA.carantina || [];
+    let h = '<div class="card"><div class="card-h"><h2>Carantină · ' + c.length + '</h2></div><div class="card-body">' +
+      '<p style="margin:0 0 8px;color:var(--muted);font-size:12px">Observații de preț care nu s-au potrivit cu niciun rând din catalog. ' +
+      'Rămân vizibile ca să nu dispară tăcut.</p>';
+    if (!c.length) h += '<p class="mono" style="color:var(--muted)">gol</p>';
+    c.forEach((q) => {
+      const o = q.observatie || {};
+      h += '<div class="q-item"><div class="q-h">' + esc(o.model || "?") + " " + esc(o.echipare || "") + '</div>' +
+        '<div class="q-meta">' + esc(fmtEur(o.pret_eur) || o.pret_eur) + ' · ' + esc(o.tip_pret || "") + ' · ' + esc(o.confidence || "") +
+        (o.url ? ' · <a href="' + esc(o.url) + '" target="_blank" rel="noopener">sursă</a>' : "") + '</div>' +
+        '<div class="q-why">' + esc(q.motiv || o.conflict || "") + '</div></div>';
+    });
+    return h + '</div>';
+  }
+  function renderDiag() {
+    const d = DATA.diagnostic || {};
+    let h = '<div class="card diag"><div class="card-h"><h2>Diagnostic date</h2></div><div class="card-body"><dl>';
+    if (d.tco) {
+      h += '<dt>TCO</dt><dd>' + esc(d.tco.consecinta || "") + '</dd>';
+      if (d.tco.inputuri_lipsa) h += '<dd class="missing" style="color:var(--muted)">lipsă: ' + esc(d.tco.inputuri_lipsa.join(" · ")) + '</dd>';
+    }
+    if (d.acoperire_pondere_per_profil) {
+      h += '<dt>Acoperire pondere / profil</dt><dd class="missing">' +
+        Object.entries(d.acoperire_pondere_per_profil).map(([k, v]) => k + ": " + Math.round(v * 100) + "%").join(" · ") + '</dd>';
+    }
+    if (DATA.atritie_baseline) {
+      const a = DATA.atritie_baseline;
+      h += '<dt>Univers</dt><dd>' + esc(a.univers_total) + ' modele · ' + esc(a.prag_dotari_atins) +
+        ' ating pragul de dotări · ' + esc(a.din_care_in_buget_incl_rabla) + ' în buget (incl. Rabla) · ' +
+        esc(a.nedeterminate_prag_dotari) + ' nedeterminate</dd>';
+    }
+    return h + '</dl></div></div>';
+  }
+  function renderFooter() {
+    const rabla = cfg.rabla || {};
+    return '<footer class="foot"><span>Generat ' + esc(DATA.generat_la || "?") + ' din ' + esc(DATA.sursa_scan || "?") +
+      ' · DERIVAT, regenerabil cu <span class="mono">python3 build.py</span></span>' +
+      '<span>Rabla ' + esc(rabla.an_program || "?") + ' · ' + esc(rabla.status || "?") + '</span></footer>';
+  }
+
+  // ---- 10. Evenimente ----
+  function wireEvents() {
+    document.querySelectorAll("#seg-profile button").forEach((btn) =>
+      btn.addEventListener("click", () => { state.profile = btn.dataset.profile;
+        if (state.sortKey === "scor") { /* re-sort */ } render(); }));
+    const sk = document.getElementById("sort-key");
+    if (sk) sk.addEventListener("change", () => { state.sortKey = sk.value; state.sortDir = dirFor(sk.value); tcoFellBack = false; render(); });
+    const sd = document.getElementById("sort-dir");
+    if (sd) sd.addEventListener("change", () => { state.sortDir = sd.value; render(); });
+    document.querySelectorAll("th button[data-sort]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const k = btn.dataset.sort;
+        if (state.sortKey === k) state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+        else { state.sortKey = k; state.sortDir = dirFor(k); }
+        tcoFellBack = false; render();
+      }));
+    document.querySelectorAll(".filt[data-key]").forEach((el) => {
+      const key = el.dataset.key;
+      el.querySelectorAll('input[type="checkbox"][data-opt]').forEach((cb) =>
+        cb.addEventListener("change", () => {
+          const raw = cb.dataset.opt; const val = raw === " null" ? null : raw;
+          if (cb.checked) state.filters[key].add(val); else state.filters[key].delete(val);
+          render();
+        }));
+      el.querySelectorAll('input[data-role]').forEach((inp) =>
+        inp.addEventListener("change", () => {
+          const v = inp.value === "" ? null : parseFloat(inp.value);
+          state.filters[key][inp.dataset.role] = isNum(v) ? v : null; render();
+        }));
+    });
+    const se = document.getElementById("show-excl");
+    if (se) se.addEventListener("change", () => { state.showExcluded = se.checked; render(); });
+    const ra = document.getElementById("reset-all");
+    if (ra) ra.addEventListener("click", () => { resetFilters(); render(); });
+    document.querySelectorAll("button[data-exp]").forEach((btn) =>
+      btn.addEventListener("click", () => toggleDetail(btn)));
+  }
+  function toggleDetail(btn) {
+    const id = btn.dataset.exp;
+    const tr = btn.closest("tr");
+    const next = tr.nextElementSibling;
+    if (next && next.classList.contains("detail")) { next.remove(); btn.textContent = "＋"; return; }
+    const r = MODELE.find((m) => m.id === id);
+    if (r) { tr.insertAdjacentHTML("afterend", detailRow(r)); btn.textContent = "－"; }
+  }
+  function resetFilters() {
+    filterDefs.forEach((f) => {
+      if (f.kind === "cat") {
+        if (f.key === "in_buget" && fi.in_buget === true)
+          state.filters[f.key] = new Set(f.options.filter((o) => inBudgetStates.includes(o)));
+        else state.filters[f.key] = new Set(f.options);
+      } else if (f.kind === "num") state.filters[f.key] = { min: null, max: null };
+    });
+    state.showExcluded = false;
+  }
+
+  render();
+})();
+</script>
