@@ -287,7 +287,49 @@ nou, ca seria să rămână continuă indiferent unde a rulat.
 
 ---
 
-## 6. Reguli care nu se negociază, oriunde ai lucra
+## 6. Împărțirea muncii între IDE și sesiunea din aplicație
+
+Descoperit empiric pe 2026-08-19, după o încercare eșuată de a face commit și
+push prin puntea către desktop. Nu e o preferință — sunt limite reale ale
+mediului.
+
+### Puntea (sesiunea Cowork → calculatorul tău) POATE
+
+- să listeze foldere și să citească fișiere
+- să scrie și să suprascrie fișiere (`device_commit_files`)
+- să ruleze comenzi în folderele montate (`device_bash`): Python, build-uri,
+  inspecții, transformări de text
+
+### Puntea NU POATE
+
+- **rețea.** `github.com` nu se rezolvă din mediul punții. Fără push, fără
+  pull, fără `gh`, fără instalare de pachete.
+- **chei SSH.** Nu există `~/.ssh` acolo. Un remote `git@github.com:` e
+  inaccesibil chiar dacă ar exista rețea.
+- **identitate git.** Nu există `.gitconfig`; `git commit` cade cu
+  „Author identity unknown".
+- **ștergere de fișiere.** `rm` returnează „Operation not permitted". Git lasă
+  în urmă `.git/objects/tmp_obj_*` și, la o operație întreruptă, un
+  `.git/index.lock` orfan care blochează comenzile următoare.
+
+### Regula
+
+> **Fișierele aparțin punții. Git și rețeaua aparțin IDE-ului.**
+
+O sesiune din aplicație poate pregăti o modificare până la staging și trebuie să
+se oprească acolo, dând comanda exactă de rulat în IDE. Nu forța git prin punte:
+în cel mai bun caz eșuează curat, în cel mai rău lasă lock-uri orfane pe care
+tot din IDE trebuie să le cureți.
+
+**Dacă găsești un `.git/index.lock` de 0 bytes:** e resturi de la o sesiune prin
+punte, nu un proces git viu. Șterge-l din IDE și continuă.
+
+**Ștergerile cerute prin punte** se fac mutând fișierele într-un `_to_delete/`
+(deja în `.gitignore`), pe care îl golești manual.
+
+---
+
+## 7. Reguli care nu se negociază, oriunde ai lucra
 
 1. **Nu inventa nicio cifră.** Necunoscut = `null`, niciodată o valoare
    plauzibilă. Un tabel plin de valori plauzibile e mai rău decât unul cu
@@ -307,7 +349,7 @@ nou, ca seria să rămână continuă indiferent unde a rulat.
 
 ---
 
-## 7. Context despre utilizator, util pentru ton
+## 8. Context despre utilizator, util pentru ton
 
 Serban e inginer AI, construiește exact genul de infrastructură pe care se
 sprijină munca altora — instrumentare, evaluare, orchestrare. Preferă:

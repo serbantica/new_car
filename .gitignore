@@ -11,3 +11,7 @@ __pycache__/
 
 # Nimic din data/ nu se ignoră: latest.json e derivat dar versionabil (diff-abil),
 # scanurile sunt append-only și fac parte din seria de date.
+
+# Backup-uri si cos temporar
+*.bak
+_to_delete/

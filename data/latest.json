@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generat_la": "2026-08-19",
+  "generat_la": "2026-08-20",
   "sursa_scan": "scan-2026-08-19.json",
   "scan_date": "2026-08-19",
   "avertisment": "DERIVAT — niciodata editat manual. Regenerabil cu `python3 build.py`.",
