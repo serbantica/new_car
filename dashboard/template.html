@@ -321,7 +321,18 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   const fmtEur = (v) => isNum(v) ? v.toLocaleString("ro-RO") + " €" : null;
   const CAT = (v) => (v == null || v === "") ? "— necunoscut" : String(v);
 
-  // ---- 3. FIELD_MAP: unde citește fiecare cheie din query.filtrabile ----
+  // ---- 3. Starea interfeței ----
+  const inBudgetStates = ["da", "doar_cu_rabla"];
+  const state = {
+    profile: profileNames.includes(cfg.profil_activ) ? cfg.profil_activ
+             : (profileNames.includes("default") ? "default" : profileNames[0]),
+    tcoScenario: (cfg.tco && cfg.tco.scenariu_implicit) || "fara_revanzare",
+    sortKey: null, sortDir: null,
+    filters: {},          // key -> Set (cat) sau {min,max} (num)
+    showExcluded: false,
+  };
+
+  // ---- 4. FIELD_MAP: unde citește fiecare cheie din query.filtrabile ----
   //   Praguri NU sunt aici — doar accesori de câmp (căi în date).
   const B = (r, k) => (r.bani && r.bani[k]) ? r.bani[k].v : null;
 
@@ -363,7 +374,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
 
   const MODELE = DATA.modele;
 
-  // ---- 4. Descrie fiecare filtru din filtrabile, detectând „fără date" ----
+  // ---- 5. Descrie fiecare filtru din filtrabile, detectând „fără date" ----
   const filtrabile = Q.filtrabile || [];
   const filterDefs = filtrabile.map((key) => {
     const def = FIELD_MAP[key];
@@ -387,17 +398,6 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
     return { key, label: def.label, kind: "cat", get: def.get, options: uniq };
   });
 
-  // ---- 5. Starea interfeței ----
-  // filtru implicit: in_buget:true => stările în buget {da, doar_cu_rabla}
-  const inBudgetStates = ["da", "doar_cu_rabla"];
-  const state = {
-    profile: profileNames.includes(cfg.profil_activ) ? cfg.profil_activ
-             : (profileNames.includes("default") ? "default" : profileNames[0]),
-    tcoScenario: (cfg.tco && cfg.tco.scenariu_implicit) || "fara_revanzare",
-    sortKey: null, sortDir: null,
-    filters: {},          // key -> Set (cat) sau {min,max} (num)
-    showExcluded: false,
-  };
   // pre-selectează filtrul implicit
   const fi = Q.filtru_implicit || {};
   filterDefs.forEach((f) => {
