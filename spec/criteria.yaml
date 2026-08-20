@@ -299,35 +299,38 @@ cuplu:
   sub_prag_penalizare: gradual          # nu prag brutal
 
 # ---------------------------------------------------------------------------
-# PARAMETRI TCO 5 ANI
+# PARAMETRI TCO 15 ANI (210.000 km)
 # ---------------------------------------------------------------------------
 tco:
-  orizont_ani: 5
+  orizont_ani: 15
   km_pe_an: 14000
   km_pe_an_sursa: confirmat_de_serban    # 2026-08-19: "~14.000, ca până acum"
+  total_km: 210000
+  scenariu_implicit: "fara_revanzare"    # optiuni: fara_revanzare, cu_revanzare
 
   pret_benzina_eur_l: 1.45              # 7.45 RON/l la curs 5.15-5.24 RON/EUR
   pret_benzina_data: "2026-08-20"
   pret_benzina_sursa: "peco-online.ro / petrom.ro"
   pret_benzina_confidence: confirmed
 
-  costuri_fixe_5_ani:
-    rca_eur_total: 900                  # ~180 EUR/an
-    revizii_periodice_eur_total: 1200   # 5 revizii x ~240 EUR
-    anvelope_eur_total: 450             # 1 set suplimentar anvelope iarna
+  costuri_anuale:
+    rca_eur_anual: 180                  # ~2.700 EUR / 15 ani
+    revizii_anuale_eur: 240             # ~3.600 EUR / 15 ani (15 revizii)
+    anvelope_eur_total_15_ani: 1000     # 2-3 seturi anvelope pe 210.000 km
+    intretinere_extra_uzura_manuala_eur: 800  # kit ambreiaj la manuale vs 0 la e-CVT
     impozit_auto_eur_anual:
       hibrid_sau_sub_1200cc: 10         # ~50 lei/an
       intre_1200_si_1500cc: 20          # ~100 lei/an
       peste_1500cc: 35                  # ~180 lei/an
 
-  valoare_reziduala:
-    metoda: procent_din_pret_lista_la_5_ani
-    sursa: "estimare pe segment la 5 ani / 70.000 km; marcată confidence=estimated"
+  valoare_reziduala_15_ani:
+    metoda: procent_din_pret_lista_la_15_ani
+    sursa: "estimare la 15 ani / 210.000 km; marcată confidence=estimated"
     procente_implicite:
-      japonez_full_hybrid: 0.52         # Toyota, Honda
-      b_suv_popular: 0.47               # VAG (VW, Skoda, SEAT), Suzuki, Dacia, Hyundai, Kia, Renault
-      stellantis_ford_mitsubishi: 0.44  # Stellantis (Jeep, Opel, Citroen, Peugeot), Ford, Mitsubishi
-      marci_noi_sau_speciale: 0.38      # MG, Chery, etc.
+      japonez_full_hybrid: 0.15         # Toyota, Honda (valoare mare pe piata second hand chiar la 15 ani)
+      b_suv_popular: 0.12               # VAG, Suzuki, Dacia, Hyundai, Kia, Renault
+      stellantis_ford_mitsubishi: 0.10  # Stellantis, Ford, Mitsubishi
+      marci_noi_sau_speciale: 0.08      # MG, Chery, etc.
 
 # ---------------------------------------------------------------------------
 # MODELUL DE PREŢ — parametri; formula stă în spec/price-model.md

@@ -218,6 +218,8 @@ def test_tco_calculat_corect():
     out = build.build()
     assert out["diagnostic"]["tco"]["tco_calculabil"] is True, "TCO trebuie sa fie calculabil"
     
+    total_km = CRITERIA["tco"].get("total_km") or (CRITERIA["tco"]["km_pe_an"] * CRITERIA["tco"]["orizont_ani"])
+    
     # Verifica calculul TCO pe un model concret calificat (ex. Vitara sau Yaris Cross)
     calificate_cu_tco = [m for m in out["modele"] if m["bani"]["cost_total_5_ani"] is not None]
     assert len(calificate_cu_tco) > 0, "trebuie sa existe modele cu TCO calculat"
@@ -227,8 +229,7 @@ def test_tco_calculat_corect():
         cost_km = m["bani"]["cost_pe_km"]["v"]
         assert tco > 0, f"{m['model']}: TCO trebuie sa fie pozitiv"
         assert cost_km > 0, f"{m['model']}: cost_pe_km trebuie sa fie pozitiv"
-        # cost_pe_km = tco / 70000 (toleranta de rotunjire)
-        assert abs(cost_km - tco / 70000.0) < 0.01, f"{m['model']}: cost_pe_km inconsistent cu TCO"
+        assert abs(cost_km - tco / float(total_km)) < 0.01, f"{m['model']}: cost_pe_km inconsistent cu TCO"
 
 
 # --------------------------------------------------------------------------- #

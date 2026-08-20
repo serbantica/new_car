@@ -159,7 +159,9 @@
     },
     "tco": {
       "km_pe_an": 14000,
-      "orizont_ani": 5,
+      "orizont_ani": 15,
+      "total_km": 210000,
+      "scenariu_implicit": "fara_revanzare",
       "pret_benzina_eur_l": 1.45
     },
     "rabla": {
@@ -278,27 +280,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 18506,
+          "v": 47351,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 47351,
+          "cu_revanzare": 44668,
+          "cost_pe_km_fara_revanzare": 0.225,
+          "cost_pe_km_cu_revanzare": 0.213,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 20072,
-            "cost_combustibil_5_ani_eur": 6293,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10509,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 18879,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2683,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.2,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.2
           }
         },
         "cost_pe_km": {
-          "v": 0.264,
+          "v": 0.225,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -338,18 +347,18 @@
         "cuplu_termic_nm": 235,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 20072,
-        "cost_total_5_ani": 18506,
+        "cost_total_5_ani": 47351,
         "consum_real_l100": 6.2,
         "portbagaj_l": 375
       },
       "scoruri": {
         "default": {
-          "scor": 0.4728,
+          "scor": 0.4637,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.7007,
+              "valoare_norm": 0.6778,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -411,7 +420,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4674,
+          "scor": 0.4628,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -426,7 +435,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.7007,
+              "valoare_norm": 0.6778,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -442,7 +451,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4387,
+          "scor": 0.4318,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -452,7 +461,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.7007,
+              "valoare_norm": 0.6778,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -529,27 +538,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 17793,
+          "v": 45768,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 45768,
+          "cu_revanzare": 41733,
+          "cost_pe_km_fara_revanzare": 0.218,
+          "cost_pe_km_cu_revanzare": 0.199,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 24616,
-            "cost_combustibil_5_ani_eur": 4568,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 13990,
-            "procent_rezidual": 0.52,
+            "cost_combustibil_eur": 13702,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 4036,
+            "procent_rezidual_15_ani": 0.15,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 4.5,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 4.5
           }
         },
         "cost_pe_km": {
-          "v": 0.254,
+          "v": 0.218,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -590,18 +606,18 @@
         "cuplu_termic_nm": 120,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 24616,
-        "cost_total_5_ani": 17793,
+        "cost_total_5_ani": 45768,
         "consum_real_l100": 4.5,
         "portbagaj_l": 397
       },
       "scoruri": {
         "default": {
-          "scor": 0.5628,
+          "scor": 0.5644,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.7917,
+              "valoare_norm": 0.7957,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -663,7 +679,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2909,
+          "scor": 0.2917,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -678,7 +694,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.7917,
+              "valoare_norm": 0.7957,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -694,7 +710,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.7701,
+          "scor": 0.7713,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -704,7 +720,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.7917,
+              "valoare_norm": 0.7957,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -790,27 +806,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 16160,
+          "v": 43026,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 43026,
+          "cu_revanzare": 40944,
+          "cost_pe_km_fara_revanzare": 0.205,
+          "cost_pe_km_cu_revanzare": 0.195,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 15443,
-            "cost_combustibil_5_ani_eur": 6394,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 8328,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2082,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.3
           }
         },
         "cost_pe_km": {
-          "v": 0.231,
+          "v": 0.205,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -852,7 +875,7 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 15443,
-        "cost_total_5_ani": 16160,
+        "cost_total_5_ani": 43026,
         "consum_real_l100": 6.3,
         "portbagaj_l": 328
       },
@@ -1044,27 +1067,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 17835,
+          "v": 46491,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 46491,
+          "cu_revanzare": 43911,
+          "cost_pe_km_fara_revanzare": 0.221,
+          "cost_pe_km_cu_revanzare": 0.209,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 19212,
-            "cost_combustibil_5_ani_eur": 6293,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10320,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 18879,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2580,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.2,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.2
           }
         },
         "cost_pe_km": {
-          "v": 0.255,
+          "v": 0.221,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -1106,18 +1136,18 @@
         "cuplu_termic_nm": 230,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 19212,
-        "cost_total_5_ani": 17835,
+        "cost_total_5_ani": 46491,
         "consum_real_l100": 6.2,
         "portbagaj_l": 472
       },
       "scoruri": {
         "default": {
-          "scor": 0.5448,
+          "scor": 0.527,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.7863,
+              "valoare_norm": 0.7419,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1179,7 +1209,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.508,
+          "scor": 0.4992,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -1194,7 +1224,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.7863,
+              "valoare_norm": 0.7419,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -1210,7 +1240,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4879,
+          "scor": 0.4746,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -1220,7 +1250,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.7863,
+              "valoare_norm": 0.7419,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1298,27 +1328,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 19963,
+          "v": 51718,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 51718,
+          "cu_revanzare": 48730,
+          "cost_pe_km_fara_revanzare": 0.246,
+          "cost_pe_km_cu_revanzare": 0.232,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22612,
-            "cost_combustibil_5_ani_eur": 6902,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 12201,
-            "procent_rezidual": 0.49,
+            "cost_combustibil_eur": 20706,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2988,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.8,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.8
           }
         },
         "cost_pe_km": {
-          "v": 0.285,
+          "v": 0.246,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -1358,18 +1395,18 @@
         "cuplu_termic_nm": 230,
         "bonus_mostenit": 1.0,
         "pret_net_estimat": 22612,
-        "cost_total_5_ani": 19963,
+        "cost_total_5_ani": 51718,
         "consum_real_l100": 6.8,
         "portbagaj_l": 430
       },
       "scoruri": {
         "default": {
-          "scor": 0.4199,
+          "scor": 0.3549,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.5148,
+              "valoare_norm": 0.3525,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1431,7 +1468,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.6835,
+          "scor": 0.6511,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -1446,7 +1483,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.5148,
+              "valoare_norm": 0.3525,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -1462,7 +1499,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.2838,
+          "scor": 0.2351,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -1472,7 +1509,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.5148,
+              "valoare_norm": 0.3525,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1549,27 +1586,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 18607,
+          "v": 46864,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 46864,
+          "cu_revanzare": 44176,
+          "cost_pe_km_fara_revanzare": 0.223,
+          "cost_pe_km_cu_revanzare": 0.21,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 20499,
-            "cost_combustibil_5_ani_eur": 5988,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10531,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 17966,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2689,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.9,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 5.9
           }
         },
         "cost_pe_km": {
-          "v": 0.266,
+          "v": 0.223,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -1609,18 +1653,18 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 20499,
-        "cost_total_5_ani": 18607,
+        "cost_total_5_ani": 46864,
         "consum_real_l100": 5.9,
         "portbagaj_l": 400
       },
       "scoruri": {
         "default": {
-          "scor": 0.4324,
+          "scor": 0.4429,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.6878,
+              "valoare_norm": 0.7141,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1682,7 +1726,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4209,
+          "scor": 0.4261,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -1697,7 +1741,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.6878,
+              "valoare_norm": 0.7141,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -1713,7 +1757,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4671,
+          "scor": 0.475,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -1723,7 +1767,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.6878,
+              "valoare_norm": 0.7141,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1801,27 +1845,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 19068,
+          "v": 48186,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 48186,
+          "cu_revanzare": 45485,
+          "cost_pe_km_fara_revanzare": 0.229,
+          "cost_pe_km_cu_revanzare": 0.217,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 20603,
-            "cost_combustibil_5_ani_eur": 6394,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10580,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2701,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.3
           }
         },
         "cost_pe_km": {
-          "v": 0.272,
+          "v": 0.229,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -1860,18 +1911,18 @@
         "cuplu_termic_nm": 172,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 20603,
-        "cost_total_5_ani": 19068,
+        "cost_total_5_ani": 48186,
         "consum_real_l100": 6.3,
         "portbagaj_l": 352
       },
       "scoruri": {
         "default": {
-          "scor": 0.6632,
+          "scor": 0.6579,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.629,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1933,7 +1984,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.6334,
+          "scor": 0.6308,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -1948,7 +1999,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.629,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -1964,7 +2015,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.5058,
+          "scor": 0.5018,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -1974,7 +2025,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.629,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2066,27 +2117,34 @@
           "nota": "pret afisat de dealer; compozitie posibil diferita de net. NU e topit in netul derivat."
         },
         "cost_total_5_ani": {
-          "v": 18061,
+          "v": 46419,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 46419,
+          "cu_revanzare": 42332,
+          "cost_pe_km_fara_revanzare": 0.221,
+          "cost_pe_km_cu_revanzare": 0.202,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 24962,
-            "cost_combustibil_5_ani_eur": 4669,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 14170,
-            "procent_rezidual": 0.52,
+            "cost_combustibil_eur": 14007,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 4088,
+            "procent_rezidual_15_ani": 0.15,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 4.6,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 4.6
           }
         },
         "cost_pe_km": {
-          "v": 0.258,
+          "v": 0.221,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -2137,18 +2195,18 @@
         "cuplu_termic_nm": 131,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 24962,
-        "cost_total_5_ani": 18061,
+        "cost_total_5_ani": 46419,
         "consum_real_l100": 4.6,
         "portbagaj_l": 304
       },
       "scoruri": {
         "default": {
-          "scor": 0.5107,
+          "scor": 0.5066,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.7575,
+              "valoare_norm": 0.7472,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2210,7 +2268,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.267,
+          "scor": 0.2649,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -2225,7 +2283,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.7575,
+              "valoare_norm": 0.7472,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -2241,7 +2299,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.7212,
+          "scor": 0.7182,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -2251,7 +2309,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.7575,
+              "valoare_norm": 0.7472,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2329,27 +2387,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 19764,
+          "v": 49950,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 49950,
+          "cu_revanzare": 47028,
+          "cost_pe_km_fara_revanzare": 0.238,
+          "cost_pe_km_cu_revanzare": 0.224,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22062,
-            "cost_combustibil_5_ani_eur": 6496,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 11444,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 19488,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2922,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.4,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.4
           }
         },
         "cost_pe_km": {
-          "v": 0.282,
+          "v": 0.238,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -2389,18 +2454,18 @@
         "cuplu_termic_nm": 235,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 22062,
-        "cost_total_5_ani": 19764,
+        "cost_total_5_ani": 49950,
         "consum_real_l100": 6.4,
         "portbagaj_l": 430
       },
       "scoruri": {
         "default": {
-          "scor": 0.42,
+          "scor": 0.3976,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.5402,
+              "valoare_norm": 0.4842,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2462,7 +2527,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4486,
+          "scor": 0.4374,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -2477,7 +2542,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.5402,
+              "valoare_norm": 0.4842,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -2493,7 +2558,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3664,
+          "scor": 0.3496,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -2503,7 +2568,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.5402,
+              "valoare_norm": 0.4842,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2588,27 +2653,34 @@
           "nota": "pret afisat de dealer; compozitie posibil diferita de net. NU e topit in netul derivat."
         },
         "cost_total_5_ani": {
-          "v": 19478,
+          "v": 48186,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 48186,
+          "cu_revanzare": 45836,
+          "cost_pe_km_fara_revanzare": 0.229,
+          "cost_pe_km_cu_revanzare": 0.218,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 21212,
-            "cost_combustibil_5_ani_eur": 6192,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10575,
-            "procent_rezidual": 0.45,
+            "cost_combustibil_eur": 18574,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2350,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.1,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.1
           }
         },
         "cost_pe_km": {
-          "v": 0.278,
+          "v": 0.229,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -2658,18 +2730,18 @@
         "cuplu_termic_nm": 210,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 21212,
-        "cost_total_5_ani": 19478,
+        "cost_total_5_ani": 48186,
         "consum_real_l100": 6.1,
         "portbagaj_l": 456
       },
       "scoruri": {
         "default": {
-          "scor": 0.3997,
+          "scor": 0.4153,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.5767,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2731,7 +2803,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4122,
+          "scor": 0.42,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -2746,7 +2818,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.5767,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -2762,7 +2834,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4099,
+          "scor": 0.4216,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -2772,7 +2844,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.5767,
+              "valoare_norm": 0.6156,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2851,27 +2923,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 19681,
+          "v": 46405,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 46405,
+          "cu_revanzare": 43925,
+          "cost_pe_km_fara_revanzare": 0.221,
+          "cost_pe_km_cu_revanzare": 0.209,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22512,
-            "cost_combustibil_5_ani_eur": 5481,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 10912,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 16443,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 2480,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.4,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 5.4
           }
         },
         "cost_pe_km": {
-          "v": 0.281,
+          "v": 0.221,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -2910,18 +2989,18 @@
         "cuplu_termic_nm": 205,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 22512,
-        "cost_total_5_ani": 19681,
+        "cost_total_5_ani": 46405,
         "consum_real_l100": 5.4,
         "portbagaj_l": 385
       },
       "scoruri": {
         "default": {
-          "scor": 0.3768,
+          "scor": 0.4558,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.5508,
+              "valoare_norm": 0.7483,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -2983,7 +3062,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2298,
+          "scor": 0.2693,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -2998,7 +3077,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.5508,
+              "valoare_norm": 0.7483,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -3014,7 +3093,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.5161,
+          "scor": 0.5754,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -3024,7 +3103,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.5508,
+              "valoare_norm": 0.7483,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3103,27 +3182,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20756,
+          "v": 49872,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 49872,
+          "cu_revanzare": 47422,
+          "cost_pe_km_fara_revanzare": 0.237,
+          "cost_pe_km_cu_revanzare": 0.226,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22593,
-            "cost_combustibil_5_ani_eur": 6293,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10780,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 18879,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2450,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.2,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.2
           }
         },
         "cost_pe_km": {
-          "v": 0.297,
+          "v": 0.237,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -3164,18 +3250,18 @@
         "cuplu_termic_nm": 205,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 22593,
-        "cost_total_5_ani": 20756,
+        "cost_total_5_ani": 49872,
         "consum_real_l100": 6.2,
         "portbagaj_l": 460
       },
       "scoruri": {
         "default": {
-          "scor": 0.331,
+          "scor": 0.3616,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.4136,
+              "valoare_norm": 0.49,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3237,7 +3323,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.3806,
+          "scor": 0.3959,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -3252,7 +3338,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.4136,
+              "valoare_norm": 0.49,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -3268,7 +3354,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3432,
+          "scor": 0.3661,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -3278,7 +3364,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.4136,
+              "valoare_norm": 0.49,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3358,27 +3444,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20158,
+          "v": 47564,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 47564,
+          "cu_revanzare": 45044,
+          "cost_pe_km_fara_revanzare": 0.226,
+          "cost_pe_km_cu_revanzare": 0.214,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22912,
-            "cost_combustibil_5_ani_eur": 5684,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 11088,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 17052,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 2520,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.6,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 5.6
           }
         },
         "cost_pe_km": {
-          "v": 0.288,
+          "v": 0.226,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -3419,18 +3512,18 @@
         "cuplu_termic_nm": 230,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 22912,
-        "cost_total_5_ani": 20158,
+        "cost_total_5_ani": 47564,
         "consum_real_l100": 5.6,
         "portbagaj_l": 460
       },
       "scoruri": {
         "default": {
-          "scor": 0.3716,
+          "scor": 0.4404,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.4899,
+              "valoare_norm": 0.6619,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3492,7 +3585,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2358,
+          "scor": 0.2703,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -3507,7 +3600,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.4899,
+              "valoare_norm": 0.6619,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -3523,7 +3616,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4786,
+          "scor": 0.5302,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -3533,7 +3626,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.4899,
+              "valoare_norm": 0.6619,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3612,27 +3705,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20914,
+          "v": 50276,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 50276,
+          "cu_revanzare": 47816,
+          "cost_pe_km_fara_revanzare": 0.239,
+          "cost_pe_km_cu_revanzare": 0.228,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22693,
-            "cost_combustibil_5_ani_eur": 6394,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10824,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2460,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.3
           }
         },
         "cost_pe_km": {
-          "v": 0.299,
+          "v": 0.239,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -3673,18 +3773,18 @@
         "cuplu_termic_nm": 205,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 22693,
-        "cost_total_5_ani": 20914,
+        "cost_total_5_ani": 50276,
         "consum_real_l100": 6.3,
         "portbagaj_l": 434
       },
       "scoruri": {
         "default": {
-          "scor": 0.3079,
+          "scor": 0.3345,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.3935,
+              "valoare_norm": 0.4599,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3746,7 +3846,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.3702,
+          "scor": 0.3835,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -3761,7 +3861,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.3935,
+              "valoare_norm": 0.4599,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -3777,7 +3877,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3121,
+          "scor": 0.332,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -3787,7 +3887,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.3935,
+              "valoare_norm": 0.4599,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3864,27 +3964,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20696,
+          "v": 51486,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 51486,
+          "cu_revanzare": 48462,
+          "cost_pe_km_fara_revanzare": 0.245,
+          "cost_pe_km_cu_revanzare": 0.231,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 23293,
-            "cost_combustibil_5_ani_eur": 6598,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 11844,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 19792,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 3024,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.5,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.5
           }
         },
         "cost_pe_km": {
-          "v": 0.296,
+          "v": 0.245,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -3923,18 +4030,18 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 23293,
-        "cost_total_5_ani": 20696,
+        "cost_total_5_ani": 51486,
         "consum_real_l100": 6.5,
         "portbagaj_l": 466
       },
       "scoruri": {
         "default": {
-          "scor": 0.5014,
+          "scor": 0.4808,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.4213,
+              "valoare_norm": 0.3698,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3996,7 +4103,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.5336,
+          "scor": 0.5233,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -4011,7 +4118,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.4213,
+              "valoare_norm": 0.3698,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -4027,7 +4134,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3807,
+          "scor": 0.3653,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -4037,7 +4144,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.4213,
+              "valoare_norm": 0.3698,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4115,27 +4222,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20858,
+          "v": 50176,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 50176,
+          "cu_revanzare": 47726,
+          "cost_pe_km_fara_revanzare": 0.239,
+          "cost_pe_km_cu_revanzare": 0.227,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 22593,
-            "cost_combustibil_5_ani_eur": 6394,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 10780,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2450,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.3
           }
         },
         "cost_pe_km": {
-          "v": 0.298,
+          "v": 0.239,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -4174,18 +4288,18 @@
         "cuplu_termic_nm": 205,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 22593,
-        "cost_total_5_ani": 20858,
+        "cost_total_5_ani": 50176,
         "consum_real_l100": 6.3,
         "portbagaj_l": 380
       },
       "scoruri": {
         "default": {
-          "scor": 0.2898,
+          "scor": 0.3165,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.4006,
+              "valoare_norm": 0.4674,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4247,7 +4361,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.3586,
+          "scor": 0.3719,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -4262,7 +4376,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.4006,
+              "valoare_norm": 0.4674,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -4278,7 +4392,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3011,
+          "scor": 0.3212,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -4288,7 +4402,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.4006,
+              "valoare_norm": 0.4674,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4366,27 +4480,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 21978,
+          "v": 51376,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 51376,
+          "cu_revanzare": 48726,
+          "cost_pe_km_fara_revanzare": 0.245,
+          "cost_pe_km_cu_revanzare": 0.232,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 24593,
-            "cost_combustibil_5_ani_eur": 6394,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 11660,
-            "procent_rezidual": 0.44,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 2650,
+            "procent_rezidual_15_ani": 0.1,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.3
           }
         },
         "cost_pe_km": {
-          "v": 0.314,
+          "v": 0.245,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -4425,18 +4546,18 @@
         "cuplu_termic_nm": 230,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 24593,
-        "cost_total_5_ani": 21978,
+        "cost_total_5_ani": 51376,
         "consum_real_l100": 6.3,
         "portbagaj_l": 350
       },
       "scoruri": {
         "default": {
-          "scor": 0.201,
+          "scor": 0.2491,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.2577,
+              "valoare_norm": 0.378,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4498,7 +4619,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.1627,
+          "scor": 0.1868,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -4513,7 +4634,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.2577,
+              "valoare_norm": 0.378,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -4529,7 +4650,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.251,
+          "scor": 0.2871,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -4539,7 +4660,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.2577,
+              "valoare_norm": 0.378,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4616,27 +4737,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 22928,
+          "v": 49100,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 49100,
+          "cu_revanzare": 46876,
+          "cost_pe_km_fara_revanzare": 0.234,
+          "cost_pe_km_cu_revanzare": 0.223,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 25512,
-            "cost_combustibil_5_ani_eur": 5380,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 10564,
-            "procent_rezidual": 0.38,
+            "cost_combustibil_eur": 16138,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 2224,
+            "procent_rezidual_15_ani": 0.08,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.3,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 5.3
           }
         },
         "cost_pe_km": {
-          "v": 0.328,
+          "v": 0.234,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -4675,18 +4803,18 @@
         "cuplu_termic_nm": 128,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 25512,
-        "cost_total_5_ani": 22928,
+        "cost_total_5_ani": 49100,
         "consum_real_l100": 5.3,
         "portbagaj_l": 443
       },
       "scoruri": {
         "default": {
-          "scor": 0.5206,
+          "scor": 0.685,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.1365,
+              "valoare_norm": 0.5475,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4748,7 +4876,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.375,
+          "scor": 0.4572,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -4763,7 +4891,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.1365,
+              "valoare_norm": 0.5475,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -4779,7 +4907,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.5567,
+          "scor": 0.68,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -4789,7 +4917,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.1365,
+              "valoare_norm": 0.5475,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4867,27 +4995,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 21773,
+          "v": 53025,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 53025,
+          "cu_revanzare": 49665,
+          "cost_pe_km_fara_revanzare": 0.253,
+          "cost_pe_km_cu_revanzare": 0.236,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 25712,
-            "cost_combustibil_5_ani_eur": 6496,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 175,
-            "valoare_reziduala_5_ani_eur": 13160,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 19488,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 525,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 3360,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.4,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.4
           }
         },
         "cost_pe_km": {
-          "v": 0.311,
+          "v": 0.253,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -4928,18 +5063,18 @@
         "cuplu_termic_nm": 245,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 25712,
-        "cost_total_5_ani": 21773,
+        "cost_total_5_ani": 53025,
         "consum_real_l100": 6.4,
         "portbagaj_l": 422
       },
       "scoruri": {
         "default": {
-          "scor": 0.2944,
+          "scor": 0.2829,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.2839,
+              "valoare_norm": 0.2551,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5001,7 +5136,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2354,
+          "scor": 0.2297,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -5016,7 +5151,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.2839,
+              "valoare_norm": 0.2551,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -5032,7 +5167,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.2876,
+          "scor": 0.2789,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -5042,7 +5177,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.2839,
+              "valoare_norm": 0.2551,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5120,27 +5255,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 19692,
+          "v": 47678,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 47678,
+          "cu_revanzare": 44330,
+          "cost_pe_km_fara_revanzare": 0.227,
+          "cost_pe_km_cu_revanzare": 0.211,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 25612,
-            "cost_combustibil_5_ani_eur": 4872,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 13392,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 14616,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 3348,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 4.8,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 4.8
           }
         },
         "cost_pe_km": {
-          "v": 0.281,
+          "v": 0.227,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -5179,18 +5321,18 @@
         "cuplu_termic_nm": 148,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 25612,
-        "cost_total_5_ani": 19692,
+        "cost_total_5_ani": 47678,
         "consum_real_l100": 4.8,
         "portbagaj_l": 492
       },
       "scoruri": {
         "default": {
-          "scor": 0.4948,
+          "scor": 0.5364,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.5494,
+              "valoare_norm": 0.6535,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5252,7 +5394,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2795,
+          "scor": 0.3003,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -5267,7 +5409,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.5494,
+              "valoare_norm": 0.6535,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -5283,7 +5425,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.6712,
+          "scor": 0.7024,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -5293,7 +5435,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.5494,
+              "valoare_norm": 0.6535,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5370,27 +5512,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 22110,
+          "v": 53588,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 53588,
+          "cu_revanzare": 50129,
+          "cost_pe_km_fara_revanzare": 0.255,
+          "cost_pe_km_cu_revanzare": 0.239,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 26918,
-            "cost_combustibil_5_ani_eur": 6090,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 13548,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 18270,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 3459,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.0,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.0
           }
         },
         "cost_pe_km": {
-          "v": 0.316,
+          "v": 0.255,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -5429,18 +5578,18 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 26918,
-        "cost_total_5_ani": 22110,
+        "cost_total_5_ani": 53588,
         "consum_real_l100": 6.0,
         "portbagaj_l": 400
       },
       "scoruri": {
         "default": {
-          "scor": 0.3686,
+          "scor": 0.3576,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.2409,
+              "valoare_norm": 0.2132,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5502,7 +5651,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4315,
+          "scor": 0.4259,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -5517,7 +5666,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.2409,
+              "valoare_norm": 0.2132,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -5533,7 +5682,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3743,
+          "scor": 0.366,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -5543,7 +5692,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.2409,
+              "valoare_norm": 0.2132,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5621,27 +5770,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 22926,
+          "v": 56228,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 56228,
+          "cu_revanzare": 52808,
+          "cost_pe_km_fara_revanzare": 0.268,
+          "cost_pe_km_cu_revanzare": 0.251,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 26593,
-            "cost_combustibil_5_ani_eur": 7004,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 175,
-            "valoare_reziduala_5_ani_eur": 13395,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 21010,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 525,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 3420,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.9,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.9
           }
         },
         "cost_pe_km": {
-          "v": 0.328,
+          "v": 0.268,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -5680,18 +5836,18 @@
         "cuplu_termic_nm": 250,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 26593,
-        "cost_total_5_ani": 22926,
+        "cost_total_5_ani": 56228,
         "consum_real_l100": 6.9,
         "portbagaj_l": 510
       },
       "scoruri": {
         "default": {
-          "scor": 0.3247,
+          "scor": 0.2766,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.1368,
+              "valoare_norm": 0.0165,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5753,7 +5909,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.4374,
+          "scor": 0.4133,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -5768,7 +5924,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.1368,
+              "valoare_norm": 0.0165,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -5784,7 +5940,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.201,
+          "scor": 0.165,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -5794,7 +5950,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.1368,
+              "valoare_norm": 0.0165,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5872,27 +6028,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 21754,
+          "v": 52768,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 52768,
+          "cu_revanzare": 49348,
+          "cost_pe_km_fara_revanzare": 0.251,
+          "cost_pe_km_cu_revanzare": 0.235,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 26593,
-            "cost_combustibil_5_ani_eur": 6192,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 13680,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 18574,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 3420,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.1,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.1
           }
         },
         "cost_pe_km": {
-          "v": 0.311,
+          "v": 0.251,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -5931,18 +6094,18 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 26593,
-        "cost_total_5_ani": 21754,
+        "cost_total_5_ani": 52768,
         "consum_real_l100": 6.1,
         "portbagaj_l": 385
       },
       "scoruri": {
         "default": {
-          "scor": 0.356,
+          "scor": 0.3512,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.2863,
+              "valoare_norm": 0.2743,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6004,7 +6167,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2769,
+          "scor": 0.2745,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -6019,7 +6182,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.2863,
+              "valoare_norm": 0.2743,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -6035,7 +6198,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3655,
+          "scor": 0.3619,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -6045,7 +6208,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.2863,
+              "valoare_norm": 0.2743,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6123,27 +6286,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 22014,
+          "v": 53268,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 53268,
+          "cu_revanzare": 49788,
+          "cost_pe_km_fara_revanzare": 0.254,
+          "cost_pe_km_cu_revanzare": 0.237,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 27093,
-            "cost_combustibil_5_ani_eur": 6192,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 13920,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 18574,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 3480,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.1,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.1
           }
         },
         "cost_pe_km": {
-          "v": 0.314,
+          "v": 0.254,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -6182,18 +6352,18 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 27093,
-        "cost_total_5_ani": 22014,
+        "cost_total_5_ani": 53268,
         "consum_real_l100": 6.1,
         "portbagaj_l": 440
       },
       "scoruri": {
         "default": {
-          "scor": 0.3641,
+          "scor": 0.3576,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.2531,
+              "valoare_norm": 0.237,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6255,7 +6425,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.2836,
+          "scor": 0.2804,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -6270,7 +6440,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.2531,
+              "valoare_norm": 0.237,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -6286,7 +6456,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.3689,
+          "scor": 0.3641,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -6296,7 +6466,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.2531,
+              "valoare_norm": 0.237,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6379,27 +6549,34 @@
           "nota": "pret afisat de dealer; compozitie posibil diferita de net. NU e topit in netul derivat."
         },
         "cost_total_5_ani": {
-          "v": 23998,
+          "v": 56450,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 56450,
+          "cu_revanzare": 52771,
+          "cost_pe_km_fara_revanzare": 0.269,
+          "cost_pe_km_cu_revanzare": 0.251,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 28753,
-            "cost_combustibil_5_ani_eur": 6699,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 14104,
-            "procent_rezidual": 0.46,
+            "cost_combustibil_eur": 20097,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 3679,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.6,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.6
           }
         },
         "cost_pe_km": {
-          "v": 0.343,
+          "v": 0.269,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -6449,7 +6626,7 @@
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 28753,
-        "cost_total_5_ani": 23998,
+        "cost_total_5_ani": 56450,
         "consum_real_l100": 6.6,
         "portbagaj_l": 422
       },
@@ -6641,27 +6818,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 20957,
+          "v": 52090,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 52090,
+          "cu_revanzare": 49030,
+          "cost_pe_km_fara_revanzare": 0.248,
+          "cost_pe_km_cu_revanzare": 0.233,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 23593,
-            "cost_combustibil_5_ani_eur": 6699,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 11985,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 20097,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 3060,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.6,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.6
           }
         },
         "cost_pe_km": {
-          "v": 0.299,
+          "v": 0.248,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -6700,18 +6884,18 @@
         "cuplu_termic_nm": 253,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 23593,
-        "cost_total_5_ani": 20957,
+        "cost_total_5_ani": 52090,
         "consum_real_l100": 6.6,
         "portbagaj_l": 426
       },
       "scoruri": {
         "default": {
-          "scor": 0.5876,
+          "scor": 0.5623,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.388,
+              "valoare_norm": 0.3248,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6773,7 +6957,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.6172,
+          "scor": 0.6046,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -6788,7 +6972,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.388,
+              "valoare_norm": 0.3248,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -6804,7 +6988,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4023,
+          "scor": 0.3833,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -6814,7 +6998,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.388,
+              "valoare_norm": 0.3248,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6893,27 +7077,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 21002,
+          "v": 52800,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 52800,
+          "cu_revanzare": 49536,
+          "cost_pe_km_fara_revanzare": 0.251,
+          "cost_pe_km_cu_revanzare": 0.236,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 24912,
-            "cost_combustibil_5_ani_eur": 6496,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 13056,
-            "procent_rezidual": 0.48,
+            "cost_combustibil_eur": 19488,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 3264,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.4,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.4
           }
         },
         "cost_pe_km": {
-          "v": 0.3,
+          "v": 0.251,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -6952,18 +7143,18 @@
         "cuplu_termic_nm": 213,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 24912,
-        "cost_total_5_ani": 21002,
+        "cost_total_5_ani": 52800,
         "consum_real_l100": 6.4,
         "portbagaj_l": 430
       },
       "scoruri": {
         "default": {
-          "scor": 0.5368,
+          "scor": 0.4927,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.3822,
+              "valoare_norm": 0.2719,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -7025,7 +7216,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.567,
+          "scor": 0.545,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -7040,7 +7231,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.3822,
+              "valoare_norm": 0.2719,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -7056,7 +7247,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.409,
+          "scor": 0.3759,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -7066,7 +7257,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.3822,
+              "valoare_norm": 0.2719,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -7143,27 +7334,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 21105,
+          "v": 53505,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 53505,
+          "cu_revanzare": 48720,
+          "cost_pe_km_fara_revanzare": 0.255,
+          "cost_pe_km_cu_revanzare": 0.232,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 29612,
-            "cost_combustibil_5_ani_eur": 5481,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 50,
-            "valoare_reziduala_5_ani_eur": 16588,
-            "procent_rezidual": 0.52,
+            "cost_combustibil_eur": 16443,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 150,
+            "cost_extra_ambreiaj_eur": 0,
+            "valoare_reziduala_eur": 4785,
+            "procent_rezidual_15_ani": 0.15,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.4,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 5.4
           }
         },
         "cost_pe_km": {
-          "v": 0.301,
+          "v": 0.255,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
@@ -7202,18 +7400,18 @@
         "cuplu_termic_nm": 131,
         "bonus_mostenit": 0.0,
         "pret_net_estimat": 29612,
-        "cost_total_5_ani": 21105,
+        "cost_total_5_ani": 53505,
         "consum_real_l100": 5.4,
         "portbagaj_l": 335
       },
       "scoruri": {
         "default": {
-          "scor": 0.3274,
+          "scor": 0.2675,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.3691,
+              "valoare_norm": 0.2194,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -7275,7 +7473,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.1968,
+          "scor": 0.1669,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -7290,7 +7488,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.3691,
+              "valoare_norm": 0.2194,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -7306,7 +7504,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.4623,
+          "scor": 0.4173,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -7316,7 +7514,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.3691,
+              "valoare_norm": 0.2194,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -7393,27 +7591,34 @@
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 17901,
+          "v": 45758,
           "c": "derived",
-          "s": "formula TCO 5 ani (price-model.md)",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 45758,
+          "cu_revanzare": 43276,
+          "cost_pe_km_fara_revanzare": 0.218,
+          "cost_pe_km_cu_revanzare": 0.206,
           "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
             "cost_achizitie_net_eur": 18784,
-            "cost_combustibil_5_ani_eur": 6192,
-            "cost_rca_5_ani_eur": 900,
-            "cost_revizii_5_ani_eur": 1200,
-            "cost_anvelope_5_ani_eur": 450,
-            "cost_impozit_5_ani_eur": 100,
-            "valoare_reziduala_5_ani_eur": 9725,
-            "procent_rezidual": 0.47,
+            "cost_combustibil_eur": 18574,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2483,
+            "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 6.1,
-            "total_km_5_ani": 70000
+            "consum_real_l100": 6.1
           }
         },
         "cost_pe_km": {
-          "v": 0.256,
+          "v": 0.218,
           "c": "derived",
-          "s": "cost_total_5_ani / 70000 km"
+          "s": "cost_total / 210000 km"
         },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,

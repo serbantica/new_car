@@ -321,16 +321,15 @@ def rabla_for(propulsie, rabla_cfg):
 
 
 def compute_tco(row, money, criteria):
-    """Calculeaza cost_total_5_ani si cost_pe_km conform formulei din price-model.md.
-    TCO = Pret Net + Combustibil(5 ani) + RCA + Revizii + Anvelope + Impozit - Valoare Reziduala
-    """
+    """Calculeaza cost_total_15_ani (fara si cu revanzare) si cost_pe_km conform orizontului din criteria.yaml."""
     tco_cfg = criteria.get("tco", {})
     pret_benzina = tco_cfg.get("pret_benzina_eur_l")
     km_pe_an = tco_cfg.get("km_pe_an")
     orizont_ani = tco_cfg.get("orizont_ani")
     if not (km_pe_an and orizont_ani):
         return None, None
-    total_km = km_pe_an * orizont_ani
+    total_km = tco_cfg.get("total_km") or (km_pe_an * orizont_ani)
+    scenariu_default = tco_cfg.get("scenariu_implicit", "fara_revanzare")
 
     net_estimat = money.get("pret_net_estimat")
     pret_lista = money.get("pret_lista")
@@ -343,15 +342,23 @@ def compute_tco(row, money, criteria):
     # Consumul este exprimat in litri la suta de kilometri (10 * 10)
     cost_combustibil = (total_km * consum_real * pret_benzina) / float(10 * 10)
 
-    costuri_fixe = tco_cfg.get("costuri_fixe_5_ani", {})
-    rca = costuri_fixe.get("rca_eur_total", 0)
-    revizii = costuri_fixe.get("revizii_periodice_eur_total", 0)
-    anvelope = costuri_fixe.get("anvelope_eur_total", 0)
+    costuri_anuale = tco_cfg.get("costuri_anuale", {})
+    rca_anual = costuri_anuale.get("rca_eur_anual", 0)
+    revizii_anuale = costuri_anuale.get("revizii_anuale_eur", 0)
+    anvelope_total = costuri_anuale.get("anvelope_eur_total_15_ani", 0)
+    extra_manuala = costuri_anuale.get("intretinere_extra_uzura_manuala_eur", 0)
+
+    rca_total = rca_anual * orizont_ani
+    revizii_total = revizii_anuale * orizont_ani
+
+    # Transmisie manuala are uzura ambreiaj suplimentara pe 210.000 km
+    cutie = cutie_base(val(row.get("cutie")))
+    extra_ambreiaj = extra_manuala if cutie == "manuala" else 0
 
     # Impozit anual dupa cilindree / hibrid
     putere = first_number(val(row.get("putere_cp"))) or 0
     propulsie = row.get("propulsie")
-    impozit_anual_map = costuri_fixe.get("impozit_auto_eur_anual", {})
+    impozit_anual_map = costuri_anuale.get("impozit_auto_eur_anual", {})
     if propulsie == "hev" or (putere <= 110 and propulsie == "mhev_48v"):
         impozit_anual = impozit_anual_map.get("hibrid_sau_sub_1200cc", 0)
     elif putere <= 140:
@@ -360,49 +367,62 @@ def compute_tco(row, money, criteria):
         impozit_anual = impozit_anual_map.get("peste_1500cc", 0)
     cost_impozit = impozit_anual * orizont_ani
 
-    # Valoare reziduala
-    rez_procent = val(row.get("valoare_reziduala_procent_5_ani"))
-    if not rez_procent:
-        marca = (row.get("marca") or "").lower()
-        grup = (row.get("grup_proprietar") or "").lower()
-        if propulsie == "hev" and marca in ("toyota", "honda"):
-            rez_procent = 0.52
-        elif "saic" in grup or "mg" in marca:
-            rez_procent = 0.38
-        elif "stellantis" in grup or marca in ("ford", "mitsubishi", "jeep", "opel", "citroen", "peugeot", "fiat"):
-            rez_procent = 0.44
-        else:
-            rez_procent = 0.47
+    # Valoare reziduala la 15 ani
+    rez_cfg = tco_cfg.get("valoare_reziduala_15_ani", {}).get("procente_implicite", {})
+    marca = (row.get("marca") or "").lower()
+    grup = (row.get("grup_proprietar") or "").lower()
+    if propulsie == "hev" and marca in ("toyota", "honda"):
+        rez_procent = rez_cfg.get("japonez_full_hybrid", 0.15)
+    elif "saic" in grup or "mg" in marca:
+        rez_procent = rez_cfg.get("marci_noi_sau_speciale", 0.08)
+    elif "stellantis" in grup or marca in ("ford", "mitsubishi", "jeep", "opel", "citroen", "peugeot", "fiat"):
+        rez_procent = rez_cfg.get("stellantis_ford_mitsubishi", 0.10)
+    else:
+        rez_procent = rez_cfg.get("b_suv_popular", 0.12)
 
     baza_reziduala = pret_lista["v"] if (pret_lista and pret_lista.get("v")) else cost_achizitie
     valoare_reziduala = baza_reziduala * rez_procent
 
-    cost_total = cost_achizitie + cost_combustibil + rca + revizii + anvelope + cost_impozit - valoare_reziduala
-    cost_pe_km = cost_total / total_km
+    # 1. Scenariul FARA revanzare (Cash Out total)
+    cost_fara_revanzare = cost_achizitie + cost_combustibil + rca_total + revizii_total + anvelope_total + cost_impozit + extra_ambreiaj
+
+    # 2. Scenariul CU revanzare
+    cost_cu_revanzare = cost_fara_revanzare - valoare_reziduala
+
+    # Activul conform criteriilor
+    cost_activ = cost_fara_revanzare if scenariu_default == "fara_revanzare" else cost_cu_revanzare
+    cost_pe_km = cost_activ / total_km
 
     tco_node = {
-        "v": round(cost_total),
+        "v": round(cost_activ),
         "c": combine_conf(net_estimat.get("c"), "derived"),
-        "s": "formula TCO 5 ani (price-model.md)",
+        "s": f"TCO {orizont_ani} ani ({scenariu_default})",
+        "scenariu_activ": scenariu_default,
+        "fara_revanzare": round(cost_fara_revanzare),
+        "cu_revanzare": round(cost_cu_revanzare),
+        "cost_pe_km_fara_revanzare": round(cost_fara_revanzare / total_km, 3),
+        "cost_pe_km_cu_revanzare": round(cost_cu_revanzare / total_km, 3),
         "breakdown": {
+            "orizont_ani": orizont_ani,
+            "total_km": total_km,
             "cost_achizitie_net_eur": round(cost_achizitie),
-            "cost_combustibil_5_ani_eur": round(cost_combustibil),
-            "cost_rca_5_ani_eur": round(rca),
-            "cost_revizii_5_ani_eur": round(revizii),
-            "cost_anvelope_5_ani_eur": round(anvelope),
-            "cost_impozit_5_ani_eur": round(cost_impozit),
-            "valoare_reziduala_5_ani_eur": round(valoare_reziduala),
-            "procent_rezidual": rez_procent,
+            "cost_combustibil_eur": round(cost_combustibil),
+            "cost_rca_eur": round(rca_total),
+            "cost_revizii_eur": round(revizii_total),
+            "cost_anvelope_eur": round(anvelope_total),
+            "cost_impozit_eur": round(cost_impozit),
+            "cost_extra_ambreiaj_eur": round(extra_ambreiaj),
+            "valoare_reziduala_eur": round(valoare_reziduala),
+            "procent_rezidual_15_ani": rez_procent,
             "pret_benzina_eur_l": pret_benzina,
             "consum_real_l100": consum_real,
-            "total_km_5_ani": total_km,
         }
     }
 
     cost_km_node = {
         "v": round(cost_pe_km, 3),
         "c": combine_conf(net_estimat.get("c"), "derived"),
-        "s": f"cost_total_5_ani / {total_km} km",
+        "s": f"cost_total / {total_km} km",
     }
 
     return tco_node, cost_km_node
@@ -715,6 +735,8 @@ def bake_config(criteria):
         },
         "tco": {"km_pe_an": criteria["tco"]["km_pe_an"],
                 "orizont_ani": criteria["tco"]["orizont_ani"],
+                "total_km": criteria["tco"].get("total_km", criteria["tco"]["km_pe_an"] * criteria["tco"]["orizont_ani"]),
+                "scenariu_implicit": criteria["tco"].get("scenariu_implicit", "fara_revanzare"),
                 "pret_benzina_eur_l": criteria["tco"]["pret_benzina_eur_l"]},
         "rabla": {"an_program": r["an_program"], "status": r["status"],
                   "prima_eur": r["prima_eur"], "fereastra": [r["start"], r["sfarsit"]]},

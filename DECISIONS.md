@@ -432,7 +432,26 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
 5. **Observație cheie TCO**:
    - Modelele full-hybrid (ex. Toyota Yaris Cross la 17.793 € TCO, Honda Jazz Crosstar la 18.061 € TCO) recuperează substanțial diferența de preț de achiziție față de modelele exclusiv pe benzină/mild-hybrid prin economia de carburant (~1.800 € în 5 ani) și deprecierea reziduală mult mai mică (52% valoare păstrată la 5 ani).
 
-**Consecință:** Sortarea implicită pe `cost_total_5_ani` este 100% funcțională. 9/9 teste trec.
+## D-029 — TCO pe orizont de 15 ani (210.000 km) cu scenarii Fără revânzare (default) și Cu revânzare
+**Data:** 2026-08-20
+**Context:** Șerban a menținut modelul anterior (Vitara) timp de 11 ani și vizează un orizont realist de deținere pe termen lung de 10-15 ani (~210.000 km). S-a solicitat configurarea dashboard-ului pe orizontul de 15 ani / 210.000 km ca implicit, cu un comutator interactiv între **Fără revânzare (Cash Out total până la casare)** și **Cu revânzare (scăderea valorii reziduale la 15 ani)**.
+
+**Decizie:**
+1. **Configurare în `criteria.yaml`:**
+   - `tco.orizont_ani: 15`
+   - `tco.total_km: 210000` (14.000 km/an)
+   - `tco.scenariu_implicit: "fara_revanzare"`
+   - Costuri pe 15 ani: RCA = 2.700 €, Revizii periodice = 3.600 €, Anvelope = 1.000 €, Extra uzură ambreiaj cutie manuală = 800 € (0 € la transmisii e-CVT fără ambreiaj).
+2. **Implementare în `build.py` și `template.html`:**
+   - Ambele variante (`fara_revanzare` și `cu_revanzare`) sunt calculate pentru fiecare model.
+   - În dashboard rail a fost adăugat selectorul interactiv:
+     - `Fără revânzare`: reflectă costul total plătit din buzunar pe parcursul celor 15 ani de exploatare.
+     - `Cu revânzare`: deduce valoarea reziduală la 15 ani (10-15%).
+   - Tabelul afișează dinamic coloana și costul pe km, iar reordonarea funcționează instant.
+3. **Rezultat comparativ:**
+   - La 15 ani (210.000 km), **Toyota Yaris Cross** (45.768 € fără revânzare / 41.733 € cu revânzare) este mai ieftină în total decât **Suzuki Vitara** (47.351 € fără revânzare / 44.668 € cu revânzare), economia de combustibil (5.176 €) și lipsa uzurii de ambreiaj/frâne compensând complet prețul de achiziție mai ridicat.
+
+**Consecință:** Dashboard-ul oferă vizibilitate completă asupra scenariului de exploatare pe 15 ani cerut. Toate cele 9 teste trec.
 
 ---
 

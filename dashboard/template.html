@@ -324,6 +324,19 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   // ---- 3. FIELD_MAP: unde citește fiecare cheie din query.filtrabile ----
   //   Praguri NU sunt aici — doar accesori de câmp (căi în date).
   const B = (r, k) => (r.bani && r.bani[k]) ? r.bani[k].v : null;
+
+  function tcoOf(r, scenariu = (state ? state.tcoScenario : "fara_revanzare")) {
+    const b = r.bani && r.bani.cost_total_5_ani;
+    if (!b) return null;
+    if (scenariu === "cu_revanzare" && b.cu_revanzare != null) {
+      return { ...b, v: b.cu_revanzare, s: "TCO 15 ani (cu revânzare)", cost_pe_km: b.cost_pe_km_cu_revanzare };
+    }
+    if (scenariu === "fara_revanzare" && b.fara_revanzare != null) {
+      return { ...b, v: b.fara_revanzare, s: "Cost 15 ani (fără revânzare)", cost_pe_km: b.cost_pe_km_fara_revanzare };
+    }
+    return b;
+  }
+
   const FIELD_MAP = {
     marca:            { label: "Marcă",            kind: "cat", get: (r) => r.marca },
     model:            { label: "Model",            kind: "cat", get: (r) => r.model },
@@ -339,7 +352,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
     portbagaj_l:      { label: "Portbagaj (l)",    kind: "num", get: (r) => r.portbagaj_l },
     pret_lista:       { label: "Preț listă",       kind: "num", money: true, get: (r) => B(r, "pret_lista") },
     pret_net_estimat: { label: "Net estimat",      kind: "num", money: true, get: (r) => B(r, "pret_net_estimat") },
-    cost_total_5_ani: { label: "TCO 5 ani",        kind: "num", money: true, get: (r) => B(r, "cost_total_5_ani") },
+    cost_total_5_ani: { label: "Cost 15 ani",      kind: "num", money: true, get: (r) => { const t = tcoOf(r); return t ? t.v : null; } },
     disponibil_bucuresti: { label: "Disponibil București", kind: "cat", get: (r) => r.disponibil_bucuresti },
     in_buget:         { label: "În buget",         kind: "cat",
                         get: (r) => (r.marcaje && r.marcaje.in_buget && r.marcaje.in_buget.stare) || "nedeterminat" },
@@ -380,6 +393,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   const state = {
     profile: profileNames.includes(cfg.profil_activ) ? cfg.profil_activ
              : (profileNames.includes("default") ? "default" : profileNames[0]),
+    tcoScenario: (cfg.tco && cfg.tco.scenariu_implicit) || "fara_revanzare",
     sortKey: null, sortDir: null,
     filters: {},          // key -> Set (cat) sau {min,max} (num)
     showExcluded: false,
@@ -403,8 +417,9 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   const covOf = (r, prof) => (r.scoruri && r.scoruri[prof]) ? r.scoruri[prof].acoperire_pondere : null;
   const sortVal = (r, key) => {
     if (key === "scor") return scoreOf(r, state.profile);
+    if (key === "cost_total_5_ani") { const t = tcoOf(r); return t ? t.v : null; }
+    if (key === "cost_pe_km") { const t = tcoOf(r); return t && isNum(t.v) ? t.v / 210000.0 : null; }
     if (FIELD_MAP[key]) return toNum(FIELD_MAP[key].get(r));
-    // chei numai-sortare (ex. pret_net_fara_rabla, cost_pe_km) din bani
     return B(r, key);
   };
   const DIR_DESC = new Set(["scor", "putere_cp", "cuplu_termic_nm", "garantie_ani", "portbagaj_l"]);
@@ -539,6 +554,19 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
 
   function renderRail() {
     let h = '<div class="card-h"><h2>Control</h2><button class="reset" id="reset-all">resetează</button></div><div class="card-body">';
+    
+    // scenariu TCO 15 ani (210.000 km)
+    h += '<section><h3>Orizont 15 ani (210.000 km)</h3><div class="seg" id="seg-tco-scenariu">';
+    const tcoScenarios = [
+      { id: "fara_revanzare", label: "Fără revânzare", desc: "Cash Out total 15 ani (până la casare)" },
+      { id: "cu_revanzare", label: "Cu revânzare", desc: "Scade valoarea reziduală la 15 ani" },
+    ];
+    tcoScenarios.forEach((sc) => {
+      h += '<button data-tco="' + esc(sc.id) + '" aria-pressed="' + (state.tcoScenario === sc.id) + '">' +
+        esc(sc.label) + '<span class="desc">' + esc(sc.desc) + '</span></button>';
+    });
+    h += '</div></section>';
+
     // profil
     h += '<section><h3>Profil de scor</h3><div class="seg" id="seg-profile">';
     profileNames.forEach((p) => {
@@ -551,7 +579,8 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
     h += '<section><h3>Sortare</h3><select id="sort-key">';
     (Q.sort_keys || []).forEach((k) => {
       const desc = (Q.sort_keys_descrieri && Q.sort_keys_descrieri[k]) || "";
-      h += '<option value="' + esc(k) + '"' + (state.sortKey === k ? " selected" : "") + ' title="' + esc(desc) + '">' + esc(k) + '</option>';
+      const label = k === "cost_total_5_ani" ? "Cost / TCO 15 ani" : k;
+      h += '<option value="' + esc(k) + '"' + (state.sortKey === k ? " selected" : "") + ' title="' + esc(desc) + '">' + esc(label) + '</option>';
     });
     h += '</select> <select id="sort-dir"><option value="asc"' + (state.sortDir === "asc" ? " selected" : "") +
       '>crescător</option><option value="desc"' + (state.sortDir === "desc" ? " selected" : "") + '>descrescător</option></select>';
@@ -599,9 +628,11 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
 
   function renderLens(steps) {
     const activeFilters = steps.map((s) => '<span class="pill">' + esc(s.label) + '</span>').join("");
+    const scenLabel = state.tcoScenario === "cu_revanzare" ? "15 ani (cu revânzare)" : "15 ani (fără revânzare)";
     return '<div class="card lens"><span class="k">lentilă activă</span>' +
+      '<span class="pill">scenariu: ' + esc(scenLabel) + '</span>' +
       '<span class="pill">profil: ' + esc(state.profile) + '</span>' +
-      '<span class="pill">sortare: ' + esc(state.sortKey) + ' ' + (state.sortDir === "desc" ? "↓" : "↑") + '</span>' +
+      '<span class="pill">sortare: ' + esc(state.sortKey === "cost_total_5_ani" ? "Cost 15 ani" : state.sortKey) + ' ' + (state.sortDir === "desc" ? "↓" : "↑") + '</span>' +
       (activeFilters || '<span class="pill dim">fără filtre active</span>') + '</div>';
   }
 
@@ -624,6 +655,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   function renderTable(rows) {
     if (!rows.length) return '<div class="card"><div class="empty">Niciun model nu trece filtrele active. ' +
       'Relaxează o constrângere din stânga — linia care taie cel mai mult e cea care te costă.</div></div>';
+    const tcoColLabel = state.tcoScenario === "cu_revanzare" ? "TCO 15 ani (cu rev.)" : "Cost 15 ani (fără rev.)";
     const cols = [
       { k: "rank", label: "#", num: false, sort: false },
       { k: "model", label: "Model", num: false, sort: false },
@@ -633,7 +665,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
       { k: "pret_lista", label: "Preț listă", num: true, sort: true },
       { k: "pret_net_fara_rabla", label: "Net fără Rabla", num: true, sort: true },
       { k: "pret_net_estimat", label: "Net estimat", num: true, sort: true },
-      { k: "cost_total_5_ani", label: "TCO 5 ani", num: true, sort: true },
+      { k: "cost_total_5_ani", label: tcoColLabel, num: true, sort: true },
       { k: "scor", label: "Scor · " + state.profile, num: true, sort: true },
       { k: "exp", label: "", num: false, sort: false },
     ];
@@ -658,7 +690,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
         '<td class="num">' + moneyCell(bani(r, "pret_lista")) + '</td>' +
         '<td class="num">' + moneyCell(bani(r, "pret_net_fara_rabla")) + '</td>' +
         '<td class="num">' + moneyCell(bani(r, "pret_net_estimat")) + '</td>' +
-        '<td class="num">' + moneyCell(bani(r, "cost_total_5_ani")) + '</td>' +
+        '<td class="num">' + moneyCell(tcoOf(r)) + '</td>' +
         '<td class="num">' + scoreCell(r) + '</td>' +
         '<td><button class="expand-btn" data-exp="' + esc(r.id) + '" title="detalii">＋</button></td>' +
         '</tr>';
@@ -681,6 +713,25 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
     // identitate
     parts.push('<div><h4>Cheie identitate</h4><div class="kv">' + esc(r.id) + '</div>' +
       (r.motiv_selectie ? '<p style="margin:6px 0 0">' + esc(r.motiv_selectie) + '</p>' : '') + '</div>');
+    
+    // TCO 15 ani defalcat
+    const tco = r.bani && r.bani.cost_total_5_ani;
+    if (tco && tco.breakdown) {
+      const bd = tco.breakdown;
+      parts.push('<div><h4>Costuri 15 ani (' + (bd.total_km ? bd.total_km.toLocaleString("ro-RO") : "210.000") + ' km)</h4><div class="kv">' +
+        'Achiziție netă: ' + esc(fmtEur(bd.cost_achizitie_net_eur)) + '<br>' +
+        'Combustibil (' + bd.consum_real_l100 + ' l/100 @ ' + bd.pret_benzina_eur_l + ' €/l): ' + esc(fmtEur(bd.cost_combustibil_eur)) + '<br>' +
+        'RCA (15 ani): ' + esc(fmtEur(bd.cost_rca_eur)) + '<br>' +
+        'Revizii (15 revizii): ' + esc(fmtEur(bd.cost_revizii_eur)) + '<br>' +
+        'Anvelope (seturi iarnă): ' + esc(fmtEur(bd.cost_anvelope_eur)) + '<br>' +
+        'Impozit (15 ani): ' + esc(fmtEur(bd.cost_impozit_eur)) + '<br>' +
+        (bd.cost_extra_ambreiaj_eur ? 'Uzura ambreiaj (manuala): ' + esc(fmtEur(bd.cost_extra_ambreiaj_eur)) + '<br>' : '') +
+        '<b style="color:var(--ink)">Total fără revânzare: ' + esc(fmtEur(tco.fara_revanzare)) + ' (' + tco.cost_pe_km_fara_revanzare + ' €/km)</b><br>' +
+        'Valoare reziduală an 15 (' + Math.round((bd.procent_rezidual_15_ani || 0.1) * 100) + '%): −' + esc(fmtEur(bd.valoare_reziduala_eur)) + '<br>' +
+        '<b style="color:var(--ink)">Total cu revânzare: ' + esc(fmtEur(tco.cu_revanzare)) + ' (' + tco.cost_pe_km_cu_revanzare + ' €/km)</b>' +
+        '</div></div>');
+    }
+
     // observații de preț
     if (b.observatii && b.observatii.length) {
       parts.push('<div><h4>Observații preț (' + b.nr_observatii + ')</h4><ul>' +
@@ -752,6 +803,14 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
 
   // ---- 10. Evenimente ----
   function wireEvents() {
+    const segTco = document.getElementById("seg-tco-scenariu");
+    if (segTco) {
+      segTco.querySelectorAll("button").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          state.tcoScenario = btn.dataset.tco;
+          render();
+        }));
+    }
     document.querySelectorAll("#seg-profile button").forEach((btn) =>
       btn.addEventListener("click", () => { state.profile = btn.dataset.profile;
         if (state.sortKey === "scor") { /* re-sort */ } render(); }));
