@@ -41,6 +41,7 @@ SCANS_DIR = os.path.join(ROOT, "data", "scans")
 OUT_PATH = os.path.join(ROOT, "data", "latest.json")
 TEMPLATE_PATH = os.path.join(ROOT, "dashboard", "template.html")
 DASHBOARD_OUT = os.path.join(ROOT, "dashboard", "index.html")
+ROOT_INDEX = os.path.join(ROOT, "index.html")
 
 CONFIDENCE_RANK = {"confirmed": 3, "derived": 2, "estimated": 1, None: 0}
 BRAND_ALIASES = {"volkswagen": {"volkswagen", "vw"}}
@@ -766,7 +767,9 @@ def render_dashboard(out):
     html = template.replace("__NCAR_DATA__", payload)
     with open(DASHBOARD_OUT, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"OK: {DASHBOARD_OUT} ({len(html)//1024} KB)")
+    with open(ROOT_INDEX, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"OK: {DASHBOARD_OUT} & {ROOT_INDEX} ({len(html)//1024} KB)")
 
 
 def main():
