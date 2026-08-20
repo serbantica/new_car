@@ -116,7 +116,10 @@ header.masthead h1 { font-size: 22px; }
 
 /* ---- Layout: rail de control + zonă principală ---- */
 .grid { display: grid; grid-template-columns: 268px 1fr; gap: 18px; margin-top: 18px; }
-@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .rail { position: static; top: auto; order: 2; }  /* pe mobil: tabelul primul, filtrele dedesubt */
+}
 .card { background: var(--surface); border: 1px solid var(--line);
   border-radius: 10px; box-shadow: var(--shadow); }
 .card > .card-h { padding: 10px 13px; border-bottom: 1px solid var(--line);
@@ -584,7 +587,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
       const sel = state.filters[f.key];
       h += '<div class="opts">';
       f.options.forEach((o) => {
-        const val = o === null ? " null" : o;
+        const val = o === null ? " null" : o;
         const cnt = MODELE.filter((r) => { const v = f.get(r); const kk = (v == null || v === "") ? null : String(v); return kk === o; }).length;
         h += '<label class="chk"><input type="checkbox" data-opt="' + esc(val) + '"' + (sel.has(o) ? " checked" : "") + '> ' +
           '<span>' + esc(o === null ? "— necunoscut" : o) + '</span><span class="count">' + cnt + '</span></label>';
@@ -767,7 +770,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
       const key = el.dataset.key;
       el.querySelectorAll('input[type="checkbox"][data-opt]').forEach((cb) =>
         cb.addEventListener("change", () => {
-          const raw = cb.dataset.opt; const val = raw === " null" ? null : raw;
+          const raw = cb.dataset.opt; const val = raw === " null" ? null : raw;
           if (cb.checked) state.filters[key].add(val); else state.filters[key].delete(val);
           render();
         }));
