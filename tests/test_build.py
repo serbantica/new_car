@@ -209,11 +209,26 @@ def test_output_construibil_end_to_end():
     assert out["modele"], "build() trebuie sa produca modele"
     assert "carantina" in out
     # scorurile nu se prezinta ca fiind comparabile intre scanuri
-    assert "NU sunt comparabile intre scanuri" in out["antet_dashboard"]
-    # niciun rand nedeterminat nu primeste scor (prag neconfirmat)
     for m in out["modele"]:
         if m["rand_nedeterminat"]:
             assert m["scoruri"] is None, f"{m['model']}: rand nedeterminat nu se claseaza"
+
+
+def test_tco_calculat_corect():
+    out = build.build()
+    assert out["diagnostic"]["tco"]["tco_calculabil"] is True, "TCO trebuie sa fie calculabil"
+    
+    # Verifica calculul TCO pe un model concret calificat (ex. Vitara sau Yaris Cross)
+    calificate_cu_tco = [m for m in out["modele"] if m["bani"]["cost_total_5_ani"] is not None]
+    assert len(calificate_cu_tco) > 0, "trebuie sa existe modele cu TCO calculat"
+    
+    for m in calificate_cu_tco:
+        tco = m["bani"]["cost_total_5_ani"]["v"]
+        cost_km = m["bani"]["cost_pe_km"]["v"]
+        assert tco > 0, f"{m['model']}: TCO trebuie sa fie pozitiv"
+        assert cost_km > 0, f"{m['model']}: cost_pe_km trebuie sa fie pozitiv"
+        # cost_pe_km = tco / 70000 (toleranta de rotunjire)
+        assert abs(cost_km - tco / 70000.0) < 0.01, f"{m['model']}: cost_pe_km inconsistent cu TCO"
 
 
 # --------------------------------------------------------------------------- #

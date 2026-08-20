@@ -1,0 +1,133 @@
+{
+  "scan_date": "2026-08-20",
+  "previous_scan": "scan-2026-08-19.json",
+  "tip": "scan extins complet — toate cele 28 de modele catalogate cu observatii de pret verificate",
+  "sources_checked": 68,
+  "sources_failed": [
+    {"url": "vanzari.nissan.ro", "motiv": "timeout"},
+    {"url": "stocuri.mgmotor.ro", "motiv": "robots.txt"}
+  ],
+  "models_found": 28,
+
+  "observatii_pret": [
+    {"model": "Suzuki Vitara", "echipare": "PASSION", "motorizare": "1.4 MHEV", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 22360, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "suzuki.ro/ListaPreturi.pdf", "data_document": "2024-06-01"},
+
+    {"model": "Toyota Yaris Cross", "echipare": "BUSINESS", "motorizare": "1.5 Hybrid 116", "cutie": "ecvt", "tractiune": "2wd",
+     "pret_eur": 26904, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "toyota.ro lista MY26 V.06", "data_document": "2026-06",
+     "net_cu_rabla_eur": 24616},
+
+    {"model": "Dacia Sandero Stepway", "echipare": "Expression", "motorizare": "TCe 110", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 17000, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "serus-dacia.ro fisa PDF", "data_document": "2026-07-02",
+     "plus_pachet_clima_eur": 350, "total_configuratie_calificata_eur": 17350},
+
+    {"model": "Dacia Duster", "echipare": "Expression", "motorizare": "1.2 TCe 130", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 21100, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "dacia.ro/gama-dacia/noul-duster/preturi", "data_document": "2026-07",
+     "plus_pachet_clima_eur": 400, "total_configuratie_calificata_eur": 21500},
+
+    {"model": "Dacia Duster 4x4", "echipare": "Journey", "motorizare": "1.2 TCe 130", "cutie": "manuala", "tractiune": "awd",
+     "pret_eur": 24900, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "dacia.ro/gama-dacia/noul-duster/preturi", "data_document": "2026-07"},
+
+    {"model": "Skoda Kamiq", "echipare": "Selection", "motorizare": "1.0 TSI 115", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 22406, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "skoda.metrotehnica.ro Pret-Skoda-Kamiq_CW32_2026_MY27.pdf", "data_document": "2026-CW32"},
+
+    {"model": "Kia Stonic", "echipare": "Trend", "motorizare": "1.0 T-GDI 100", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 22510, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "kia.auto-net.ro/lista_stonic.pdf"},
+
+    {"model": "Honda Jazz Crosstar", "echipare": "Executive", "motorizare": "1.5 e:HEV", "cutie": "ecvt", "tractiune": "2wd",
+     "pret_eur": 27250, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "hondatrading.ro Honda-Jazz-Crosstar_Preturi_online-1.pdf"},
+    {"model": "Honda Jazz Crosstar", "echipare": "Executive", "motorizare": "1.5 e:HEV",
+     "pret_eur": 23950, "tip_pret": "net_promotional", "url": "hondatrading.ro"},
+
+    {"model": "Suzuki S-Cross", "echipare": "Passion", "motorizare": "1.4 MHEV", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 24350, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "suzuki.ro/ListaPreturi.pdf", "data_document": "2024-06-01"},
+
+    {"model": "Ford Puma", "echipare": "Titanium", "motorizare": "1.0 EcoBoost mHEV 125", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 23500, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "ford.ro/autoturisme/noul-puma/promotions/persoane-fizice"},
+    {"model": "Ford Puma", "echipare": "Titanium", "motorizare": "1.0 EcoBoost mHEV 125", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 19800, "tip_pret": "net_promotional", "valabil_pana": "2026-09-30",
+     "url": "ford.ro/autoturisme/noul-puma/promotions/persoane-fizice"},
+
+    {"model": "Fiat 600", "echipare": "La Prima", "motorizare": "1.2 Hybrid 100", "cutie": "edct6", "tractiune": "2wd",
+     "pret_eur": 24800, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "fiat.ro/modele/noul-fiat-600/preturi"},
+
+    {"model": "Citroën C3 Aircross", "echipare": "MAX", "motorizare": "1.2 PureTech 100", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 24500, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "citroen.ro/modele/noul-c3-aircross/preturi", "plus_pachet_iarna_eur": 400, "total_configuratie_calificata_eur": 24900},
+
+    {"model": "Opel Frontera", "echipare": "GS", "motorizare": "1.2 Hybrid 136", "cutie": "edct6", "tractiune": "2wd",
+     "pret_eur": 25200, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "opel.ro/modele/noul-frontera/preturi", "plus_pachet_comfort_eur": 600, "total_configuratie_calificata_eur": 25800},
+
+    {"model": "Peugeot 2008", "echipare": "Allure", "motorizare": "1.2 PureTech 100", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 24600, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "peugeot.ro/gama/noul-2008/preturi", "plus_pachet_iarna_eur": 350, "total_configuratie_calificata_eur": 24950},
+
+    {"model": "Hyundai Kona", "echipare": "Style", "motorizare": "1.0 T-GDI 120", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 25200, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "hyundai-motor.ro/model/kona/preturi"},
+
+    {"model": "Jeep Avenger", "echipare": "Altitude", "motorizare": "1.2 Turbo 100", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 24500, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "jeep.ro/gama/avenger/preturi"},
+
+    {"model": "Opel Mokka", "echipare": "GS", "motorizare": "1.2 Turbo 130", "cutie": "at8", "tractiune": "2wd",
+     "pret_eur": 26500, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "opel.ro/modele/noul-mokka/preturi"},
+
+    {"model": "MG ZS Hybrid+", "echipare": "Exclusive", "motorizare": "1.5 Hybrid+", "cutie": "automata", "tractiune": "2wd",
+     "pret_eur": 27800, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "mgmotor.ro/model/zs-hybrid"},
+
+    {"model": "Renault Captur", "echipare": "Techno", "motorizare": "mild hybrid 140 EDC", "cutie": "edc", "tractiune": "2wd",
+     "pret_eur": 27800, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "serus-renault.ro fisa PDF MY26",
+     "plus_pachet_scaune_incalzite_eur": 200, "total_configuratie_calificata_eur": 28000},
+
+    {"model": "Renault Symbioz", "echipare": "Evolution", "motorizare": "1.6 E-Tech 145", "cutie": "automata", "tractiune": "2wd",
+     "pret_eur": 27900, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "renault.ro/autoturisme/symbioz/preturi"},
+
+    {"model": "SEAT Arona", "echipare": "FR", "motorizare": "1.0 TSI 115", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 28825, "tip_pret": "lista", "confidence": "confirmed", "url": "seat.ro/arona/arona-fr"},
+
+    {"model": "SEAT Ateca", "echipare": "Style", "motorizare": "1.5 TSI 150", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 28500, "tip_pret": "lista", "confidence": "confirmed", "url": "seat.ro/ateca"},
+
+    {"model": "VW T-Cross", "echipare": "Style", "motorizare": "1.0 TSI 115", "cutie": "DSG", "tractiune": "2wd",
+     "pret_eur": 28500, "tip_pret": "lista", "confidence": "confirmed", "url": "shop.volkswagen.ro"},
+
+    {"model": "VW Taigo", "echipare": "Style", "motorizare": "1.0 TSI 115", "cutie": "DSG", "tractiune": "2wd",
+     "pret_eur": 29000, "tip_pret": "lista", "confidence": "confirmed", "url": "shop.volkswagen.ro"},
+
+    {"model": "Nissan Juke", "echipare": "N-Design", "motorizare": "DIG-T 114", "cutie": "DCT", "tractiune": "2wd",
+     "pret_eur": 30660, "tip_pret": "lista", "confidence": "confirmed", "url": "nissan.ro/promotii/oferta-juke.html"},
+    {"model": "Nissan Juke", "echipare": "N-Design", "motorizare": "DIG-T 114", "cutie": "DCT", "tractiune": "2wd",
+     "pret_eur": 24660, "tip_pret": "net_promotional", "valabil_pana": "2026-08-31",
+     "url": "nissan.ro/promotii/oferta-juke.html"},
+
+    {"model": "Kia XCeed", "echipare": "Style", "motorizare": "1.5 T-GDI 140", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 25500, "tip_pret": "lista", "confidence": "confirmed", "url": "kia.ro/xceed/preturi"},
+
+    {"model": "Mazda CX-30", "echipare": "Prime-Line", "motorizare": "2.0 e-Skyactiv G 122", "cutie": "manuala", "tractiune": "2wd",
+     "pret_eur": 27200, "tip_pret": "lista", "confidence": "confirmed", "url": "mazda.ro/modele/mazda-cx-30/preturi"},
+
+    {"model": "Honda HR-V", "echipare": "Elegance", "motorizare": "1.5 e:HEV 131", "cutie": "ecvt", "tractiune": "2wd",
+     "pret_eur": 31900, "tip_pret": "lista", "confidence": "confirmed", "url": "hondatrading.ro/hr-v-ehev"},
+
+    {"model": "Hyundai Bayon", "echipare": "Led Line", "motorizare": "1.0 90 CP", "cutie": "6MT", "tractiune": "2wd",
+     "pret_eur": 20691, "tip_pret": "lista", "confidence": "confirmed",
+     "url": "hyundai-motor.ro/model/bayon/preturi"}
+  ]
+}

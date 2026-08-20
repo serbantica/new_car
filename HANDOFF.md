@@ -38,24 +38,24 @@ NEW_CAR/
 │   ├── price-model.md              ✅ complet
 │   └── sources.yaml                ✅ populat 2026-08-19
 ├── data/
-│   ├── models.json                 ✅ 20 rânduri (toate cele 6 modele din Task 3 verificate)
+│   ├── models.json                 ✅ 29 rânduri (28 calificate + 1 exclus) cu TCO complet
 │   ├── shortlist-2026-08-19.md     ✅ listă scurtă provizorie, 29 modele
 │   ├── candidates.md               ✅ lista lungă (ipoteză neverificată)
-│   ├── latest.json                 ✅ derivat (Task 1 + Task 3, build.py) — 20 modele
+│   ├── latest.json                 ✅ derivat (build.py) — 29 modele, TCO 5 ani calculat
 │   └── scans/
-│       └── scan-2026-08-19.json    ✅ 22 observații de preț
+│       ├── scan-2026-08-19.json    ✅ 22 observații de preț
+│       └── scan-2026-08-20.json    ✅ 28 observații de preț
 ├── history/                        ❌ gol
-├── build.py                        ✅ Task 1 — latest.json + dashboard/index.html
-├── tests/test_build.py             ✅ 8 teste trec
-└── dashboard/                      ✅ Task 2 — template.html + index.html (236 KB)
+├── build.py                        ✅ Task 1 & TCO — latest.json + dashboard/index.html & root index.html
+├── tests/test_build.py             ✅ 9 teste trec
+└── dashboard/                      ✅ Task 2 — template.html + index.html (362 KB)
 ```
 
-> **Actualizare 2026-08-20 (sesiune IDE):** Task 1, Task 2 și **Task 3** sunt **gata**.
-> Toate cele 6 modele rămase (Suzuki S-Cross, SEAT Arona, VW T-Cross, VW Taigo,
-> Opel Mokka, Opel Frontera, Citroën C3 Aircross) au fost verificate pe matricea
-> de 7 dotări minime și catalogate în `data/models.json` (vezi D-027).
-> `build.py` a regenerat `data/latest.json` și `dashboard/index.html` (20 de modele).
-> Toate cele 8 teste trec.
+> **Actualizare 2026-08-20 (sesiune IDE):** TCO pe 5 ani este **complet calculabil și activ** (vezi D-028).
+> `criteria.yaml` are prețul benzinei (1.45 EUR/l) și costurile de exploatare.
+> `data/models.json` conține acum **29 de modele** cu consum real, portbagaj și depreciere reziduală.
+> Sortarea implicită pe `cost_total_5_ani` este activă, iar acoperirea de date pe profilurile de scor a atins 100%.
+> Toate cele 9 teste trec.
 
 Există și o **sarcină programată lunară** (1 ale lunii, 09:00 EEST) care rulează
 scanul de prețuri într-o sesiune cloud separată și scrie în `data/scans/`.

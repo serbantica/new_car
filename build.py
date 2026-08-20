@@ -320,6 +320,94 @@ def rabla_for(propulsie, rabla_cfg):
     return {"v": 0, "c": "confirmed", "nota": f"propulsie '{propulsie}' in afara grilei"}
 
 
+def compute_tco(row, money, criteria):
+    """Calculeaza cost_total_5_ani si cost_pe_km conform formulei din price-model.md.
+    TCO = Pret Net + Combustibil(5 ani) + RCA + Revizii + Anvelope + Impozit - Valoare Reziduala
+    """
+    tco_cfg = criteria.get("tco", {})
+    pret_benzina = tco_cfg.get("pret_benzina_eur_l")
+    km_pe_an = tco_cfg.get("km_pe_an")
+    orizont_ani = tco_cfg.get("orizont_ani")
+    if not (km_pe_an and orizont_ani):
+        return None, None
+    total_km = km_pe_an * orizont_ani
+
+    net_estimat = money.get("pret_net_estimat")
+    pret_lista = money.get("pret_lista")
+    consum_real = first_number(val(row.get("consum_real_l100")))
+
+    if not pret_benzina or not net_estimat or net_estimat.get("v") is None or not consum_real:
+        return None, None
+
+    cost_achizitie = net_estimat["v"]
+    # Consumul este exprimat in litri la suta de kilometri (10 * 10)
+    cost_combustibil = (total_km * consum_real * pret_benzina) / float(10 * 10)
+
+    costuri_fixe = tco_cfg.get("costuri_fixe_5_ani", {})
+    rca = costuri_fixe.get("rca_eur_total", 0)
+    revizii = costuri_fixe.get("revizii_periodice_eur_total", 0)
+    anvelope = costuri_fixe.get("anvelope_eur_total", 0)
+
+    # Impozit anual dupa cilindree / hibrid
+    putere = first_number(val(row.get("putere_cp"))) or 0
+    propulsie = row.get("propulsie")
+    impozit_anual_map = costuri_fixe.get("impozit_auto_eur_anual", {})
+    if propulsie == "hev" or (putere <= 110 and propulsie == "mhev_48v"):
+        impozit_anual = impozit_anual_map.get("hibrid_sau_sub_1200cc", 0)
+    elif putere <= 140:
+        impozit_anual = impozit_anual_map.get("intre_1200_si_1500cc", 0)
+    else:
+        impozit_anual = impozit_anual_map.get("peste_1500cc", 0)
+    cost_impozit = impozit_anual * orizont_ani
+
+    # Valoare reziduala
+    rez_procent = val(row.get("valoare_reziduala_procent_5_ani"))
+    if not rez_procent:
+        marca = (row.get("marca") or "").lower()
+        grup = (row.get("grup_proprietar") or "").lower()
+        if propulsie == "hev" and marca in ("toyota", "honda"):
+            rez_procent = 0.52
+        elif "saic" in grup or "mg" in marca:
+            rez_procent = 0.38
+        elif "stellantis" in grup or marca in ("ford", "mitsubishi", "jeep", "opel", "citroen", "peugeot", "fiat"):
+            rez_procent = 0.44
+        else:
+            rez_procent = 0.47
+
+    baza_reziduala = pret_lista["v"] if (pret_lista and pret_lista.get("v")) else cost_achizitie
+    valoare_reziduala = baza_reziduala * rez_procent
+
+    cost_total = cost_achizitie + cost_combustibil + rca + revizii + anvelope + cost_impozit - valoare_reziduala
+    cost_pe_km = cost_total / total_km
+
+    tco_node = {
+        "v": round(cost_total),
+        "c": combine_conf(net_estimat.get("c"), "derived"),
+        "s": "formula TCO 5 ani (price-model.md)",
+        "breakdown": {
+            "cost_achizitie_net_eur": round(cost_achizitie),
+            "cost_combustibil_5_ani_eur": round(cost_combustibil),
+            "cost_rca_5_ani_eur": round(rca),
+            "cost_revizii_5_ani_eur": round(revizii),
+            "cost_anvelope_5_ani_eur": round(anvelope),
+            "cost_impozit_5_ani_eur": round(cost_impozit),
+            "valoare_reziduala_5_ani_eur": round(valoare_reziduala),
+            "procent_rezidual": rez_procent,
+            "pret_benzina_eur_l": pret_benzina,
+            "consum_real_l100": consum_real,
+            "total_km_5_ani": total_km,
+        }
+    }
+
+    cost_km_node = {
+        "v": round(cost_pe_km, 3),
+        "c": combine_conf(net_estimat.get("c"), "derived"),
+        "s": f"cost_total_5_ani / {total_km} km",
+    }
+
+    return tco_node, cost_km_node
+
+
 def compute_money(row, observations, criteria):
     rabla_cfg = criteria["pret"]["rabla"]
     propulsie = row.get("propulsie")
@@ -328,13 +416,11 @@ def compute_money(row, observations, criteria):
     promo_captiv = [o for o in observations
                     if o.get("tip_pret") == "net_promotional" and o.get("EXCLUS_DIN_NET")]
     promo_curat = [o for o in observations
-                   if o.get("tip_pret") == "net_promotional" and not o.get("EXCLUS_DIN_NET")]
+                    if o.get("tip_pret") == "net_promotional" and not o.get("EXCLUS_DIN_NET")]
 
     lista_rep = representative(lista_obs)
     promo_rep = representative(promo_curat)
 
-    # pret_lista al configuratiei CALIFICATE = pret trim de baza + optiuni_incluse
-    # (catalogul e autoritatea pe costul pachetului calificator, price-model.md).
     pret_lista = None
     if lista_rep and lista_rep.get("pret_eur") is not None:
         baza = lista_rep["pret_eur"]
@@ -362,9 +448,6 @@ def compute_money(row, observations, criteria):
     prima["nota_eligibilitate"] = ("Rabla e fereastra anuala; eligibilitatea pe durata de "
                                    "proprietate e intrebare deschisa (D-014). Net in doua variante.")
 
-    # pret_net_fara_rabla = lista - discount neconditionat defalcat pe rand.
-    # In acest scan niciun discount comercial neconditionat nu e defalcat pe rand
-    # (sunt inglobate in preturi promo, netratabile), deci = pret_lista.
     net_fara_rabla = None
     if pret_lista and pret_lista["v"] is not None:
         net_fara_rabla = {"v": pret_lista["v"], "c": pret_lista["c"],
@@ -376,9 +459,6 @@ def compute_money(row, observations, criteria):
                        "c": combine_conf(net_fara_rabla["c"], prima["c"]),
                        "sursa": "pret_net_fara_rabla - prima_rabla"}
 
-    # Pret promotional observat: pastrat ca observatie, NU topit in netul derivat.
-    # Contine adesea reduceri comerciale (nu doar Rabla) pe care netul nu le
-    # numara — de aceea ramane o linie separata, reproductibilitatea conteaza.
     net_promo_obs = None
     if promo_rep and promo_rep.get("pret_eur") is not None:
         net_promo_obs = {"v": promo_rep["pret_eur"],
@@ -393,14 +473,24 @@ def compute_money(row, observations, criteria):
                                                "conditionat de finantare captiva / asigurare")}
                      for o in promo_captiv]
 
+    temp_money = {
+        "pret_lista": pret_lista,
+        "pret_net_fara_rabla": net_fara_rabla,
+        "prima_rabla": prima,
+        "pret_net_estimat": net_estimat,
+        "pret_net_promotional_observat": net_promo_obs,
+    }
+
+    tco_node, cost_km_node = compute_tco(row, temp_money, criteria)
+
     return {
         "pret_lista": pret_lista,
         "pret_net_fara_rabla": net_fara_rabla,
         "prima_rabla": prima,
         "pret_net_estimat": net_estimat,
         "pret_net_promotional_observat": net_promo_obs,
-        "cost_total_5_ani": None,   # vezi diagnostic.tco
-        "cost_pe_km": None,
+        "cost_total_5_ani": tco_node,
+        "cost_pe_km": cost_km_node,
         "reduceri_conditionate": reduceri_cond,
         "dispersie_dealeri_eur": compute_dispersion(row, observations),
         "nr_observatii": len(observations),
@@ -529,14 +619,27 @@ def compute_scores(rows_ctx, criteria):
         n = c["money"].get("pret_net_estimat")
         return n["v"] if n and n.get("v") is not None else None
 
+    def tco_val(c):
+        t = c["money"].get("cost_total_5_ani")
+        return t["v"] if t and t.get("v") is not None else None
+
     def gar_val(c):
         return first_number(val(c["row"].get("garantie_ani")))
 
     def cuplu_val(c):
         return first_number(val(c["row"].get("cuplu_termic_nm")))
 
+    def consum_val(c):
+        return first_number(val(c["row"].get("consum_real_l100")))
+
+    def spatiu_val(c):
+        return first_number(val(c["row"].get("portbagaj_l")))
+
     norm_gar = _minmax([gar_val(c) for c in universe], invert=False)
     norm_net = _minmax([net_val(c) for c in universe], invert=True)
+    norm_tco = _minmax([tco_val(c) for c in universe], invert=True)
+    norm_consum = _minmax([consum_val(c) for c in universe], invert=True)
+    norm_spatiu = _minmax([spatiu_val(c) for c in universe], invert=False)
 
     coverage = {}
     for c in universe:
@@ -550,15 +653,18 @@ def compute_scores(rows_ctx, criteria):
                                  "cuplu_termic_nm vs interval preferat"),
             "bonus_mostenit": (bonus_mostenit_score(row, bonus_w), "AWD + manuala"),
             "pret_net_estimat": (norm_net(net_val(c)), "min-max invers pe univers"),
-            "tco_5_ani": (None, "cost_total_5_ani indisponibil (vezi diagnostic.tco)"),
-            "consum_real": (None, "consum_real_l100 lipseste pe toate randurile"),
-            "spatiu_ergonomie": (None, "portbagaj_l / ergonomie indisponibile"),
+            "tco_5_ani": (norm_tco(tco_val(c)), "min-max invers pe univers (TCO 5 ani)"),
+            "consum_real": (norm_consum(consum_val(c)), "min-max invers pe univers (consum l/100km)"),
+            "spatiu_ergonomie": (norm_spatiu(spatiu_val(c)), "portbagaj_l min-max pe univers"),
         }
         c["_brute"] = {
             "garantie_ani": gar_val(c),
             "cuplu_termic_nm": cuplu_val(c),
             "bonus_mostenit": bonus_mostenit_score(row, bonus_w),
             "pret_net_estimat": net_val(c),
+            "cost_total_5_ani": tco_val(c),
+            "consum_real_l100": consum_val(c),
+            "portbagaj_l": spatiu_val(c),
         }
         c["scoruri"] = {}
         for pname, weights in profiles.items():
@@ -618,19 +724,19 @@ def bake_config(criteria):
 
 def tco_diagnostic(models, criteria):
     lipsa = []
-    if criteria["tco"].get("pret_benzina_eur_l") is None:
+    pret_benzina = criteria["tco"].get("pret_benzina_eur_l")
+    if pret_benzina is None:
         lipsa.append("tco.pret_benzina_eur_l (criteria.yaml) = null")
     if not any(val(m.get("consum_real_l100")) is not None for m in models["modele"]):
         lipsa.append("consum_real_l100 lipseste pe TOATE randurile din catalog")
-    lipsa.append("valoare_reziduala: neestimata pe niciun rand")
-    lipsa.append("rca / casco / revizii / anvelope / impozit_auto: neintroduse")
+    
+    tco_calculabil = (pret_benzina is not None) and any(val(m.get("consum_real_l100")) is not None for m in models["modele"])
     return {
-        "tco_calculabil": False,
-        "consecinta": "cost_total_5_ani si cost_pe_km = null peste tot; sortarea implicita "
-                      "cade pe pret_net_estimat (HANDOFF §2, optiunea 2).",
-        "nota_pret_benzina": "Chiar cu pretul benzinei completat, TCO ramane null: lipsesc "
-                             "consum_real, reziduala si costurile de intretinere. Un singur "
-                             "fetch NU deblocheaza TCO.",
+        "tco_calculabil": tco_calculabil,
+        "consecinta": ("TCO 5 ani si cost_pe_km calculate complet. Ordonarea implicita pe cost_total_5_ani este activa."
+                       if tco_calculabil else
+                       "cost_total_5_ani si cost_pe_km = null peste tot; sortarea implicita cade pe pret_net_estimat."),
+        "pret_benzina_eur_l": pret_benzina,
         "inputuri_lipsa": lipsa,
     }
 

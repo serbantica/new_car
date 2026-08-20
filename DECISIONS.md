@@ -410,7 +410,29 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
    - Noua generație (4390 mm): YOU are Smartphone Station și AC manual; PLUS are ecran 10.25" dar AC manual. Nivelul **MAX** include Climatizare automată, cameră marșarier VisioPark, ecran tactil 10.25" cu conectivitate wireless Apple CarPlay și Android Auto, geamuri/oglinzi electrice, cruise control. Pachetul Iarnă adaugă scaune față încălzite și parbriz încălzit (~400 EUR).
    - Preț listă: MAX 1.2 PureTech 100 CP MT (~24.500 EUR) + Pachet Iarnă (400 EUR) = ~24.900 EUR (în buget). Varianta Hybrid 136 MAX (~28.144 EUR) este rând de referință.
 
-**Consecință:** Catalogul tehnic `models.json` conține 20 de modele (16 în universul de scor, 4 excluse/nedeterminate parțial, 0 blocaje pe dotări). `neverificate` rămâne doar cu Peugeot 2008. `build.py` generează `latest.json` și `dashboard/index.html` (236 KB). Toate cele 8 teste trec.
+## D-028 — Calculul TCO pe 5 ani, deblocarea sortării implicite și extinderea catalogului la 28 de modele
+**Data:** 2026-08-20
+**Context:** TCO-ul (Total Cost of Ownership pe 5 ani / 70.000 km) era blocat deoarece `criteria.yaml → tco.pret_benzina_eur_l` era `null` și lipseau datele de consum real, valoare reziduală și costuri periodice. Sortarea implicită căzuse pe `pret_net_estimat`.
+
+**Decizie:**
+1. **Completarea parametrilor TCO în `criteria.yaml`:**
+   - `pret_benzina_eur_l = 1.45` (calculat la ~7.45 RON/l, sursa Peco Online / Petrom august 2026).
+   - Costuri fixe pe 5 ani: RCA = 900 EUR, Revizii periodice (5 revizii) = 1.200 EUR, Anvelope (set iarnă) = 450 EUR, Impozit auto = 50-175 EUR (în funcție de propulsie/cilindree).
+   - Valoare reziduală la 5 ani: Full Hybrid japoneze (52%), B-SUV populare (47-49%), Stellantis/Ford/Mitsubishi (44-45%), mărci fără istoric (38%).
+2. **Formula TCO implementată în `build.py`:**
+   $$\text{TCO}_{5\text{ ani}} = \text{Preț Net Estimat} + \text{Combustibil}_{5\text{ ani}} + \text{RCA} + \text{Revizii} + \text{Anvelope} + \text{Impozit} - \text{Valoare Reziduală}$$
+   $$\text{Cost pe km} = \frac{\text{TCO}_{5\text{ ani}}}{70.000\text{ km}}$$
+3. **Extinderea catalogului tehnic (`data/models.json`)**:
+   - Completat `consum_real_l100` și `portbagaj_l` pentru toate modelele din catalog pe baza omologărilor WLTP și datelor Spritmonitor / teste reale.
+   - Adăugat modelele compacte candidate din `candidates.md`: Dacia Duster 3 (4x2 și 4x4), Peugeot 2008, Hyundai Kona, Fiat 600, Renault Symbioz, Honda HR-V, Kia XCeed, Mazda CX-30.
+   - Catalogul ajunge la **29 de modele** (28 în universul de scor, 1 exclus — Hyundai Bayon, 0 carantină).
+4. **Deblocarea ordonării implicite pe TCO**:
+   - `cost_total_5_ani` este acum calculat pe toate modelele calificate.
+   - Componentele `tco_5_ani`, `consum_real` și `spatiu_ergonomie` primesc scoruri min-max normalizate pe univers, ridicând acoperirea de pondere (`acoperire_pondere`) la **100%** pe toate profilele de scor.
+5. **Observație cheie TCO**:
+   - Modelele full-hybrid (ex. Toyota Yaris Cross la 17.793 € TCO, Honda Jazz Crosstar la 18.061 € TCO) recuperează substanțial diferența de preț de achiziție față de modelele exclusiv pe benzină/mild-hybrid prin economia de carburant (~1.800 € în 5 ani) și deprecierea reziduală mult mai mică (52% valoare păstrată la 5 ani).
+
+**Consecință:** Sortarea implicită pe `cost_total_5_ani` este 100% funcțională. 9/9 teste trec.
 
 ---
 

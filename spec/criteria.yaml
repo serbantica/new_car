@@ -306,18 +306,28 @@ tco:
   km_pe_an: 14000
   km_pe_an_sursa: confirmat_de_serban    # 2026-08-19: "~14.000, ca până acum"
 
-  pret_benzina_eur_l: null            # se completează la primul scan, cu data
-  componente:
-    - pret_net_estimat
-    - combustibil
-    - rca
-    - casco                            # opţional, marcat separat
-    - revizii_periodice
-    - anvelope
-    - impozit_auto
+  pret_benzina_eur_l: 1.45              # 7.45 RON/l la curs 5.15-5.24 RON/EUR
+  pret_benzina_data: "2026-08-20"
+  pret_benzina_sursa: "peco-online.ro / petrom.ro"
+  pret_benzina_confidence: confirmed
+
+  costuri_fixe_5_ani:
+    rca_eur_total: 900                  # ~180 EUR/an
+    revizii_periodice_eur_total: 1200   # 5 revizii x ~240 EUR
+    anvelope_eur_total: 450             # 1 set suplimentar anvelope iarna
+    impozit_auto_eur_anual:
+      hibrid_sau_sub_1200cc: 10         # ~50 lei/an
+      intre_1200_si_1500cc: 20          # ~100 lei/an
+      peste_1500cc: 35                  # ~180 lei/an
+
   valoare_reziduala:
     metoda: procent_din_pret_lista_la_5_ani
-    sursa: "estimare pe segment; marcată confidence=estimated"
+    sursa: "estimare pe segment la 5 ani / 70.000 km; marcată confidence=estimated"
+    procente_implicite:
+      japonez_full_hybrid: 0.52         # Toyota, Honda
+      b_suv_popular: 0.47               # VAG (VW, Skoda, SEAT), Suzuki, Dacia, Hyundai, Kia, Renault
+      stellantis_ford_mitsubishi: 0.44  # Stellantis (Jeep, Opel, Citroen, Peugeot), Ford, Mitsubishi
+      marci_noi_sau_speciale: 0.38      # MG, Chery, etc.
 
 # ---------------------------------------------------------------------------
 # MODELUL DE PREŢ — parametri; formula stă în spec/price-model.md
