@@ -321,6 +321,26 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
   const fmtEur = (v) => isNum(v) ? v.toLocaleString("ro-RO") + " €" : null;
   const CAT = (v) => (v == null || v === "") ? "— necunoscut" : String(v);
 
+  const normalizeUrl = (u) => {
+    if (!u) return null;
+    const s = String(u).trim();
+    if (/^https?:\/\//i.test(s)) return s;
+    const token = s.split(/\s+/)[0];
+    if (/\.[a-z]{2,}(\/.*)?$/i.test(token)) {
+      return "https://" + token;
+    }
+    return null;
+  };
+
+  const formatSourceLink = (u) => {
+    if (!u) return "";
+    const full = normalizeUrl(u);
+    if (full) {
+      return ' · <a href="' + esc(full) + '" target="_blank" rel="noopener noreferrer">sursă ↗</a>';
+    }
+    return ' · <span class="doc-ref" title="document / referință">' + esc(u) + '</span>';
+  };
+
   // ---- 3. Starea interfeței ----
   const inBudgetStates = ["da", "doar_cu_rabla"];
   const state = {
@@ -736,7 +756,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
     if (b.observatii && b.observatii.length) {
       parts.push('<div><h4>Observații preț (' + b.nr_observatii + ')</h4><ul>' +
         b.observatii.map((o) => '<li class="kv">' + esc(fmtEur(o.pret_eur) || o.pret_eur) + ' · ' + esc(o.tip_pret || "") +
-          ' · ' + esc(o.confidence || "") + (o.url ? ' · <a href="' + esc(o.url) + '" target="_blank" rel="noopener">sursă</a>' : "") +
+          ' · ' + esc(o.confidence || "") + formatSourceLink(o.url) +
           (o.data_document ? ' · ' + esc(o.data_document) : "") +
           (o.avertisment ? '<br><span style="color:var(--c-estimated)">' + esc(o.avertisment) + '</span>' : "") + '</li>').join("") + '</ul></div>');
     }
@@ -770,7 +790,7 @@ footer.foot { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--l
       const o = q.observatie || {};
       h += '<div class="q-item"><div class="q-h">' + esc(o.model || "?") + " " + esc(o.echipare || "") + '</div>' +
         '<div class="q-meta">' + esc(fmtEur(o.pret_eur) || o.pret_eur) + ' · ' + esc(o.tip_pret || "") + ' · ' + esc(o.confidence || "") +
-        (o.url ? ' · <a href="' + esc(o.url) + '" target="_blank" rel="noopener">sursă</a>' : "") + '</div>' +
+        formatSourceLink(o.url) + '</div>' +
         '<div class="q-why">' + esc(q.motiv || o.conflict || "") + '</div></div>';
     });
     return h + '</div>';
