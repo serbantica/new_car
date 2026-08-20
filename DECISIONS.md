@@ -376,6 +376,42 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
 
 **Consecință:** `dashboard/` populat (`template.html` + `index.html`, 193 KB). 8 teste trec neschimbate (grep-ul de praguri scanează doar `build.py`, `test_build.py:26`). TCO rămâne blocajul vizibil: dashboard-ul arată onest că lipsește, nu inventează o cifră.
 
+## D-027 — Închiderea Task-ului 3: Verificarea și catalogarea celor 6 modele de referință rămase
+**Data:** 2026-08-20
+**Context:** HANDOFF §4 și cerința directă a lui Serban privind Task 3 (S-Cross, Arona, T-Cross, Taigo, Mokka, Frontera, C3 Aircross).
+
+**Rezultatele verificării celor 6 modele (20 de modele în catalog acum, de la 17):**
+
+1. **Suzuki S-Cross — clarificat, atinge pragul în buget (`in_buget: true`):**
+   - Echiparea **Passion** include **toate cele 7 dotări standard**: Climatizare automată dual-zone, scaune față încălzite, cameră marșarier integrată, display tactil 7" Smartphone Linkage cu Android Auto și Apple CarPlay, cruise control adaptiv (ACC), geamuri electrice față/spate, oglinzi electrice încălzite și pliabile.
+   - Motorizare: 1.4 Boosterjet K14D Mild-Hybrid 129 CP, 235 Nm la 2000-3000 rpm. Lungime 4300 mm. Preț: 24.350 EUR listă (sub plafonul de 25.000 EUR).
+
+2. **SEAT Arona — confirmat ca rând de referință (`in_buget: false`):**
+   - Nivelul **FR** (28.825 EUR listă) bifează toate cele 7 dotări standard prin citate exacte (inclusiv Sistem Navigație cu Full Link / Android Auto, Climatronic, scaune încălzite, cameră marșarier).
+   - Nivelul Style (21.251 EUR) necesită pachete opționale (Pachet Iarnă, cameră marșarier) a căror compoziție și prețuri exacte pe lista statică nu sunt publicate defalcat. FR rămâne limita superioară certificată (rând de referință peste buget). Garanție: 4 ani / 120.000 km.
+
+3. **VW T-Cross — calificat la Style / Prime + Pachet Iarnă, rând de referință (`in_buget: false`):**
+   - Echiparea de bază Life are AC manual și nu include scaune încălzite sau cameră. Echiparea Style / Prime aduce Climatronic pe 2 zone, App-Connect wireless, senzori și cameră Rear View; Pachetul Iarnă adaugă scaunele încălzite.
+   - Preț listă configurat: ~28.500 - 30.500 EUR. Discounturile promoționale VW (5.400 EUR) sunt condiționate de finanțare captivă Porsche Finance/Asigurări și nu intră în net (D-004). Garanție: 4 ani / 120.000 km.
+
+4. **VW Taigo — calificat la Style / Prime + Pachet Iarnă, rând de referință (`in_buget: false`):**
+   - Identic cu T-Cross: Life are AC manual; Style / Prime adaugă Climatronic, faruri Matrix LED IQ.Light, App-Connect wireless; Pachetul Iarnă adaugă scaunele încălzite.
+   - Preț listă: ~29.000 - 31.000 EUR. Reducerile captive Porsche Finance (5.800 EUR) sunt excluse din net. Rând de referință. Garanție: 4 ani / 120.000 km.
+
+5. **Opel Mokka — adăugat ca rând de referință (`in_buget: false`):**
+   - Edition (bază) are AC manual și este descalificat. GS adaugă Climatizare automată electronică, cameră panoramică spate 180° VisioPark, sistem multimedia Pure Panel cu ecran tactil și Android Auto/Apple CarPlay, cruise control. Pachetul Iarnă adaugă scaune față încălzite și volan încălzit (~400 EUR).
+   - Preț listă configurat GS + Pachet Iarnă: ~26.500 - 27.500 EUR. Rând de referință. Garanție: 2 ani bază producător.
+
+6. **Opel Frontera — adăugat, condiționat în buget (`in_buget: "conditionat"`):**
+   - Noua generație (Smart Car platform, 4380 mm): Edition are Smartphone Station și AC manual (descalificat). Nivelul **GS** aduce Climatizare automată, ecran 10" cu Android Auto/CarPlay wireless, cameră spate 180°, cruise control. Pachetul **Comfort** (sau Tech Pro) adaugă scaune față încălzite, parbriz încălzit și volan încălzit (~600 EUR).
+   - Preț listă: GS 1.2 Turbo Hybrid 136 CP (~25.200 EUR) + Pachet Comfort (~600 EUR) = ~25.800 EUR (în toleranța de 8% a bugetului sau ~23.500 EUR cu Rabla).
+
+7. **Citroën C3 Aircross — adăugat în catalog, în buget (`in_buget: true`):**
+   - Noua generație (4390 mm): YOU are Smartphone Station și AC manual; PLUS are ecran 10.25" dar AC manual. Nivelul **MAX** include Climatizare automată, cameră marșarier VisioPark, ecran tactil 10.25" cu conectivitate wireless Apple CarPlay și Android Auto, geamuri/oglinzi electrice, cruise control. Pachetul Iarnă adaugă scaune față încălzite și parbriz încălzit (~400 EUR).
+   - Preț listă: MAX 1.2 PureTech 100 CP MT (~24.500 EUR) + Pachet Iarnă (400 EUR) = ~24.900 EUR (în buget). Varianta Hybrid 136 MAX (~28.144 EUR) este rând de referință.
+
+**Consecință:** Catalogul tehnic `models.json` conține 20 de modele (16 în universul de scor, 4 excluse/nedeterminate parțial, 0 blocaje pe dotări). `neverificate` rămâne doar cu Peugeot 2008. `build.py` generează `latest.json` și `dashboard/index.html` (236 KB). Toate cele 8 teste trec.
+
 ---
 
 ## Întrebări deschise

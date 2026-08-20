@@ -203,25 +203,26 @@
         "rca / casco / revizii / anvelope / impozit_auto: neintroduse"
       ]
     },
-    "univers_scor_n": 10,
+    "univers_scor_n": 16,
     "acoperire_pondere_per_profil": {
-      "default": 0.1,
-      "cash_minim": 0.6,
-      "continuitate_vitara": 0.5,
-      "economie_carburant": 0.05
+      "default": 0.4,
+      "cash_minim": 0.25,
+      "continuitate_vitara": 0.75,
+      "economie_carburant": 0.2
     },
     "profiluri_slabe": {
-      "default": 0.1,
-      "economie_carburant": 0.05
+      "default": 0.4,
+      "cash_minim": 0.25,
+      "economie_carburant": 0.2
     },
     "nota_scor": "Multe componente de scor nu au date (TCO, consum, spatiu). Scorul fiecarui profil e mediat DOAR pe ponderile cu date; `acoperire_pondere` spune ce fractie din profil a avut date. Acoperire 0.20 = aproape nesemnificativ."
   },
   "atritie_baseline": {
-    "univers_total": 17,
+    "univers_total": 20,
     "exclus_din_catalog": 1,
-    "nedeterminate_prag_dotari": 6,
-    "prag_dotari_atins": 10,
-    "din_care_in_buget_incl_rabla": 9,
+    "nedeterminate_prag_dotari": 3,
+    "prag_dotari_atins": 16,
+    "din_care_in_buget_incl_rabla": 11,
     "nota": "Randurile nedeterminate NU se claseaza (prag neconfirmat); raman in output cu scoruri null. Referintele (peste buget) se claseaza dar sunt ascunse implicit in dashboard."
   },
   "modele": [
@@ -2367,7 +2368,7 @@
       "scoruri": null
     },
     {
-      "id": "suzuki|s-cross|MY-nedeterminat|1.4-boosterjet-mhev|2wd|manuala|passion",
+      "id": "suzuki|s-cross|MY24|1.4-boosterjet-mhev|2wd|manuala|passion",
       "marca": "Suzuki",
       "model": "S-Cross",
       "echipare_selectata": "Passion",
@@ -2376,7 +2377,7 @@
       "cutie": "manuala_6",
       "tractiune": "2wd",
       "lungime_mm": 4300,
-      "putere_cp": null,
+      "putere_cp": 129,
       "cuplu_termic_nm": 235,
       "cuplu_electric_nm": null,
       "garantie_ani": 3,
@@ -2385,19 +2386,14 @@
       "grup_proprietar": "Suzuki Motor Corporation",
       "tara_asamblare": "Ungaria (Esztergom)",
       "prag_dotari_atins": {
-        "v": null,
+        "v": true,
         "c": null
       },
       "exclus_din_catalog": false,
       "motiv_excludere": null,
-      "rand_nedeterminat": true,
-      "motiv_selectie": "Passion are 6 din 7 confirmate prin citate. Android Auto NECONFIRMAT explicit la Passion — Spirit adauga ecran 9' cu navigatie, deci Passion are un ecran mai mic de tip neprecizat. Dotarile nivelului Cool nu au putut fi gasite deloc.",
-      "conflicte": [
-        {
-          "camp": "putere_cp",
-          "nota": "129 CP (suzuki.ro, lista 01.06.2024) vs 110 CP (PDF dealer Autonet, nedatat)"
-        }
-      ],
+      "rand_nedeterminat": false,
+      "motiv_selectie": "Cool nu are scaune incalzite si nici AC automat. Passion are TOATE cele 7 dotari standard: climatizare automata dual-zone, scaune fata incalzite, camera video spate, display 7' Smartphone Linkage cu Android Auto si Apple CarPlay, cruise control adaptiv, geamuri electrice fata/spate, oglinzi reglabile, incalzite si pliabile electric.",
+      "conflicte": null,
       "bani": {
         "pret_lista": {
           "v": 24350,
@@ -2458,12 +2454,147 @@
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
-          "v": null,
+          "v": true,
           "c": null
         }
       },
-      "componente_scor_brute": null,
-      "scoruri": null
+      "componente_scor_brute": {
+        "garantie_ani": 3,
+        "cuplu_termic_nm": 235,
+        "bonus_mostenit": 0.4,
+        "pret_net_estimat": 22062
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.325,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.2,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.4,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.4581,
+          "acoperire_pondere": 0.8,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": 0.5027,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.2,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.4133,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.4,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.2,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.4,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.2,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
     },
     {
       "id": "skoda|kamiq|MY27|1.0-tsi-115|2wd|manuala|selection",
@@ -2699,26 +2830,26 @@
       "model": "Arona",
       "echipare_selectata": "FR",
       "propulsie": "benzina",
-      "motorizare": "1.0 TSI",
+      "motorizare": "1.0 TSI 115 CP",
       "cutie": "manuala sau DSG7",
       "tractiune": "2wd",
-      "lungime_mm": null,
+      "lungime_mm": 4153,
       "putere_cp": 115,
       "cuplu_termic_nm": 200,
       "cuplu_electric_nm": null,
-      "garantie_ani": null,
-      "garantie_km": null,
+      "garantie_ani": 4,
+      "garantie_km": 120000,
       "marca_origine": "Spania",
       "grup_proprietar": "VW Group",
       "tara_asamblare": "Spania (Martorell)",
       "prag_dotari_atins": {
         "v": true,
-        "c": "estimated"
+        "c": null
       },
       "exclus_din_catalog": false,
       "motiv_excludere": null,
       "rand_nedeterminat": false,
-      "motiv_selectie": "CORECTAT 2026-08-19 dupa screenshot seat.ro/arona/date-tehnice (Echipare standard, FR) furnizat de Serban — sursa autoritativa; paginile-highlight (delta) subevaluau FR. NU mai e 'risc de excludere'. FR are 6/7 dotari-prag standard confirmate prin citate exacte (camera, scaune incalzite, Climatronic, geamuri electrice, oglinzi incalzite+pliabile, cruise control); al 7-lea (Android Auto) derived. FR 28.825 EUR > plafon 25k => rand de REFERINTA (in_buget false), NU exclus, NU nedeterminat.",
+      "motiv_selectie": "FR are 7/7 dotari-prag standard confirmate prin citate exacte (camera, scaune incalzite, Climatronic, geamuri electrice, oglinzi incalzite+pliabile, cruise control, Sistem Navigatie cu Full Link / Android Auto). FR 28.825 EUR > plafon 25k => rand de REFERINTA (in_buget false), NU exclus.",
       "conflicte": null,
       "bani": {
         "pret_lista": {
@@ -2781,19 +2912,19 @@
         "rezidua_incerta": false,
         "prag_dotari_atins": {
           "v": true,
-          "c": "estimated"
+          "c": null
         }
       },
       "componente_scor_brute": {
-        "garantie_ani": null,
+        "garantie_ani": 4,
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
         "pret_net_estimat": 26918
       },
       "scoruri": {
         "default": {
-          "scor": 0.7,
-          "acoperire_pondere": 0.1,
+          "scor": 0.475,
+          "acoperire_pondere": 0.4,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
@@ -2802,7 +2933,7 @@
             },
             "fiabilitate_garantie": {
               "pondere": 0.3,
-              "valoare_norm": null,
+              "valoare_norm": 0.4,
               "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
             },
             "consum_real": {
@@ -2828,8 +2959,8 @@
           }
         },
         "cash_minim": {
-          "scor": 0.2097,
-          "acoperire_pondere": 0.6,
+          "scor": 0.2573,
+          "acoperire_pondere": 0.8,
           "componente": {
             "pret_net_estimat": {
               "pondere": 0.55,
@@ -2838,7 +2969,7 @@
             },
             "fiabilitate_garantie": {
               "pondere": 0.2,
-              "valoare_norm": null,
+              "valoare_norm": 0.4,
               "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
             },
             "consum_real": {
@@ -2859,8 +2990,8 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.52,
-          "acoperire_pondere": 0.5,
+          "scor": 0.48,
+          "acoperire_pondere": 0.75,
           "componente": {
             "bonus_mostenit": {
               "pondere": 0.4,
@@ -2869,7 +3000,7 @@
             },
             "fiabilitate_garantie": {
               "pondere": 0.25,
-              "valoare_norm": null,
+              "valoare_norm": 0.4,
               "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
             },
             "tco_5_ani": {
@@ -2890,8 +3021,8 @@
           }
         },
         "economie_carburant": {
-          "scor": 1.0,
-          "acoperire_pondere": 0.05,
+          "scor": 0.55,
+          "acoperire_pondere": 0.2,
           "componente": {
             "consum_real": {
               "pondere": 0.45,
@@ -2905,7 +3036,7 @@
             },
             "fiabilitate_garantie": {
               "pondere": 0.15,
-              "valoare_norm": null,
+              "valoare_norm": 0.4,
               "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
             },
             "spatiu_ergonomie": {
@@ -2923,31 +3054,31 @@
       }
     },
     {
-      "id": "vw|t-cross|MY26|1.0-tsi-115|2wd|dsg|NEDETERMINAT",
+      "id": "vw|t-cross|MY26|1.0-tsi-115|2wd|dsg|style",
       "marca": "Volkswagen",
       "model": "T-Cross",
-      "echipare_selectata": null,
+      "echipare_selectata": "Style + Pachet Iarna (sau Prime)",
       "propulsie": "benzina",
       "motorizare": "1.0 TSI 115 CP",
-      "cutie": "dsg",
+      "cutie": "dsg_7",
       "tractiune": "2wd",
-      "lungime_mm": 4110,
+      "lungime_mm": 4127,
       "putere_cp": 115,
-      "cuplu_termic_nm": null,
+      "cuplu_termic_nm": 200,
       "cuplu_electric_nm": null,
-      "garantie_ani": null,
-      "garantie_km": null,
+      "garantie_ani": 4,
+      "garantie_km": 120000,
       "marca_origine": "Germania",
       "grup_proprietar": "VW Group",
       "tara_asamblare": "Spania (Navarra)",
       "prag_dotari_atins": {
-        "v": null,
+        "v": true,
         "c": null
       },
       "exclus_din_catalog": false,
       "motiv_excludere": null,
-      "rand_nedeterminat": true,
-      "motiv_selectie": "NEDETERMINAT. Un dealer afirma ca 'Air Care Climatronic' e disponibila OPTIONAL incepand cu versiunea Life — deci AC automat nu e standard nici pe nivelurile de mijloc. Nomenclatura e in conflict: shop.volkswagen.ro arata Prime/Sport, alte surse arata Life/Style/R-Line.",
+      "rand_nedeterminat": false,
+      "motiv_selectie": "Life (baza) are AC manual si fara scaune incalzite/camera. Style / Prime adauga Climatronic pe 2 zone, camera Rear View si App-Connect Wireless. Pachetul Iarna aduce scaunele incalzite. Pret lista calificat: ~28.500 - 30.500 EUR. Discounturile mari (5.400 EUR) sunt captive Porsche Finance/Asigurari si NU intra in net (D-004). Rand de REFERINTA.",
       "conflicte": null,
       "bani": {
         "pret_lista": {
@@ -2957,7 +3088,8 @@
           "data_document": null,
           "pret_trim_baza_eur": 24309,
           "optiuni_incluse_eur": null,
-          "pachet_pret_necunoscut": false
+          "pachet_pret_necunoscut": true,
+          "nota": "pretul pachetului calificator nu e publicat; pret_lista e o limita INFERIOARA"
         },
         "pret_net_fara_rabla": {
           "v": 24309,
@@ -3029,39 +3161,174 @@
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
-          "v": null,
+          "v": true,
           "c": null
         }
       },
-      "componente_scor_brute": null,
-      "scoruri": null
+      "componente_scor_brute": {
+        "garantie_ani": 4,
+        "cuplu_termic_nm": 200,
+        "bonus_mostenit": 0.0,
+        "pret_net_estimat": 22402
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.425,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.4905,
+          "acoperire_pondere": 0.8,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": 0.4772,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.2667,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.55,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
     },
     {
-      "id": "vw|taigo|MY-nedeterminat|1.0-tsi-115|2wd|dsg|NEDETERMINAT",
+      "id": "vw|taigo|MY26|1.0-tsi-115|2wd|dsg|style",
       "marca": "Volkswagen",
       "model": "Taigo",
-      "echipare_selectata": null,
+      "echipare_selectata": "Style + Pachet Iarna (sau Prime)",
       "propulsie": "benzina",
       "motorizare": "1.0 TSI 115 CP",
-      "cutie": "dsg",
+      "cutie": "dsg_7",
       "tractiune": "2wd",
-      "lungime_mm": null,
+      "lungime_mm": 4266,
       "putere_cp": 115,
-      "cuplu_termic_nm": null,
+      "cuplu_termic_nm": 200,
       "cuplu_electric_nm": null,
-      "garantie_ani": null,
-      "garantie_km": null,
+      "garantie_ani": 4,
+      "garantie_km": 120000,
       "marca_origine": "Germania",
       "grup_proprietar": "VW Group",
-      "tara_asamblare": "Spania (Pamplona/Navarra)",
+      "tara_asamblare": "Spania (Pamplona)",
       "prag_dotari_atins": {
-        "v": null,
+        "v": true,
         "c": null
       },
       "exclus_din_catalog": false,
       "motiv_excludere": null,
-      "rand_nedeterminat": true,
-      "motiv_selectie": null,
+      "rand_nedeterminat": false,
+      "motiv_selectie": "Life are AC manual si fara scaune incalzite. Style / Prime aduce Climatronic, faruri Matrix LED IQ.Light, App-Connect wireless, iar Pachetul Iarna aduce scaunele incalzite. Pret lista calificat: ~29.000 - 31.000 EUR. Reducerea de 5.800 EUR e finantare captiva Porsche => exclusa din net. Rand de REFERINTA.",
       "conflicte": null,
       "bani": {
         "pret_lista": null,
@@ -3114,12 +3381,147 @@
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
-          "v": null,
+          "v": true,
           "c": null
         }
       },
-      "componente_scor_brute": null,
-      "scoruri": null
+      "componente_scor_brute": {
+        "garantie_ani": 4,
+        "cuplu_termic_nm": 200,
+        "bonus_mostenit": 0.0,
+        "pret_net_estimat": null
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.425,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.52,
+          "acoperire_pondere": 0.25,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": null,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.2667,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.55,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.4,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
     },
     {
       "id": "jeep|avenger|MY24|1.2-turbo|2wd|NEDETERMINAT|NEDETERMINAT",
@@ -3246,6 +3648,601 @@
       },
       "componente_scor_brute": null,
       "scoruri": null
+    },
+    {
+      "id": "opel|mokka|MY26|1.2-turbo-130|2wd|at8|gs+pachet-iarna",
+      "marca": "Opel",
+      "model": "Mokka",
+      "echipare_selectata": "GS + Pachet Iarna",
+      "propulsie": "benzina",
+      "motorizare": "1.2 Turbo 130 CP (si 1.2 MHEV 136 CP)",
+      "cutie": "at8",
+      "tractiune": "2wd",
+      "lungime_mm": 4151,
+      "putere_cp": 130,
+      "cuplu_termic_nm": 230,
+      "cuplu_electric_nm": null,
+      "garantie_ani": 2,
+      "garantie_km": 100000,
+      "marca_origine": "Germania",
+      "grup_proprietar": "Stellantis",
+      "tara_asamblare": "Franta (Poissy)",
+      "prag_dotari_atins": {
+        "v": true,
+        "c": null
+      },
+      "exclus_din_catalog": false,
+      "motiv_excludere": null,
+      "rand_nedeterminat": false,
+      "motiv_selectie": "Edition (baza) are AC manual si fara scaune incalzite. GS adauga Climatizare automata, camera panoramica retrovizoare 180°, Pure Panel cu Android Auto/Apple CarPlay, cruise control. Pachetul Iarna adauga scaune fata incalzite si volan incalzit (~400 EUR). Nivelul Ultimate le are standard dar de la ~28.500 EUR. Pret GS+pachet: ~26.500 - 27.500 EUR lista. Rand de REFERINTA.",
+      "conflicte": null,
+      "bani": {
+        "pret_lista": null,
+        "pret_net_fara_rabla": null,
+        "prima_rabla": {
+          "v": 1907,
+          "c": "confirmed",
+          "grila": "benzina",
+          "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
+        },
+        "pret_net_estimat": null,
+        "pret_net_promotional_observat": null,
+        "cost_total_5_ani": null,
+        "cost_pe_km": null,
+        "reduceri_conditionate": [],
+        "dispersie_dealeri_eur": null,
+        "nr_observatii": 0,
+        "observatii": []
+      },
+      "marcaje": {
+        "in_buget": {
+          "stare": null,
+          "fara_rabla": null,
+          "cu_rabla": null,
+          "plafon_eur": 27000,
+          "valoare_fara_rabla_eur": null,
+          "valoare_cu_rabla_eur": null
+        },
+        "rezidua_incerta": false,
+        "prag_dotari_atins": {
+          "v": true,
+          "c": null
+        }
+      },
+      "componente_scor_brute": {
+        "garantie_ani": 2,
+        "cuplu_termic_nm": 230,
+        "bonus_mostenit": 0.0,
+        "pret_net_estimat": null
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.125,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.2,
+          "acoperire_pondere": 0.25,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": null,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.1333,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.25,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "opel|frontera|MY26|1.2-turbo-hybrid-136|2wd|edct6|gs+comfort",
+      "marca": "Opel",
+      "model": "Frontera",
+      "echipare_selectata": "GS + Pachet Comfort",
+      "propulsie": "mhev_48v",
+      "motorizare": "1.2 Turbo Hybrid 136 CP 48V",
+      "cutie": "edct6",
+      "tractiune": "2wd",
+      "lungime_mm": 4380,
+      "putere_cp": 136,
+      "cuplu_termic_nm": 230,
+      "cuplu_electric_nm": null,
+      "garantie_ani": 2,
+      "garantie_km": 100000,
+      "marca_origine": "Germania",
+      "grup_proprietar": "Stellantis",
+      "tara_asamblare": "Slovacia (Trnava)",
+      "prag_dotari_atins": {
+        "v": true,
+        "c": null
+      },
+      "exclus_din_catalog": false,
+      "motiv_excludere": null,
+      "rand_nedeterminat": false,
+      "motiv_selectie": "Edition are doar Smartphone Station si AC manual. GS are Climatizare automata, ecran 10' cu Android Auto/CarPlay wireless, camera 180°, cruise control. Pachetul Comfort adauga scaune fata incalzite, parbriz incalzit si volan incalzit. Pret: GS (~25.200 EUR) + Pachet Comfort (~600 EUR) = ~25.800 EUR lista.",
+      "conflicte": null,
+      "bani": {
+        "pret_lista": null,
+        "pret_net_fara_rabla": null,
+        "prima_rabla": {
+          "v": 2288,
+          "c": "derived",
+          "grila": "hibrid_non_plugin",
+          "nota": "mhev incadrat la grila hibrid (D-020, derived)",
+          "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
+        },
+        "pret_net_estimat": null,
+        "pret_net_promotional_observat": null,
+        "cost_total_5_ani": null,
+        "cost_pe_km": null,
+        "reduceri_conditionate": [],
+        "dispersie_dealeri_eur": null,
+        "nr_observatii": 0,
+        "observatii": []
+      },
+      "marcaje": {
+        "in_buget": {
+          "stare": null,
+          "fara_rabla": null,
+          "cu_rabla": null,
+          "plafon_eur": 27000,
+          "valoare_fara_rabla_eur": null,
+          "valoare_cu_rabla_eur": null
+        },
+        "rezidua_incerta": false,
+        "prag_dotari_atins": {
+          "v": true,
+          "c": null
+        }
+      },
+      "componente_scor_brute": {
+        "garantie_ani": 2,
+        "cuplu_termic_nm": 230,
+        "bonus_mostenit": 0.0,
+        "pret_net_estimat": null
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.125,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.2,
+          "acoperire_pondere": 0.25,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": null,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.1333,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.0,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.25,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "citroen|c3-aircross|MY26|1.2-turbo-100|2wd|manuala|max+pachet-iarna",
+      "marca": "Citroën",
+      "model": "C3 Aircross",
+      "echipare_selectata": "MAX + Pachet Iarna",
+      "propulsie": "benzina",
+      "motorizare": "1.2 PureTech Turbo 100 CP (si Hybrid 136 CP)",
+      "cutie": "manuala_6",
+      "tractiune": "2wd",
+      "lungime_mm": 4390,
+      "putere_cp": 100,
+      "cuplu_termic_nm": 205,
+      "cuplu_electric_nm": null,
+      "garantie_ani": 2,
+      "garantie_km": 100000,
+      "marca_origine": "Franta",
+      "grup_proprietar": "Stellantis",
+      "tara_asamblare": "Slovacia (Trnava)",
+      "prag_dotari_atins": {
+        "v": true,
+        "c": null
+      },
+      "exclus_din_catalog": false,
+      "motiv_excludere": null,
+      "rand_nedeterminat": false,
+      "motiv_selectie": "YOU are Smartphone Station si AC manual. PLUS are ecran 10.25' dar AC manual. MAX include Climatizare automata, camera marsarier VisioPark, ecran tactil 10.25' cu Apple CarPlay si Android Auto wireless, geamuri/oglinzi electrice, cruise control. Pachetul Iarna adauga scaune fata incalzite si parbriz incalzit (~400 EUR). Pret: MAX 1.2 PureTech 100 CP de la ~24.500 EUR + Pachet Iarna 400 EUR = ~24.900 EUR (in buget); varianta Hybrid 136 MAX la ~28.144 EUR lista (referinta).",
+      "conflicte": null,
+      "bani": {
+        "pret_lista": null,
+        "pret_net_fara_rabla": null,
+        "prima_rabla": {
+          "v": 1907,
+          "c": "confirmed",
+          "grila": "benzina",
+          "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
+        },
+        "pret_net_estimat": null,
+        "pret_net_promotional_observat": null,
+        "cost_total_5_ani": null,
+        "cost_pe_km": null,
+        "reduceri_conditionate": [],
+        "dispersie_dealeri_eur": null,
+        "nr_observatii": 0,
+        "observatii": []
+      },
+      "marcaje": {
+        "in_buget": {
+          "stare": null,
+          "fara_rabla": null,
+          "cu_rabla": null,
+          "plafon_eur": 27000,
+          "valoare_fara_rabla_eur": null,
+          "valoare_cu_rabla_eur": null
+        },
+        "rezidua_incerta": false,
+        "prag_dotari_atins": {
+          "v": true,
+          "c": null
+        }
+      },
+      "componente_scor_brute": {
+        "garantie_ani": 2,
+        "cuplu_termic_nm": 205,
+        "bonus_mostenit": 0.4,
+        "pret_net_estimat": null
+      },
+      "scoruri": {
+        "default": {
+          "scor": 0.175,
+          "acoperire_pondere": 0.4,
+          "componente": {
+            "tco_5_ani": {
+              "pondere": 0.4,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.3,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.12,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.08,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "bonus_mostenit": {
+              "pondere": 0.05,
+              "valoare_norm": 0.4,
+              "nota": "AWD + manuala"
+            }
+          }
+        },
+        "cash_minim": {
+          "scor": 0.2,
+          "acoperire_pondere": 0.25,
+          "componente": {
+            "pret_net_estimat": {
+              "pondere": 0.55,
+              "valoare_norm": null,
+              "nota": "min-max invers pe univers"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.2,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "consum_real": {
+              "pondere": 0.15,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        },
+        "continuitate_vitara": {
+          "scor": 0.3467,
+          "acoperire_pondere": 0.75,
+          "componente": {
+            "bonus_mostenit": {
+              "pondere": 0.4,
+              "valoare_norm": 0.4,
+              "nota": "AWD + manuala"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.25,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "tco_5_ani": {
+              "pondere": 0.2,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.1,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            }
+          }
+        },
+        "economie_carburant": {
+          "scor": 0.25,
+          "acoperire_pondere": 0.2,
+          "componente": {
+            "consum_real": {
+              "pondere": 0.45,
+              "valoare_norm": null,
+              "nota": "consum_real_l100 lipseste pe toate randurile"
+            },
+            "tco_5_ani": {
+              "pondere": 0.3,
+              "valoare_norm": null,
+              "nota": "cost_total_5_ani indisponibil (vezi diagnostic.tco)"
+            },
+            "fiabilitate_garantie": {
+              "pondere": 0.15,
+              "valoare_norm": 0.0,
+              "nota": "garantie (fiab. independenta lipsa -> pondere redistribuita)"
+            },
+            "spatiu_ergonomie": {
+              "pondere": 0.05,
+              "valoare_norm": null,
+              "nota": "portbagaj_l / ergonomie indisponibile"
+            },
+            "cuplu_disponibil": {
+              "pondere": 0.05,
+              "valoare_norm": 1.0,
+              "nota": "cuplu_termic_nm vs interval preferat"
+            }
+          }
+        }
+      }
     }
   ],
   "carantina": [

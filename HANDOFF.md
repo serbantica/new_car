@@ -38,24 +38,24 @@ NEW_CAR/
 │   ├── price-model.md              ✅ complet
 │   └── sources.yaml                ✅ populat 2026-08-19
 ├── data/
-│   ├── models.json                 ⚠️  15 rânduri, 5 nedeterminate, 1 exclus
+│   ├── models.json                 ✅ 20 rânduri (toate cele 6 modele din Task 3 verificate)
 │   ├── shortlist-2026-08-19.md     ✅ listă scurtă provizorie, 29 modele
 │   ├── candidates.md               ✅ lista lungă (ipoteză neverificată)
-│   ├── latest.json                 ✅ derivat (Task 1, build.py) — 17 modele
+│   ├── latest.json                 ✅ derivat (Task 1 + Task 3, build.py) — 20 modele
 │   └── scans/
 │       └── scan-2026-08-19.json    ✅ 22 observații de preț
 ├── history/                        ❌ gol
 ├── build.py                        ✅ Task 1 — latest.json + dashboard/index.html
 ├── tests/test_build.py             ✅ 8 teste trec
-└── dashboard/                      ✅ Task 2 — template.html + index.html (193 KB)
+└── dashboard/                      ✅ Task 2 — template.html + index.html (236 KB)
 ```
 
-> **Actualizare 2026-08-19 (sesiune IDE):** Task 1 și Task 2 sunt **gata**.
-> `build.py` produce `data/latest.json` **și** `dashboard/index.html` (date injectate
-> inline, vezi D-026). Dashboard live ca Artefact:
-> `https://claude.ai/code/artifact/64964d22-8d48-4971-aa5b-dcfd1d772932`.
-> Rămâne **Task 3** (cele 6 rânduri de referință rămase — Puma/Avenger/Ateca deja
-> închise prin D-025) și, opțional, GitHub Pages (repo există, cere re-auth `gh`).
+> **Actualizare 2026-08-20 (sesiune IDE):** Task 1, Task 2 și **Task 3** sunt **gata**.
+> Toate cele 6 modele rămase (Suzuki S-Cross, SEAT Arona, VW T-Cross, VW Taigo,
+> Opel Mokka, Opel Frontera, Citroën C3 Aircross) au fost verificate pe matricea
+> de 7 dotări minime și catalogate în `data/models.json` (vezi D-027).
+> `build.py` a regenerat `data/latest.json` și `dashboard/index.html` (20 de modele).
+> Toate cele 8 teste trec.
 
 Există și o **sarcină programată lunară** (1 ale lunii, 09:00 EEST) care rulează
 scanul de prețuri într-o sesiune cloud separată și scrie în `data/scans/`.
