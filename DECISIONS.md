@@ -451,7 +451,16 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
 3. **Rezultat comparativ:**
    - La 15 ani (210.000 km), **Toyota Yaris Cross** (45.768 € fără revânzare / 41.733 € cu revânzare) este mai ieftină în total decât **Suzuki Vitara** (47.351 € fără revânzare / 44.668 € cu revânzare), economia de combustibil (5.176 €) și lipsa uzurii de ambreiaj/frâne compensând complet prețul de achiziție mai ridicat.
 
-**Consecință:** Dashboard-ul oferă vizibilitate completă asupra scenariului de exploatare pe 15 ani cerut. Toate cele 9 teste trec.
+## D-030 — Excluderea manuală din catalogul activ a modelului Dacia Sandero Stepway
+**Data:** 2026-08-20
+**Context:** Șerban a solicitat dezactivarea / excluderea modelului Dacia Sandero Stepway din afișarea implicită a dashboard-ului, pentru a nu fi necesară debifarea lui manuală la fiecare încărcare.
+
+**Decizie:**
+- Adăugat `"EXCLUS_DIN_CATALOG": true` și `"motiv_excludere": "Exclus manual de utilizator (preferință caroserie / hatchback înălțat, nu SUV dedicat)."` în `data/models.json` pe rândul Sandero Stepway.
+- Modelul este ascuns implicit din tabel și exclus din universul de scor (27 de modele active în universul de scor din 29 totale catalogate).
+- Rămâne disponibil la bifarea căsuței din stânga *"Arată rândurile excluse din catalog"*.
+
+**Consecință:** Dashboard-ul afișează implicit doar crossover-urile și SUV-urile relevante pentru utilizator. 9/9 teste trec.
 
 ---
 

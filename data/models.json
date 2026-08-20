@@ -71,7 +71,9 @@
       "prag_dotari_atins": true,
       "conflict_nerezolvat": "PDF serus-dacia.ro (02.07.2026) arata camera si navigatie 10' STANDARD la Extreme; landing-ul vanzari.dacia.ro le arata ca pachete optionale. Ambele pastrate.",
       "garantie_ani": 3, "garantie_km": 100000,
-      "in_buget": true
+      "in_buget": true,
+      "EXCLUS_DIN_CATALOG": true,
+      "motiv_excludere": "Exclus manual de utilizator (preferință caroserie / hatchback înălțat, nu SUV dedicat)."
     },
     {
       "id": "dacia|duster|III|1.2-tce-130-mhev|2wd|manuala|expression+clima",
