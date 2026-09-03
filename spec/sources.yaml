@@ -5,8 +5,8 @@
 # un scan de actualizare (ieftin). Descoperirea s-a făcut o dată. Scanul lunar
 # citeşte de aici şi NU mai caută.
 
-version: 2
-updated: 2026-08-19
+version: 3
+updated: 2026-09-03
 populat_din: scan-2026-08-19
 
 # ===========================================================================
@@ -398,10 +398,101 @@ procedura_scan_lunar:
     - "Pentru fiecare sursă validată: un WebFetch cu întrebare ÎNGUSTĂ —
        'care e preţul pentru <echipare> <motorizare> <cutie>? ce reduceri
        sunt listate şi cu ce valoare? până când e valabilă oferta?'"
-    - "Compară cu scanul precedent. Raportează DOAR delta peste pragul din
-       criteria.yaml (3%)."
+    - "Compară cu scanul precedent — cel din `previous_scan`, nu 'luna trecută'.
+       Raportează DOAR delta peste `criteria.yaml → scan.prag_alerta_variatie_pret_pct`,
+       normalizată la `scan.fereastra_referinta_zile`. Valoarea pragului NU se
+       repetă aici (D-031)."
     - "Când o sursă returnează eroare de 3 ori consecutiv, o mută în lista
        neagră şi caută UN înlocuitor — o singură dată, nu la fiecare rulare."
+
+  # -------------------------------------------------------------------------
+  # CONTRACTUL DE IEŞIRE AL UNUI SCAN — adăugat 2026-09-03, D-031
+  # -------------------------------------------------------------------------
+  antet_obligatoriu:
+    - scan_date            # data de azi, din ceas, nu din cadenţă
+    - previous_scan        # max(data) din data/scans/; null la primul scan
+    - interval_zile        # scan_date - previous_scan, CALCULAT
+    - sources_checked
+    - sources_failed       # deja obligatoriu (CLAUDE.md §4.3); se păstrează
+    - models_found
+    - carantina            # observaţii cu cheie incompletă — DECLARATE de scan,
+                           # nu doar deduse ulterior de build.py
+    - fara_oferta          # model căutat, sursă vie, model absent din ofertă
+    - excluse_din_catalog  # EXCLUS_DIN_CATALOG: true în models.json (D-030)
+    - status               # "complet" | "incomplet" — vezi invariant_acoperire
+    - note
+
+  normalizare_delta:
+    prag: "spec/criteria.yaml → scan.prag_alerta_variatie_pret_pct"
+    fereastra: "spec/criteria.yaml → scan.fereastra_referinta_zile"
+    # Valorile NU se repetă aici. CLAUDE.md §3: un prag scris în două locuri
+    # devine, în şase luni, două praguri diferite.
+    regula: >
+      Raportează în history/ mişcarea brută ŞI cea normalizată la fereastra de
+      referinţă (pct * fereastra / interval_zile), spunând explicit care dintre
+      ele a trecut pragul şi pe ce interval.
+      Nu presupune niciodată că intervalul este o lună.
+
+  invariant_acoperire:
+    regula: >
+      Fiecare intrare din models.json trebuie să apară în exact una dintre:
+      tabelul de comparaţie, carantina, sources_failed, fara_oferta,
+      excluse_din_catalog. Verifică reuniunea ÎNAINTE de a scrie fişierul.
+      Absenţa tăcută este eroare de scan, nu rezultat de scan.
+    de_ce: >
+      Un model poate lipsi din tabel din patru motive complet diferite —
+      retras din ofertă, sursă căzută, cheie incompletă deci necomparabil,
+      exclus manual din catalog — iar fără găleţi separate toate arată
+      identic: ca un gol.
+    la_esec: >
+      Scrie fişierul cu status: "incomplet" în antet şi enumeră modelele
+      neatribuite în note. NU refuza să scrii — CLAUDE.md §1: o scanare
+      parţială marcată corect ca parţială e mai valoroasă decât una completă
+      obţinută prin ghiceli. Un scan incomplet declarat este utilizabil;
+      unul tăcut nu este.
+    se_aplica_de_la: "primul scan cu scan_date > 2026-09-03"
+    # scan-2026-08-19 şi scan-2026-08-20 nu au câmpurile noi în antet.
+    # Istoricul e append-only (CLAUDE.md §2) — nu se retrofitează şi nu se
+    # recalifică retroactiv drept invalide.
+
+  carantina_format:
+    per_intrare:
+      - model_id
+      - source_url
+      - observed_at
+      - chei_lipsa        # subset din criteria.yaml → observatii_pret.cheie_obligatorie
+      - valoare_observata # se păstrează, dar NU intră în minim/comparaţie
+    compatibilitate: >
+      build.py citeşte deja flagurile `carantina: true` + `motiv_carantina` de
+      pe observaţia individuală (format folosit în scan-2026-08-19.json).
+      Antetul `carantina[]` se ADAUGĂ, nu înlocuieşte — altfel join-ul
+      existent se rupe.
+
+  sources_failed_format:
+    per_intrare:
+      - url
+      - motiv
+      - modele_afectate   # OBLIGATORIU — id-urile din models.json rămase neacoperite
+    de_ce_modele_afectate: >
+      Fără acest câmp, invariantul de acoperire nu e verificabil: o intrare
+      {url, motiv} nu spune CE model a rămas neverificat, deci modelul cade în
+      "neatribuit" chiar dacă sursa lui a căzut din motive cunoscute. Scanurile
+      2026-08-19 şi 2026-08-20 au doar {url, motiv} — de aici obligaţia.
+    lista_goala_permisa: >
+      `modele_afectate: []` e valid şi util: o sursă care a căzut fără să lase
+      vreun model descoperit (pagină de garanţie, grilă Rabla) chiar nu afectează
+      niciun model. Gol declarat nu e acelaşi lucru cu absent.
+
+  fara_oferta_format:
+    per_intrare:
+      - model_id
+      - surse_incercate   # URL-urile citite CU SUCCES care nu conţin modelul
+      - observed_at
+      - interpretare      # "retras din ofertă" | "indisponibil temporar" | "necunoscut"
+    distinctie_fata_de_sources_failed: >
+      La sources_failed sursa n-a răspuns. Aici sursa a răspuns şi modelul nu
+      era în ea. Prima e o gaură de acoperire, a doua e un fapt de piaţă —
+      posibil cel mai valoros semnal dintr-un scan.
 
   buget_estimat: "~30 apeluri WebFetch cu prompt scurt. Sub 10% din costul
                   scanului de descoperire din 2026-08-19."

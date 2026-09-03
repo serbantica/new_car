@@ -80,6 +80,118 @@ def find_latest_scan(scans_dir=SCANS_DIR):
 
 
 # --------------------------------------------------------------------------- #
+# Contractul de scan — D-031
+# Doua verificari care NU depind de restul build-ului: pot fi rulate pe orice
+# scan, inclusiv inainte de a-l scrie. Praguri citite din criteria, niciodata
+# hardcodate (CLAUDE.md §3).
+# --------------------------------------------------------------------------- #
+def normalize_delta(pct_brut, interval_zile, criteria):
+    """
+    O mişcare de preţ brută nu spune nimic fără intervalul pe care s-a produs.
+    Pragul din criteria e definit pe `fereastra_referinta_zile`; aici se raporteaza
+    ambele valori, ca cititorul sa vada care a trecut pragul. (D-031)
+
+    interval_zile necunoscut sau <= 0 => normalizat None, nu o valoare plauzibila
+    (CLAUDE.md §8.1). Un scan fara previous_scan intra pe ramura asta legitim.
+    """
+    scan_cfg = criteria["scan"]
+    prag = scan_cfg["prag_alerta_variatie_pret_pct"]
+    fereastra = scan_cfg["fereastra_referinta_zile"]
+
+    out = {
+        "brut_pct": pct_brut,
+        "interval_zile": interval_zile,
+        "fereastra_referinta_zile": fereastra,
+        "prag_pct": prag,
+        "normalizat_pct": None,
+        "brut_peste_prag": None,
+        "normalizat_peste_prag": None,
+        "nota": None,
+    }
+    if pct_brut is None:
+        out["nota"] = "delta brut necunoscut"
+        return out
+    out["brut_peste_prag"] = abs(pct_brut) >= prag
+    if not is_number(interval_zile) or interval_zile <= 0:
+        out["nota"] = ("interval necunoscut sau nepozitiv — normalizarea nu se "
+                       "calculeaza; raporteaza doar bruta si spune de ce")
+        return out
+    out["normalizat_pct"] = round(pct_brut * fereastra / float(interval_zile), 2)
+    out["normalizat_peste_prag"] = abs(out["normalizat_pct"]) >= prag
+    if out["brut_peste_prag"] != out["normalizat_peste_prag"]:
+        out["nota"] = (f"bruta si normalizata cad pe laturi diferite ale pragului "
+                       f"({pct_brut}% pe {interval_zile}z = "
+                       f"{out['normalizat_pct']}%/{fereastra}z) — raporteaza ambele")
+    return out
+
+
+def verifica_acoperire(models, scan):
+    """
+    Invariantul de acoperire (D-031): fiecare model din models.json apare in
+    EXACT una dintre — tabelul de comparatie, carantina, sources_failed,
+    fara_oferta, excluse_din_catalog.
+
+    "Exact una" are doua feluri de a fi incalcat, si amandoua conteaza:
+      - gauri: model neatribuit nicaieri => absenta tacita, eroare de scan;
+      - suprapuneri: model in doua galeti => doua explicatii pentru acelasi gol.
+    """
+    catalog = models["modele"]
+    universe = [m["id"] for m in catalog]
+
+    excluse = {m["id"] for m in catalog if m.get("EXCLUS_DIN_CATALOG")}
+
+    def _ids(entries, *keys):
+        got = set()
+        for e in entries or []:
+            if not isinstance(e, dict):
+                continue
+            for k in keys:
+                v = e.get(k)
+                if isinstance(v, str):
+                    got.add(v)
+                elif isinstance(v, list):
+                    got.update(x for x in v if isinstance(x, str))
+        return got
+
+    carantina = _ids(scan.get("carantina"), "model_id")
+    failed = _ids(scan.get("sources_failed"), "modele_afectate")
+    fara_oferta = _ids(scan.get("fara_oferta"), "model_id")
+
+    attach, _carantina_derivata = build_join(models, scan)
+    comparate = {mid for mid, obs in attach.items() if obs}
+
+    galeti = {
+        "comparate": comparate,
+        "carantina": carantina,
+        "sources_failed": failed,
+        "fara_oferta": fara_oferta,
+        "excluse_din_catalog": excluse,
+    }
+
+    neatribuite, suprapuneri = [], []
+    for mid in universe:
+        hits = [name for name, s in galeti.items() if mid in s]
+        if not hits:
+            neatribuite.append(mid)
+        elif len(hits) > 1:
+            suprapuneri.append({"model_id": mid, "galeti": hits})
+
+    # id-uri numite de scan care nu exista in catalog: si asta e o ruptura
+    known = set(universe)
+    necunoscute = sorted({mid for name, s in galeti.items() if name != "comparate"
+                          for mid in s} - known)
+
+    return {
+        "status": "complet" if not (neatribuite or suprapuneri or necunoscute) else "incomplet",
+        "total_catalogate": len(universe),
+        "per_galeata": {k: len(v) for k, v in galeti.items()},
+        "neatribuite": sorted(neatribuite),
+        "suprapuneri": suprapuneri,
+        "id_necunoscute_in_catalog": necunoscute,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # Helperi pe formatul {v, c, s} vs scalar
 # --------------------------------------------------------------------------- #
 def val(x):

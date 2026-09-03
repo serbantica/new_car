@@ -530,6 +530,14 @@ query:
 scan:
   cadenta: lunara
   prag_alerta_variatie_pret_pct: 3     # sub asta nu se raportează ca schimbare
+  fereastra_referinta_zile: 30
+  # D-031: pragul de mai sus este definit PE 30 DE ZILE. Fără această fereastră,
+  # aceeaşi cifră brută înseamnă altceva la fiecare interval real de scan
+  # (2026-08-20 → 2026-09-03 = 14 zile, nu 30 — o mişcare brută de 3% e 6,43%
+  # normalizat). history/ raportează mişcarea brută ŞI pe cea normalizată —
+  # pct * fereastra_referinta_zile / interval_zile — spunând explicit care
+  # dintre ele a trecut pragul şi pe ce interval. `cadenta: lunara` este o
+  # intenţie de programare, NU o garanţie de interval.
 
   # OBSERVAŢII DE PREŢ — un model NU are un preţ, are o mulţime de observaţii.
   # Formatul şi regulile complete în spec/price-model.md.

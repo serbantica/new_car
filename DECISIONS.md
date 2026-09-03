@@ -462,6 +462,47 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
 
 **Consecință:** Dashboard-ul afișează implicit doar crossover-urile și SUV-urile relevante pentru utilizator. 9/9 teste trec.
 
+## D-031 — Contractul de ieșire al unui scan: intervalul se calculează, iar absența are patru cauze distincte
+
+**Data:** 2026-09-03
+**Context:** Două defecte descoperite la verificarea procedurii de scan lunar, ambele confirmate pe date reale, nu presupuse.
+
+Primul: pragul `prag_alerta_variatie_pret_pct: 3` era definit implicit „pe lună", iar `scan.cadenta: lunara` întărea presupunerea. Intervalul real de la `scan-2026-08-20` la 2026-09-03 este de **14 zile**, nu 30 — aceeași mișcare brută de 3% valorează 6,43% normalizată, adică de două ori pragul. Cadența e o intenție de programare, nu o garanție de interval.
+
+Al doilea: un model poate lipsi din tabel din patru motive complet diferite — retras din ofertă, sursă căzută, cheie de identitate incompletă deci necomparabil, exclus manual din catalog — și toate produceau același gol. Cazul declanșator: întrebarea „unde e Vitara 4x4?", la care structura de date existentă nu putea răspunde.
+
+**Decizie:**
+
+1. **`spec/criteria.yaml` → `scan.fereastra_referinta_zile: 30`**, imediat sub prag. Pragul **nu** se mută și **nu** se duplică; primește doar unitatea care-i lipsea. `history/` raportează mișcarea brută **și** cea normalizată (`pct * fereastra / interval_zile`), spunând explicit care a trecut pragul și pe ce interval.
+
+2. **`spec/sources.yaml` → `procedura_scan_lunar`** primește contractul de ieșire: `antet_obligatoriu` (11 câmpuri, între care `interval_zile` CALCULAT, `carantina`, `fara_oferta`, `excluse_din_catalog`, `status`), plus `normalizare_delta`, `invariant_acoperire`, `carantina_format`, `fara_oferta_format`. Versiune 2 → 3.
+
+3. **Invariantul de acoperire**, exprimat ca verificare, nu ca intenție: fiecare intrare din `models.json` apare în **exact una** dintre tabelul de comparație, `carantina`, `sources_failed`, `fara_oferta`, `excluse_din_catalog`. Reuniunea lor este `models.json`. Absența tăcută e eroare de scan, nu rezultat de scan.
+
+4. La eșec, scanul se scrie cu `status: "incomplet"` și modelele neatribuite enumerate — **nu** se refuză scrierea. Contrazicea CLAUDE.md §1: o scanare parțială marcată corect e mai valoroasă decât una completă obținută prin ghiceli.
+
+**Ce NU s-a schimbat, deși părea:**
+- `carantina` **exista deja** — `criteria.yaml` (`observatie_cu_cheie_incompleta`), D-020, D-024, implementată în `build.py` și emisă în `latest.json`. Adăugirea reală: scanul o **declară** în antet, nu o lasă doar pe `build.py` să o deducă. Fără asta, invariantul nu poate fi verificat fără să rulezi build-ul. Flagurile per-observație (`carantina: true` + `motiv_carantina`) rămân — antetul se adaugă, nu înlocuiește, altfel join-ul existent se rupe.
+- Pragul de 3% a rămas singura sa instanță. Prima redactare a patch-ului îl copia în `sources.yaml` — exact ce interzice CLAUDE.md §3. Corectat: `sources.yaml` citează calea, nu valoarea. Și proza din `ce_face` care scria „(3%)" a fost înlocuită cu referința.
+
+**A cincea găleată, nu a patra.** Prima redactare a invariantului cerea reuniune = `models.json` cu patru găleți, ceea ce ar fi făcut **orice scan viitor invalid**: Dacia Sandero Stepway are `EXCLUS_DIN_CATALOG: true` (D-030) și nu ar fi apărut niciodată în vreuna. 29 catalogate − 1 exclus = 28 de atribuit.
+
+**Retroactivitate:** se aplică primului scan cu `scan_date > 2026-09-03`. Scanurile 2026-08-19 și 2026-08-20 nu au câmpurile noi; istoricul e append-only (CLAUDE.md §2) — nu se retrofitează și nu se recalifică retroactiv drept invalide.
+
+**Impunere — adăugat în aceeași zi, imediat după aplicare.** Contractul nu mai e doar declarativ:
+
+- `build.normalize_delta(pct_brut, interval_zile, criteria)` — raportează bruta **și** normalizata, cu praguri citite din `criteria`, niciodată hardcodate. Interval necunoscut sau nepozitiv → `normalizat_pct: None` plus notă, nu o cifră plauzibilă (CLAUDE.md §8.1). Când cele două cad pe laturi diferite ale pragului, nota o spune explicit.
+- `build.verifica_acoperire(models, scan)` — reuniunea celor cinci găleți față de `models.json`. Prinde **ambele** feluri de a încălca „exact una": *goluri* (model neatribuit = absență tăcută) și *suprapuneri* (două explicații pentru același gol), plus id-uri numite de scan care nu există în catalog.
+- `tests/test_scan_contract.py` — 16 teste pe trei niveluri: forma specificației, logica validatorului pe fixture-uri, scanurile reale de după data-limită.
+
+**Ce a descoperit scrierea testului — o gaură în patch-ul aplicat cu o oră înainte.** `sources_failed` avea forma `{url, motiv}`, fără atribuire de model. Deci găleata *nu era adresabilă*: un model rămas neverificat din cauza unei surse căzute cădea în „neatribuit" chiar cu sursa lui declarată în `sources_failed`. Adăugat `sources_failed_format` cu `modele_afectate` **obligatoriu**, cu `[]` permis explicit — o sursă căzută care nu descoperea niciun model (pagină de garanție, grilă Rabla) chiar nu afectează niciunul, iar gol declarat nu e același lucru cu absent. Invariantul declarat la aplicare era, până la această corecție, neverificabil pe una din cinci găleți.
+
+**Testul armat e și exercitat.** `test_scanurile_noi_respecta_antetul_si_invariantul` iterează scanurile de după 2026-09-03 — deocamdată zero, deci ar trece vid, iar un test niciodată executat putrezește netestat. Verificarea e extrasă în `verifica_un_scan()`, pe care `test_verificatorul_pe_scan_sintetic_dupa_limita` o rulează acum pe un scan sintetic dated 2099, inclusiv pe trei mutații: antet ciuntit, `interval_zile` declarat fals, și `status: "complet"` mincinos peste o gaură reală. Toate trei sunt prinse.
+
+**Limita care rămâne.** Verificarea există ca funcție și e testată, dar `build()` **nu o apelează** — nimic nu blochează scrierea unui scan invalid în `data/scans/`. Agentul de scan trebuie să o cheme la pasul 4 din ritualul CLAUDE.md §9. Cârligul e disponibil; nu e automat.
+
+---
+
 ---
 
 ## Întrebări deschise
@@ -472,6 +513,15 @@ Când valoarea nu e defalcată — cazul „Remat", unde prețul e dat direct ne
 - **Eligibilitate Rabla.** Vechimea și durata de proprietate a Vitarei trebuie verificate față de regulamentul programului din anul curent. Până atunci, prima e `0` cu notă.
 - **Toleranța pe buget.** `pret_net_estimat_eur.tolerance_pct = 8` e o alegere a mea, ca borderline-urile utile la negociere să nu dispară din listă. De ajustat.
 - **Prag dur de cuplu** — vezi D-006.
+- ~~Invariantul de acoperire nu e verificat mecanic~~ — închis 2026-09-03 prin
+  `build.verifica_acoperire` / `build.normalize_delta` + `tests/test_scan_contract.py`
+  (16 teste). Vezi completarea la D-031.
+- **`history/` este gol.** Zero fișiere, deși există două scanuri. CLAUDE.md §9
+  pasul 6 cere `history/history-<azi>.md` la fiecare rulare și spune explicit că
+  „pasul 6 este cel care dă valoare seriei". D-031 presupune că `history/`
+  raportează delta normalizată — presupunere fără suport deocamdată. Delta
+  `2026-08-19 → 2026-08-20` rămâne nedocumentată; se poate reconstrui din cele
+  două fișiere existente, dar **marcată ca reconstrucție**, nu ca observație.
 - **Homoglifă în numele câmpului `rezidua_incerta` (conflict spec↔date, NEREZOLVAT).**
   `spec/criteria.yaml:132` (`marcaje.incertitudine_reziduala.camp`) și `:493`
   (`query.filtrabile`) scriu `rezidualа_incerta` — cu un `l` în plus **și** un `а`
