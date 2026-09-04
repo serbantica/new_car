@@ -5,8 +5,8 @@
 # un scan de actualizare (ieftin). Descoperirea s-a făcut o dată. Scanul lunar
 # citeşte de aici şi NU mai caută.
 
-version: 3
-updated: 2026-09-03
+version: 4
+updated: 2026-09-04
 populat_din: scan-2026-08-19
 
 # ===========================================================================
@@ -57,10 +57,19 @@ surse:
     - url: https://www.toyota.ro/content/dam/toyota/ro/nmsc/brosuri-liste-pret/liste-de-pret/Preturi_Yaris_Cross_Hybrid.pdf
       nivel: 1
       acopera: [Yaris Cross]
-      validat_la: 2026-08-19
-      fragilitate: stabil
-      calitate: "EXEMPLARĂ — datată şi versionată (MY26 V.06), preţuri cu şi fără
+      validat_la: 2026-09-04
+      fragilitate: instabil_pe_versiune
+      data_document: 2026-04-30
+      calitate: "EXEMPLARĂ pe conţinut — datată şi versionată, preţuri cu şi fără
                  TVA, cupluri separate termic/electric, garanţie, lungime"
+      AVERTISMENT: "URL STABIL, DOCUMENT VOLATIL — verificat 2026-09-04: acelaşi
+                    URL a servit MY26 V.08 / august 2026 (CreationDate 2026-07-27,
+                    BUSINESS 22.241 fără TVA / 26.911,61 cu TVA) pe 2026-09-03 şi
+                    MY26 V.05 / mai 2026 (CreationDate 2026-04-30, 22.218 /
+                    26.883,78) pe 2026-09-04. Nu e rotaţie de URL, e ROLLBACK de
+                    versiune pe acelaşi URL. Scanul trebuie să citească versiunea
+                    şi CreationDate din document, nu să presupună că URL-ul stabil
+                    implică document stabil."
     - url: https://www.toyota.ro/rabla
       nivel: 1
       acopera: [grila_rabla]
@@ -70,7 +79,7 @@ surse:
     - url: https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf
       nivel: 1
       acopera: [Vitara, S-Cross]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       data_document: 2024-06-01
       fragilitate: stabil
       AVERTISMENT: "datată 01.06.2024 — peste 2 ani. confidence=estimated automat.
@@ -78,12 +87,18 @@ surse:
     - url: https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf
       nivel: 2
       acopera: [Vitara]
-      validat_la: 2026-08-19
-      nota: "singura sursă cu tabel de dotări pe niveluri pentru Vitara; nedatată"
+      validat_la: 2026-09-04
+      data_document: 2026-04-30
+      nota: "singura sursă cu tabel de dotări pe niveluri pentru Vitara. NU mai e
+             nedatată: CreationDate 2026-04-30 (verificat cu pdfinfo, 2026-09-04).
+             Conţine şi variantele ALLGRIP 4x4, care nu au configuraţie în
+             models.json. Copie locală în data/manual/lista_vitara.pdf, pusă de
+             Serban; byte-identică (md5) cu ce serveşte URL-ul."
     - url: https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_scross.pdf
       nivel: 2
       acopera: [S-Cross]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
+      data_document: 2026-04-30
     - url: https://radacini.ro/oferte-masini/campanie-iunie-suzuki-s-cross
       nivel: 2b
       acopera: [S-Cross]
@@ -93,12 +108,12 @@ surse:
     - url: https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf
       nivel: 2
       acopera: [Stonic]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       calitate: "matrice S/O completă pe niveluri, cu coduri de opţiuni"
     - url: https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_xceed.pdf
       nivel: 2
       acopera: [XCeed]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       AVERTISMENT: "promoţie expirată 31.03.2026 — caută versiune mai nouă"
     - url: https://www.kia.ro/user/file/stiri-2025/stonic-my26/noul-kia-stonic-specificatii-tehnice.pdf
       nivel: 1
@@ -131,12 +146,16 @@ surse:
     - url: https://skoda.metrotehnica.ro/index.php/download_file/view/3081/153/
       nivel: 2
       acopera: [Kamiq]
-      validat_la: 2026-08-19
-      data_document: 2026-CW32
-      fragilitate: mediu
+      validat_la: 2026-09-04
+      data_document: 2026-07-31
+      fragilitate: stabil
       calitate: "CEA MAI RECENTĂ SURSĂ DIN TOT SCANUL — fişier
-                 Pret-Skoda-Kamiq_CW32_2026_MY27.pdf, actualizat săptămânal.
-                 Verifică dacă ID-ul din URL se schimbă la fiecare versiune."
+                 Pret-Skoda-Kamiq_CW32_2026_MY27.pdf."
+      CORECTIE_2026-09-04: "Premisa de rotaţie săptămânală NU se confirmă. ID-ul
+                            3081 e stabil şi serveşte acelaşi document
+                            (CreationDate 2026-07-31, md5 identic cu 2026-09-03),
+                            nu o versiune CW36. Reclasificat fragilitate: mediu ->
+                            stabil. Se reverifică prin CreationDate, nu prin ID."
     - url: https://skoda.metrotehnica.ro/oferte-skoda-metrotehnica/kamiq/
       nivel: 2b
       validat_la: 2026-08-19
@@ -145,7 +164,7 @@ surse:
     - url: https://www.serus-dacia.ro/fise/dacia/Dacia%20Duster.pdf
       nivel: 2
       acopera: [Duster]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       data_document: 2026-07-01
       calitate: "fişă completă cu pachete de opţiuni şi preţurile lor"
     - url: https://www.serus-dacia.ro/fise/dacia/Dacia%20Sandero%20Stepway.pdf
@@ -167,11 +186,11 @@ surse:
     - url: https://www.serus-renault.ro/fise/renault/Renault%20Captur.pdf
       nivel: 2
       acopera: [Captur]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
     - url: https://www.serus-renault.ro/fise/renault/Renault%20Symbioz.pdf
       nivel: 2
       acopera: [Symbioz]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       data_document: 2026-03-10
     - url: https://www.renault.ro/vehicule-hibride/captur-e-tech-hybrid/versiuni-preturi.html
       nivel: 1
@@ -191,13 +210,13 @@ surse:
     - url: https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf
       nivel: 1
       acopera: [Jazz Crosstar]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       AVERTISMENT: "există un al doilea PDF cu nume aproape identic şi preţ
                     diferit (26.950 vs 27.250). Niciunul datat. Verifică ambele."
     - url: https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf
       nivel: 1
       acopera: [HR-V]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
     - url: https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Preturi-si-Specificatii.pdf
       nivel: 1
       validat_la: 2026-08-19
@@ -206,15 +225,27 @@ surse:
     - url: https://www.ford.ro/content/dam/guxeu/ro/documents/price-list/cars/PL-new-puma.pdf
       nivel: 1
       acopera: [Puma]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       data_document: 2020-09-21
       AVERTISMENT: "MY21.25 — aproape 6 ani. Contrazice pagina de campanie
                     curentă pe dotările standard. confidence=estimated."
     - url: https://www.ford.ro/autoturisme/noul-puma/promotions/persoane-fizice
       nivel: 2b
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
+      stare: mort_404
       nota: "'Rabla de la Ford' 2.000 EUR NU e prima de stat; Ecotichetul
-             separat de 12.000 lei ESTE"
+             separat de 12.000 lei ESTE. MOARTĂ din 2026-09-04 (404), deci netul
+             promoţional de 19.800 EUR din scanul 2026-08-20 nu mai e confirmabil."
+    - url: https://www.ford.ro/autoturisme/noul-puma
+      nivel: 2b
+      acopera: [Puma]
+      validat_la: 2026-09-04
+      AVERTISMENT: "vie (200), dar afişează O SINGURĂ cifră — 'De la 18.950 EUR,
+                    preţ promoţional recomandat cu TVA inclus prin programul Rabla
+                    de la Ford' — fără nicio atribuire de nivel de echipare sau
+                    motorizare. Nu se ataşează cheii Titanium/mHEV 125: ar fi
+                    atribuire inventată (D-020/D-024). Ford rămâne singura marcă
+                    din registru fără listă de preţuri curentă pe nivel."
 
   peugeot:
     - url: https://www.peugeot.ro/content/dam/peugeot/romania/preturi/2008-Lista-preturi-Lista-de-pret-valabila-incepand-cu-luna-august-2026.pdf
@@ -223,8 +254,12 @@ surse:
       validat_la: 2026-08-19
       data_document: 2026-08
       fragilitate: fragil
+      validat_din_nou_la: 2026-09-04
       AVERTISMENT: "URL-ul conţine luna — se schimbă lunar. Scanul trebuie să
-                    caute noul URL, nu să presupună că cel vechi merge."
+                    caute noul URL, nu să presupună că cel vechi merge. La
+                    2026-09-04 URL-ul de august răspundea încă 200 (25 pag.,
+                    CreationDate 2026-08-04): luna din URL NU se rotise încă, deci
+                    'fragil' nu înseamnă 'mort la 1 ale lunii'."
     - url: https://www.peugeot.ro/intretinere-si-service/asistenta-garantii/garantie.html
       nivel: 1
       acopera: [garantie_marca]
@@ -236,7 +271,12 @@ surse:
       acopera: [C3 Aircross]
       validat_la: 2026-08-19
       fragilitate: fragil
-      nota: "URL conţine luna (08_2026) — se schimbă"
+      data_document: 2026-08-04
+      validat_din_nou_la: 2026-09-04
+      nota: "URL conţine luna (08_2026) — se schimbă. La 2026-09-04 răspundea încă
+             200. Lista 'valabilă începând cu 01.08.2026' are exact 5 configuraţii
+             şi MAX apare DOAR cu Hybrid 145 Automata: MAX + Turbo 100 manuala,
+             configuraţia din models.json, nu se mai oferă (scan 2026-09-04)."
     - url: https://www.citroen.ro/mentine/garantie.html
       nivel: 1
       validat_la: 2026-08-19
@@ -250,7 +290,7 @@ surse:
     - url: https://apancars.ro/ro/attachment?id_attachment=95
       nivel: 2
       acopera: [Mokka]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       data_document: 2024-11-01
       nota: "singura sursă cu preţuri de opţiuni pentru Mokka; veche"
 
@@ -328,7 +368,7 @@ surse:
     - url: https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf
       nivel: 1b
       acopera: [ZS Hybrid+]
-      validat_la: 2026-08-19
+      validat_la: 2026-09-04
       calitate: "matrice de dotări; distinge '-' (indisponibil) de opţional"
     - url: https://www.mit-motors.ro/mg_zs_hybrid/
       nivel: 2
@@ -519,3 +559,17 @@ reguli:
      răspunsul 'nu apare în document'. Reîntreabă înainte să schimbi sursa."
   - "Când două surse se contrazic, păstrează ambele valori cu sursele lor şi
      marchează conflictul. Nu alege tăcut."
+  - "URL-UL SE COPIAZĂ DIN REGISTRU, NU SE RECONSTRUIEŞTE DIN MEMORIE. Un URL
+     plauzibil scris din amintire arată identic cu unul citit — până îl probezi.
+     La scanul 2026-09-04, 12 din 13 pointeri de PDF scrişi aşa erau morţi
+     (302/404/000), deşi toţi cei corecţi erau deja în acest fişier, iar
+     documentele citite erau cele bune (md5 identic). Preţurile au supravieţuit;
+     provenienţa nu. Regula operaţională: citeşte URL-ul din `surse`, iar dacă
+     nu răspunde, notează-l în sources_failed cu codul HTTP — nu îl repara prin
+     ghicire. Corolar: un sources_failed diagnosticat pe un URL inventat este un
+     fapt de piaţă inventat (aşa au ajuns Peugeot 2008 şi Citroën C3 Aircross
+     raportate greşit ca blocaj WAF)."
+  - "URL STABIL NU ÎNSEAMNĂ DOCUMENT STABIL. Vârsta şi versiunea se citesc din
+     document (CreationDate, footer, cod de versiune), niciodată din faptul că
+     URL-ul e acelaşi. toyota.ro a servit V.08/august şi V.05/mai pe acelaşi URL
+     la o zi distanţă — rollback, nu rotaţie."

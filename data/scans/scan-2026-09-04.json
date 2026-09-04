@@ -1,0 +1,508 @@
+{
+  "scan_date": "2026-09-04",
+  "previous_scan": "scan-2026-08-20.json",
+  "interval_zile": 15,
+  "tip": "scan lunar sub contractul de ieșire D-031 (primul)",
+  "sources_checked": 57,
+  "sources_failed": [
+    {
+      "url": "https://www.nissan.ro/promotii/oferta-juke.html",
+      "motiv": "404. URL-ul scanului precedent (/autovehicule/modele/juke.html) da tot 404, iar vanzari.nissan.ro e pe lista neagra (domeniu intreg). Niciun inlocuitor validat in registru.",
+      "modele_afectate": [
+        "nissan|juke|MY-nedeterminat|dig-t-114|2wd|dct|n-design"
+      ]
+    },
+    {
+      "url": "https://www.seat.ro/ateca/ateca-style",
+      "motiv": "404, la fel /ateca/ateca-fr si /ateca/ateca-reference (plus /ateca/prezentare-generala si /ateca/oferte, deja pe lista neagra cu 404). Paginile Arona pe acelasi host raspund 200, deci subarborele Ateca a dispărut: retragerea e PROBABILA, dar neconfirmata pe vreo sursa citita cu succes, deci nu poate merge in fara_oferta (vezi fara_oferta_format).",
+      "modele_afectate": [
+        "seat|ateca|MY-nedeterminat|1.5-tsi|2wd|manuala|style+pachet"
+      ]
+    },
+    {
+      "url": "https://www.mazda.ro/modele/mazda-cx-30/",
+      "motiv": "raspunde 200 dar pagina e doar imagine-erou ('MAZDA CX-30 2027: CONCEPUTA PENTRU TINE'), fara nicio informatie comerciala: zero niveluri de echipare, zero preturi. Registrul nu are nicio sursa Mazda validata. Gaura de acoperire, nu fapt de piata.",
+      "modele_afectate": [
+        "mazda|cx-30|MY25|2.0-e-skyactiv-g-122|2wd|manuala|prime-line"
+      ]
+    },
+    {
+      "url": "https://www.opel.ro/modele/frontera.html",
+      "motiv": "singura clasa de sursa pentru Frontera e opel.ro (pagini de model), pe lista neagra cu motivul javascript_only; conform procedurii nu se reincearca. Lista de dealer folosita pentru Mokka (apancars) nu acopera Frontera. Niciun inlocuitor in registru.",
+      "modele_afectate": [
+        "opel|frontera|MY26|1.2-turbo-hybrid-136|2wd|edct6|gs+comfort"
+      ]
+    },
+    {
+      "url": "https://www.ford.ro/content/dam/guxeu/ro/documents/price-list/cars/PL-new-puma.pdf",
+      "motiv": "URL viu (200 application/pdf), dar documentul e MY21.25, 'valabila incepand cu 21.09.2020': 6 ani, TVA 19% in loc de 21%. Pagina de model ford.ro/autoturisme/noul-puma (200) da o singura cifra, 18.950 EUR promotional 'Rabla de la Ford', fara nicio atribuire de nivel sau motorizare. Pagina de promotii /promotions/persoane-fizice da 404. Ambele observatii sunt in carantina. Nu exista sursa cu pret curent pe configuratie: e gaura de acoperire, nu fapt de piata — Puma se vinde in Romania.",
+      "modele_afectate": [
+        "ford|puma|MY-neclar|1.0-ecoboost-mhev-125|2wd|manuala|titanium"
+      ]
+    }
+  ],
+  "models_found": 13,
+  "carantina": [],
+  "fara_oferta": [
+    {
+      "model_id": "kia|xceed|MY25|1.5-tgdi-140|2wd|manuala|style",
+      "surse_incercate": [
+        "https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_xceed.pdf",
+        "https://www.kia.ro/modele/xceed"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "1.5 T-GDI 140 CP nu mai apare deloc: lista de dealer MY26 are doar 1.0 T-GDI si 1.6 T-GDI (grep '1.5 T-GDI' = 0 potriviri) si promotia ei expirase la 31 martie 2026; kia.ro listeaza 1.0 T-GDI (6MT/7DCT) si 1.6 T-GDI 150/180 (7DCT). Style exista, dar doar cu 1.0 MHEV 7DCT (31.237/-6.000/25.237) si 1.6 150 CP (32.557/-6.000/26.557) — deci si cutia manuala a dispărut din Style. Confirmat pe 2 surse."
+    },
+    {
+      "model_id": "dacia|duster|III|1.2-tce-130-mhev|2wd|manuala|expression+clima",
+      "surse_incercate": [
+        "https://www.serus-dacia.ro/fise/dacia/Dacia%20Duster.pdf",
+        "https://vanzari.dacia.ro/"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "1.2 TCe 130 mHEV nu mai e in oferta. Fisa serus, 'Actualizat la data 1.09.2026' (registrul avea 2026-07-01), listeaza doar hybrid 150 4X4 (expression 23.017 / journey 24.298 / extreme 24.256, fara TVA) si BUSINESS ECO-G 120 (16.116) / tribrid 150 4X4 (21.570). vanzari.dacia.ro arata doar tribrid 150 4x4 (28.365,01 / 27.365,02 / Rabla 25.093,07) si ECO-G 120 automat 2WD (24.915 / 24.415 / 22.521,71). Confirmat pe 2 surse."
+    },
+    {
+      "model_id": "dacia|duster|III|1.2-tce-130-mhev|4x4|manuala|journey",
+      "surse_incercate": [
+        "https://www.serus-dacia.ro/fise/dacia/Dacia%20Duster.pdf",
+        "https://vanzari.dacia.ro/"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "idem: motorizarea 1.2 TCe 130 mHEV a dispărut; 4x4 se ofera acum cu hybrid 150 / tribrid 150. Randul catalogat (1.2 TCe 130 mHEV 4x4 manuala) nu are corespondent in oferta."
+    },
+    {
+      "model_id": "hyundai|kona|SX2|1.0-tgdi-120|2wd|manuala|style",
+      "surse_incercate": [
+        "https://www.hyundai-motor.ro/model/kona/preturi",
+        "https://www.hyundai-motor.ro/model/kona/specificatii-tehnice"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "1.0 T-GDI 120 CP nu mai apare pe niciuna dintre cele doua pagini. /preturi arata doar 1.6 l 150 CP Premium+ (lista 24.684 / promo 24.079 EUR, valabil '31 iulie 2026' — expirat); /specificatii-tehnice doar 1.6 T-GDi 138 CP (M/6 si 7DCT), echipare Premium+. Nivelul Style nu mai e listat. Confirmat pe 2 surse."
+    },
+    {
+      "model_id": "vw|t-cross|MY26|1.0-tsi-115|2wd|dsg|style",
+      "surse_incercate": [
+        "https://shop.volkswagen.ro/",
+        "https://www.radacini.ro/vw/t-cross"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "nivelul Style nu e in oferta. shop.volkswagen.ro (19 vehicule in stoc) are doar Prime si Sport (Prime 1.0 TSI DSG de la 24.644,47 EUR; Sport 24.850,36-25.210,94; Prime 25.268,83). radacini listeaza doar Prime, 'de la 22.800 EUR' — pret CONDITIONAT de finantare Porsche Finance + asigurare Porsche, deci exclus din net (CLAUDE.md 5), cu contracte expirate la 31.08.2026. Confirmat pe 2 surse."
+    },
+    {
+      "model_id": "vw|taigo|MY26|1.0-tsi-115|2wd|dsg|style",
+      "surse_incercate": [
+        "https://www.radacini.ro/vw/taigo"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "necunoscut",
+      "nota": "sursa citita acopera nivelul Prime, nu Style; final 'de la 22.675 EUR' explicit conditionat de finantare Porsche Finance + asigurare Porsche -> exclus din net (CLAUDE.md 5), valabilitate 31.08.2026 (expirata). O singura sursa citita cu succes, deci absenta lui Style nu se califica drept retragere: 'necunoscut'."
+    },
+    {
+      "model_id": "seat|arona|MY26|1.0-tsi|2wd|FR|referinta",
+      "surse_incercate": [
+        "https://www.seat.ro/arona/arona-fr",
+        "https://www.seat.ro/arona/versiuni-caracteristici"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "retras din ofertă",
+      "nota": "configuratia catalogata (FR + cutie manuala) nu exista: FR se ofera exclusiv cu DSG. /arona/arona-fr leaga cei 28.825 EUR de o versiune de 150 CP (212 km/h, 8,1 s); /versiuni-caracteristici da FR = 115-150 CP, Direct Shift Gearbox, 'de la 28.825 EUR', in timp ce manuala apare doar la Style (95-115 CP, 'de la 21.251 EUR'; baza 19.964 EUR). Scanul 2026-08-20 atribuise cei 28.825 EUR unui 1.0 TSI 115 manual — atribuire greșită. Ce acopera exact cifra (115 sau 150 CP) rămâne ambiguu intre cele doua pagini; ambele citiri pastrate, niciuna promovata la observatie de pret."
+    },
+    {
+      "model_id": "fiat|600|MY25|1.2-hybrid-100|2wd|edct6|la-prima",
+      "surse_incercate": [
+        "https://www.dabauto.ro/fiat/600"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "necunoscut",
+      "nota": "pagina citita cu succes pune pret doar pe echiparea de baza '600'; La Prima nu are pret afisat, deci nu se poate inregistra o observatie fara sa fie inventata (CLAUDE.md 8.2 — nu se extrapoleaza pretul unui nivel din altul). Ecotichet/Rabla maxim 2.400 EUR pentru 1.2 MHEV 100 CP (12.000 lei la 5 lei/EUR). Fara conditionare de finantare captiva si fara valabilitate calendaristica."
+    },
+    {
+      "model_id": "jeep|avenger|MY24|1.2-turbo|2wd|manuala|altitude+pachet",
+      "surse_incercate": [
+        "https://www.dabauto.ro/jeep/avenger"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "necunoscut",
+      "nota": "pagina citita cu succes enumera gama (Longitude 1.2 110 CP MT6 FWD) fara nivelul Altitude si fara niciun pret; oferta afisata expirase la 31.05.2026. Enumerarea de niveluri e dovada slaba pentru retragere si nu exista nicio cifra de inregistrat -> 'necunoscut'."
+    },
+    {
+      "model_id": "citroen|c3-aircross|MY26|1.2-turbo-100|2wd|manuala|max+pachet-iarna",
+      "surse_incercate": [
+        "https://www.citroen.ro/content/dam/citroen/romania/liste-de-preturi-2023/Citroen_C3_Aircross_Lista_de_preturi_08_2026.pdf"
+      ],
+      "observed_at": "2026-09-04",
+      "interpretare": "configuratie retrasa",
+      "nota": "Lista oficiala 'OFERTA VALABILA INCEPAND CU 01.08.2026' are exact 5 configuratii: YOU Turbo 100 Manuala 19.160, YOU Hybrid 145 Automata 24.330, PLUS Turbo 100 Manuala 21.030, PLUS Hybrid 145 Automata 26.030, MAX Hybrid 145 Automata 28.144. MAX NU se mai ofera cu Turbo 100 manuala. Nu se extrapoleaza pretul MAX+Turbo din PLUS+Turbo (CLAUDE.md §8.2). Confirmat pe sursa nivel 1, citita cu succes."
+    }
+  ],
+  "excluse_din_catalog": [
+    {
+      "model_id": "dacia|sandero-stepway|facelift-2025|tce-110|2wd|manuala|expression+clima",
+      "motiv": "excludere manuala a utilizatorului (D-030)"
+    },
+    {
+      "model_id": "hyundai|bayon|EXCLUS",
+      "motiv": "se vinde doar cu 1.0 90 CP, sub pragul de 100 CP din hard_filters"
+    }
+  ],
+  "status": "complet",
+  "note": [
+    "Interval de 15 zile, sub fereastra de referinta de 30 de zile din criteria.yaml -> fiecare delta de pret se raporteaza si brut si normalizat (pct x 30 / 15 = pct x 2). Vezi history/history-2026-09-04.md.",
+    "AVERTISMENT TRANSVERSAL asupra deltelor: scanul 2026-08-20 a folosit URL-uri generice de importator (suzuki.ro/autoturisme/oferte/, dacia.ro/gama-dacia/noul-duster.html, renault.ro/autoturisme/captur.html, opel.ro/modele/mokka.html), NU URL-urile din registru. Deltele brute intre 2026-08-20 si 2026-09-04 amesteca deci trei lucruri diferite: (a) miscari reale de pret, (b) substitutie de sursa, (c) reatribuire de cheie. Mokka, Captur si Arona sunt demonstrabil (b)/(c), nu (a).",
+    "Doua clasificari greșite ale scanului precedent sunt corectate aici, nu retroactiv (append-only): Kia Stonic 22.510 EUR si MG ZS 27.800 EUR fuseseră inregistrate drept 'lista', cand erau nete dupa promotie. Scanul de acum inregistreaza lista si netul separat; la net, ambele sunt neschimbate.",
+    "Doua conflicte de sursa nerezolvate, ambele valori pastrate (CLAUDE.md §8.4): Suzuki Vitara PASSION 22.360 (importator, doc 2024-06) vs 22.980 (dealer, doc 2026-04); Suzuki S-Cross Passion 24.350 vs 25.025, aceleasi documente. Lista importatorului nu s-a actualizat din 01.06.2024.",
+    "Intrebarea explicita despre Suzuki: lista importatorului NU s-a actualizat (CreationDate 2024-06-13, footer 'valabila incepand cu 01.06.2024'). Vitara AllGrip 4x4 ESTE in oferta (PASSION 1.4 MT ALLGRIP 24.560 EUR, SPIRIT 25.860, LUXUS 26.560), deci NU merge in fara_oferta. Nu are insa configuratie in models.json, asa ca observatiile ei sunt marcate carantina:true si nu intra in min/net; carantina din antet rămâne [] pentru ca nu exista model_id catalogat pe care sa-l numeasca.",
+    "Divergenta de catalog de rezolvat separat (nu in scan): Renault nu mai ofera 'E-Tech 145'; fisa MY26 da 'E-Tech full hybrid 160' la 28.750 EUR, in timp ce models.json inregistreaza '1.6 E-Tech Full Hybrid 145 CP'. Observatia s-a atasat pe randul catalogat (engine_match: True), dar cifra de putere diverge.",
+    "Registrul de surse are doua gauri structurale: Opel Frontera (singura clasa de sursa, opel.ro/modele, e pe lista neagra javascript_only) si Mazda CX-30 (nicio sursa Mazda validata in registru). Niciunul nu poate fi scanat pana cand registrul nu primeste o sursa de inlocuire.",
+    "URL-ul 'fragil' Skoda (cdn.skoda.ro/metrotehnica/3081.pdf) NU s-a rotit: acelasi id, acelasi document (CreationDate 2026-07-31) pe care registrul il notase drept CW32. Premisa de rotatie saptamanala nu se confirma la acest URL — de corectat in registru.",
+    "CORECTIE DE INTEGRITATE A SURSELOR, aplicata in aceeasi rulare, inainte de inchiderea scanului. Prima versiune a acestui fisier inregistrase URL-uri RECONSTRUITE plauzibil, nu URL-urile din registru: 12 din 13 pointeri erau morti (302/404/000). Documentele citite erau insa cele corecte — comparatie md5 byte-cu-byte a confirmat 12 din 13 identice, deci NICIUN pret nu se schimba din aceasta corectie. Cele 19 observatii afectate poarta 'url_corectat_la'. Consecinta de ordinul doi: trei intrari din sources_failed (Peugeot 2008 '403 WAF Stellantis', Citroen C3 Aircross '403', Ford Puma 'HTTP/2 INTERNAL_ERROR') diagnosticau URL-uri inventate; URL-urile reale din registru raspund 200 application/pdf. Cele trei modele s-au re-atribuit pe dovada: Peugeot 2008 -> comparate (25.900 + 236 pachet iarna), Citroen C3 Aircross -> fara_oferta (MAX nu mai are Turbo 100 manuala), Ford Puma -> comparate cu confidence=estimated (lista 2020, TVA 19%). Vezi DECISIONS.md.",
+    "Ford Puma nu e in comparate desi ambele URL-uri raspund 200: singura lista pe configuratie e din 2020, cu TVA 19%, iar singura cifra de pe pagina de model (18.950 EUR promotional) nu e atribuita niciunui nivel. Ambele observatii ramin in fisier cu provenienta completa dar marcate carantina, ca 20.800 EUR sa nu devina minimul clasamentului. `estimated` cere o metoda de aproximare (CLAUDE.md §4.5); intre 2020 si 2026 nu exista una care sa nu inventeze inflatia.",
+    "CORECTIE 2026-09-04 (D-033): Suzuki Vitara AllGrip 4x4 era observata in oferta (24.560 EUR lista importator 2024-06; 25.225 EUR lista dealer 2026-04-30) dar nu avea configuratie in models.json, deci ambele observatii stateau in carantina si versiunea 4x4 lipsea din tabelul de comparatie. Randul a fost adaugat in catalog cu date din lista dealer (2026-04-30) si observatiile ridicate din carantina. models_found 12 -> 13. Niciun pret nu se schimba; se schimba doar faptul ca cifrele intra in comparatie. Tractiunea integrala e bonus de scor (CLAUDE.md 6), deci un candidat 4x4 necatalogat era pierdere de informatie, nu curatenie."
+  ],
+  "observatii_pret": [
+    {
+      "model": "Suzuki Vitara",
+      "echipare": "PASSION",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 22360,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf",
+      "data_document": "2024-06-01",
+      "observed_at": "2026-09-04",
+      "conflict_sursa": true,
+      "nota": "lista importatorului NESCHIMBATA din 01.06.2024 (pdfinfo CreationDate 2024-06-13; footer 'valabila incepand cu 01.06.2024') -> estimated prin regula de 12 luni din sources.yaml. Contrazisa de auto-net 22.980 EUR (doc 2026-04-30); ambele pastrate, conflictul marcat (CLAUDE.md 8.4).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Suzuki Vitara",
+      "echipare": "PASSION",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 22980,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf",
+      "data_document": "2026-04-30",
+      "observed_at": "2026-09-04",
+      "conflict_sursa": true,
+      "nota": "lista dealer autorizat, document 2026-04-30. Contrazice lista importatorului (22.360 EUR, doc 2024-06).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Suzuki Vitara AllGrip",
+      "echipare": "PASSION ALLGRIP",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "awd",
+      "pret_eur": 24560,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf",
+      "data_document": "2024-06-01",
+      "observed_at": "2026-09-04",
+      "nota": "pag. 2 lista importator: MILD HYBRID 48V PASSION 1.4 MT ALLGRIP 24.560 EUR (SPIRIT ALLGRIP 25.860, LUXUS ALLGRIP 26.560). Ridicata din carantina 2026-09-04 (D-033): configuratia AllGrip a fost catalogata in models.json, deci motivul carantinei ('necatalogat') nu mai e adevarat. Cifra si sursa sunt neschimbate.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Suzuki Vitara AllGrip",
+      "echipare": "PASSION ALLGRIP",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "awd",
+      "pret_eur": 25225,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf",
+      "data_document": "2026-04-30",
+      "observed_at": "2026-09-04",
+      "nota": "coroborare dealer pentru existenta versiunii AllGrip in oferta la 2026. Ridicata din carantina 2026-09-04 (D-033): configuratia AllGrip a fost catalogata in models.json, deci motivul carantinei ('necatalogat') nu mai e adevarat. Cifra si sursa sunt neschimbate.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Toyota Yaris Cross",
+      "echipare": "BUSINESS",
+      "motorizare": "1.5 Hybrid 116",
+      "cutie": "ecvt",
+      "tractiune": "2wd",
+      "pret_eur": 26911.61,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://www.toyota.ro/content/dam/toyota/ro/nmsc/brosuri-liste-pret/liste-de-pret/Preturi_Yaris_Cross_Hybrid.pdf",
+      "data_document": "2026-08",
+      "valabil_pana": "2026-08-31",
+      "observed_at": "2026-09-04",
+      "nota": "lista MY26 V.08 (august 2026); 22.241 EUR fara TVA x 1,21 = 26.911,61 EUR cu TVA. Documentul spune 'Preturi valabile in perioada 01 - 31 August 2026' -> EXPIRATA la data scanului, deci confidence=estimated conform criteria.yaml scan.observatii_pret.oferta_expirata. Documentul nu contine linie Rabla (scanul precedent avea net_cu_rabla 24.616 EUR).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Skoda Kamiq",
+      "echipare": "Selection",
+      "motorizare": "1.0 TSI 115",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 22406,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://skoda.metrotehnica.ro/index.php/download_file/view/3081/153/",
+      "data_document": "2026-07-31",
+      "observed_at": "2026-09-04",
+      "nota": "18.517 EUR fara TVA x 1,21 = 22.406 EUR. URL marcat 'fragil' in registru (id numeric, fisier saptamanal) NU s-a rotit: id 3081 neschimbat, CreationDate 2026-07-31 — acelasi document notat de registru drept CW32. Premisa 'se roteste la ~CW36' nu se confirma.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Kia Stonic",
+      "echipare": "Trend",
+      "motorizare": "1.0 T-GDI 100",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 24010,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf",
+      "data_document": "2026-08",
+      "observed_at": "2026-09-04",
+      "nota": "MY26. Scanul 2026-08-20 inregistrase 22.510 EUR drept 'lista' — era in fapt netul dupa promotie.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Kia Stonic",
+      "echipare": "Trend",
+      "motorizare": "1.0 T-GDI 100",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 22510,
+      "tip_pret": "net_promotional",
+      "confidence": "confirmed",
+      "url": "https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf",
+      "data_document": "2026-08",
+      "observed_at": "2026-09-04",
+      "nota": "lista 24.010 - promotie 1.500 EUR. Coroborat pe kia.ro.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Honda Jazz Crosstar",
+      "echipare": "Executive",
+      "motorizare": "1.5 e:HEV",
+      "cutie": "ecvt",
+      "tractiune": "2wd",
+      "pret_eur": 27250,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf",
+      "data_document": "2026-08",
+      "observed_at": "2026-09-04",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Honda Jazz Crosstar",
+      "echipare": "Executive",
+      "motorizare": "1.5 e:HEV",
+      "cutie": "ecvt",
+      "tractiune": "2wd",
+      "pret_eur": 23950,
+      "tip_pret": "net_promotional",
+      "confidence": "confirmed",
+      "url": "https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf",
+      "data_document": "2026-08",
+      "observed_at": "2026-09-04",
+      "nota": "lista 27.250 - reducere 3.300 EUR.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Suzuki S-Cross",
+      "echipare": "Passion",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 24350,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf",
+      "data_document": "2024-06-01",
+      "observed_at": "2026-09-04",
+      "conflict_sursa": true,
+      "nota": "lista importatorului neschimbata din 01.06.2024 -> estimated. Contrazisa de auto-net 25.025 EUR (doc 2026-04-30).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Suzuki S-Cross",
+      "echipare": "Passion",
+      "motorizare": "1.4 Mild-Hybrid 48V",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 25025,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_scross.pdf",
+      "data_document": "2026-04-30",
+      "observed_at": "2026-09-04",
+      "conflict_sursa": true,
+      "nota": "lista dealer autorizat 2026-04-30. Contrazice lista importatorului (24.350 EUR, doc 2024-06).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Opel Mokka",
+      "echipare": "GS",
+      "motorizare": "1.2 Turbo 130",
+      "cutie": "at8",
+      "tractiune": "2wd",
+      "pret_eur": 25650,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://apancars.ro/ro/attachment?id_attachment=95",
+      "data_document": "2024-11-01",
+      "observed_at": "2026-09-04",
+      "nota": "21.554 EUR fara TVA x 1,21 = 25.650 EUR. Documentul e datat '1 Noiembrie 2024' si e NESCHIMBAT -> estimated prin regula de 12 luni. Diferenta fata de 26.500 EUR din scanul precedent vine din SCHIMBAREA SURSEI (opel.ro, javascript_only, acum pe lista neagra), NU dintr-o miscare de pret.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "MG ZS Hybrid+",
+      "echipare": "Exclusive",
+      "motorizare": "1.5 Hybrid+",
+      "cutie": "automata",
+      "tractiune": "2wd",
+      "pret_eur": 28800,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf",
+      "data_document": "2025-01",
+      "valabil_pana": "2025-01-31",
+      "observed_at": "2026-09-04",
+      "nota": "24.202 EUR fara TVA x 1,21 = 28.800 EUR. Document valabil '1 ianuarie - 31 ianuarie 2025' -> expirat; estimated (oferta_expirata + regula de 12 luni).",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "MG ZS Hybrid+",
+      "echipare": "Exclusive",
+      "motorizare": "1.5 Hybrid+",
+      "cutie": "automata",
+      "tractiune": "2wd",
+      "pret_eur": 27800,
+      "tip_pret": "net_promotional",
+      "confidence": "estimated",
+      "url": "https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf",
+      "data_document": "2025-01",
+      "valabil_pana": "2025-01-31",
+      "observed_at": "2026-09-04",
+      "nota": "lista 28.800 - reducere 1.000 EUR. Scanul 2026-08-20 inregistrase 27.800 drept 'lista' — era netul dupa reducere.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Renault Captur",
+      "echipare": "Techno",
+      "motorizare": "mild hybrid 140 EDC",
+      "cutie": "edc",
+      "tractiune": "2wd",
+      "pret_eur": 27150,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://www.serus-renault.ro/fise/renault/Renault%20Captur.pdf",
+      "data_document": "2026-02-09",
+      "observed_at": "2026-09-04",
+      "nota": "22.438 EUR fara TVA x 1,21 = 27.150 EUR. ATENTIE la delta: in aceeasi fisa, 'techno E-Tech full hybrid 160' costa exact 27.800 EUR — cifra scanului precedent. Cele -2,34% sunt cel mai probabil reatribuire de cheie (motorizare), nu miscare de pret.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Renault Symbioz",
+      "echipare": "Evolution",
+      "motorizare": "E-Tech full hybrid 160",
+      "cutie": "automata",
+      "tractiune": "2wd",
+      "pret_eur": 28750,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://www.serus-renault.ro/fise/renault/Renault%20Symbioz.pdf",
+      "data_document": "2026-03-10",
+      "observed_at": "2026-09-04",
+      "nota": "fisa MY26, evolution: Eco-G 120 BVM 24.490 / mild hybrid 140 BVM 25.750 / E-Tech full hybrid 160 = 28.750 EUR. In oferta actuala NU mai apare 'E-Tech 145', pe care il inregistreaza catalogul ('1.6 E-Tech Full Hybrid 145 CP'). Observatia se ataseaza pe randul catalogat, dar divergenta 145/160 CP e reala si se rezolva in catalog, nu in scan.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Honda HR-V",
+      "echipare": "Elegance",
+      "motorizare": "1.5 e:HEV 131",
+      "cutie": "ecvt",
+      "tractiune": "2wd",
+      "pret_eur": 32990,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf",
+      "data_document": "2026-08",
+      "valabil_pana": "2026-09-30",
+      "observed_at": "2026-09-04",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Honda HR-V",
+      "echipare": "Elegance",
+      "motorizare": "1.5 e:HEV 131",
+      "cutie": "ecvt",
+      "tractiune": "2wd",
+      "pret_eur": 29990,
+      "tip_pret": "net_promotional",
+      "confidence": "confirmed",
+      "url": "https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf",
+      "data_document": "2026-08",
+      "valabil_pana": "2026-09-30",
+      "observed_at": "2026-09-04",
+      "net_cu_rabla_eur": 27690,
+      "nota": "lista 32.990 - 'Avantaj client' 3.000 = 29.990 EUR (neconditionat). 'Avantaj Rabla/Rabla Plus' 2.300 EUR se aplica peste, dand 27.690 EUR — pastrat separat, prima de casare e parametru anual (CLAUDE.md 5), nu reducere comerciala.",
+      "url_corectat_la": "2026-09-04"
+    },
+    {
+      "model": "Peugeot 2008",
+      "echipare": "Allure",
+      "motorizare": "1.2 PureTech 100 CP",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 25900,
+      "tip_pret": "lista",
+      "confidence": "confirmed",
+      "url": "https://www.peugeot.ro/content/dam/peugeot/romania/preturi/2008-Lista-preturi-Lista-de-pret-valabila-incepand-cu-luna-august-2026.pdf",
+      "observed_at": "2026-09-04",
+      "data_document": "2026-08",
+      "plus_pachet_iarna_eur": 236,
+      "total_configuratie_calificata_eur": 26136,
+      "nota": "Lista oficiala importator, 25 pag., CreationDate 2026-08-04, footer 'valabila incepand cu luna august 2026'. Coloane STYLE/ALLURE/GT legate prin offset de caracter la antet (344/412/488); randul 'Turbo 100ch manuala' da ALLURE 21.405 EUR fara TVA / 25.900 cu TVA (TVA 21% verificat). Pachet de iarna UF02 236 EUR cu TVA, 'O' pe ALLURE."
+    },
+    {
+      "model": "Ford Puma",
+      "echipare": "Titanium",
+      "motorizare": "1.0 EcoBoost mHEV 125 CP",
+      "cutie": "manuala",
+      "tractiune": "2wd",
+      "pret_eur": 20800,
+      "tip_pret": "lista",
+      "confidence": "estimated",
+      "url": "https://www.ford.ro/content/dam/guxeu/ro/documents/price-list/cars/PL-new-puma.pdf",
+      "observed_at": "2026-09-04",
+      "data_document": "2020-09-21",
+      "nota": "SINGURA lista de preturi publicata de importator: MY21.25, 'valabila incepand cu 21.09.2020'. Titanium / 1.0l EcoBoost Hybrid (mHEV) 125 CP / M6 = 17.479,0 fara TVA / 20.800 cu TVA — raport 1,19, deci TVA 19%, cota din 2020, nu cea actuala de 21%. Registrul impune deja confidence=estimated pe aceasta sursa (AVERTISMENT sources.yaml). Cifra NU e comparabila cu preturile 2026 si nu trebuie citita ca pret ferm.",
+      "carantina": true,
+      "motiv_carantina": "lista MY21.25 din 2020-09-21, TVA 19%; nu e comparabila cu preturi 2026 si nu poate intra in min/net (D-020)"
+    },
+    {
+      "model": "Ford Puma",
+      "echipare": "Titanium",
+      "motorizare": "1.0 EcoBoost mHEV 125 CP",
+      "pret_eur": 18950,
+      "tip_pret": "net_promotional",
+      "confidence": "confirmed",
+      "url": "https://www.ford.ro/autoturisme/noul-puma",
+      "observed_at": "2026-09-04",
+      "carantina": true,
+      "motiv_carantina": "pret promotional fara atribuire de nivel/motorizare pe pagina",
+      "nota": "'De la 18.950 EUR — Pret promotional recomandat cu TVA inclus prin programul Rabla de la Ford'. Pagina nu leaga cifra de niciun nivel de echipare sau motor, deci nu poate fi atasata cheii Titanium/mHEV 125 fara a inventa atribuirea (D-020/D-024). Pagina de promotii /promotions/persoane-fizice da 404, deci netul de 19.800 EUR din scanul 2026-08-20 nu mai e confirmabil."
+    }
+  ]
+}

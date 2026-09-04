@@ -1,0 +1,1 @@
+https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf

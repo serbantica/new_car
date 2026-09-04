@@ -503,6 +503,240 @@ Al doilea: un model poate lipsi din tabel din patru motive complet diferite — 
 
 ---
 
+## D-032 — Primul scan sub D-031, și eșecul care l-a însoțit: URL-ul se copiază din registru, nu se reconstruiește din memorie
+
+**Data:** 2026-09-04 · **Scan:** `data/scans/scan-2026-09-04.json` · **Jurnal:** `history/history-2026-09-04.md`
+
+### Ce a produs rularea
+
+Primul scan sub contractul D-031 și primul fișier scris vreodată în `history/` — găleata
+care închide întrebarea deschisă „`history/` este gol". Interval **15 zile** față de
+`scan-2026-08-20.json`, calculat din ceas, nu presupus. Acoperire `complet`: 29 catalogate =
+12 comparate + 0 carantină + 5 surse eșuate + 10 fără ofertă + 2 excluse, verificată cu
+`build.verifica_acoperire` **înainte** de scriere, cum cere cârligul manual din D-031.
+
+O corecție de numărătoare, mecanic verificată: D-031 și briefingul rulării vorbesc despre
+**28** de modele atribuibile. `models.json` are 29 de intrări, din care **două** poartă
+`EXCLUS_DIN_CATALOG` (Sandero Stepway prin D-030, Bayon pentru 90 CP sub prag), deci
+**27** intră în universul de scor, nu 28.
+
+### Eșecul: 12 din 13 pointeri de sursă erau inventați
+
+Prima versiune a fișierului a fost scrisă cu URL-uri **reconstruite plauzibil din memorie**
+în loc de copiate din `spec/sources.yaml`. Probate una câte una: **12 din 13 URL-uri de PDF
+răspundeau 302 / 404 / 000.** Toate URL-urile corecte erau deja în registru, iar registrul
+fusese citit la începutul rulării — deci nu a fost o gaură de informație, a fost o gaură de
+disciplină.
+
+Comparația md5 a stabilit ce s-a pierdut și ce nu: **12 din 13 documente citite erau
+byte-identice** cu ce servesc URL-urile reale. Nicio cifră de preț nu se schimbă din corecție.
+Ce era fals era **proveniența** — și un preț fără sursă verificabilă nu are voie în fișier
+(CLAUDE.md §4.4). Problema de fond: un URL plauzibil scris din amintire e indistingibil de
+unul citit, până e probat. Lista completă a celor 12 e în §8 din jurnalul zilei.
+
+### Consecința de ordinul doi, mai gravă decât pointerii
+
+Trei intrări din `sources_failed` diagnosticau erori pe URL-uri care nu existaseră niciodată:
+
+| Model | Diagnostic înregistrat (fals) | URL-ul real din registru |
+|---|---|---|
+| Peugeot 2008 | „HTTP 403 pe ambele tipare de lună → blocaj WAF Stellantis" | **200** `application/pdf`, 25 pag., `CreationDate 2026-08-04` |
+| Citroën C3 Aircross | același „403 WAF" | **200**, 13 pag., `CreationDate 2026-08-04` |
+| Ford Puma | „`INTERNAL_ERROR` HTTP/2, apoi timeout pe HTTP/1.1" | **200** |
+
+„Stellantis blochează accesul automat" este o afirmație despre lume. A ajuns în fișier prin
+diagnosticarea unei erori de rețea pe o adresă imaginară. Un `sources_failed` construit pe un
+URL inventat **este un fapt de piață inventat** — exact ce interzice CLAUDE.md §8.1, pe o cale
+pe care contractul D-031 nu o prevedea: găleata protejează împotriva absenței nedeclarate, nu
+împotriva unei absențe declarate din motiv fabricat.
+
+Re-atribuirea pe dovadă:
+
+- **Peugeot 2008 Allure** → `comparate`. Lista oficială august 2026, coloanele STYLE/ALLURE/GT
+  legate prin offset de caracter la antet (344/412/488), rândul *Turbo 100ch manuala*:
+  **21.405 € fără TVA / 25.900 € cu TVA** (raport 1,21 verificat), plus Pachet de iarnă UF02
+  **236 €** → configurație calificată **26.136 €**.
+- **Citroën C3 Aircross MAX** → `fara_oferta`. Lista „valabilă începând cu 01.08.2026" are
+  exact cinci configurații, iar **MAX apare doar cu Hybrid 145 Automata**. MAX + Turbo 100
+  manuala nu se mai oferă, și prețul nu se extrapolează din PLUS + Turbo (CLAUDE.md §8.2).
+- **Ford Puma Titanium** → rămâne în `sources_failed`, cu motivul corect. Vezi mai jos.
+
+### Ford Puma: de ce un preț real, publicat și marcat `estimated` nu are voie în comparație
+
+Singura listă pe configurație publicată de importator e `PL-new-puma.pdf`, MY21.25, „valabilă
+începând cu 21.09.2020": Titanium / 1.0 EcoBoost mHEV 125 / M6 = 17.479,0 fără TVA / **20.800
+cu TVA** — raport **1,19**, deci TVA 19 %, cota din 2020. Registrul autoriza deja
+`confidence=estimated` pe această sursă, iar la 20.800 € rândul ar fi devenit **cel mai ieftin
+din scan**, înaintea Kamiq-ului de 22.406 €.
+
+Decizia: observația rămâne în fișier cu proveniență completă, dar marcată `carantina: true`, iar
+modelul stă în `sources_failed`. Motivul e definiția: `estimated` înseamnă „aproximat, cu metoda
+notată" (CLAUDE.md §4.5), iar între 2020 și 2026 nu există metodă de aproximare care să nu
+inventeze rata inflației și schimbarea de cotă de TVA. O cifră de acum șase ani nu e o estimare
+a prețului de azi — e altă mărime. Cifra de pe pagina de model (18.950 € promoțional „Rabla de
+la Ford") nu ajută: pagina nu o leagă de niciun nivel de echipare sau motorizare, deci atașarea
+ei la cheia Titanium/mHEV 125 ar fi atribuire inventată (D-020/D-024). Pagina de promoții a
+murit (404), deci netul de 19.800 € din scanul precedent nu mai e confirmabil.
+
+**Ford e singura marcă din registru fără listă de prețuri curentă pe nivel de echipare.** Puma
+se vinde în România; absența cifrei e a noastră, nu a pieței.
+
+### Fragilitatea de URL: toate cele trei presupuneri erau greșite, iar cea reală era de alt tip
+
+Briefingul aștepta rotații de URL la Peugeot (luna în URL), Citroën (`08_2026`) și Škoda
+(id numeric săptămânal, CW32 → ~CW36). **Niciuna nu s-a produs.** Peugeot și Citroën răspund
+200 pe exact URL-ul de august; `fragil` nu înseamnă „mort la 1 ale lunii". Škoda servește
+același document pe același id (`CreationDate 2026-07-31`, md5 identic cu ziua precedentă) —
+premisa „fișier săptămânal" e falsă, reclasificat `mediu` → `stabil`.
+
+Fragilitatea reală a apărut unde registrul nota „calitate exemplară, `fragilitate: stabil`":
+**URL stabil nu înseamnă document stabil.** Același URL Toyota a servit MY26 **V.08 / august
+2026** (`CreationDate 2026-07-27`, BUSINESS 22.241 / 26.911,61) pe 2026-09-03 și MY26 **V.05 /
+mai 2026** (`CreationDate 2026-04-30`, 22.218 / 26.883,78) pe 2026-09-04. Nu rotație — **rollback
+de versiune**, invizibil pentru orice verificare care se uită la codul HTTP și nu la
+`CreationDate`. O verificare de disponibilitate nu e o verificare de versiune.
+
+### Ce s-a schimbat în artefacte
+
+- `spec/sources.yaml` → **v4**. Două reguli noi: *URL-ul se copiază din registru, nu se
+  reconstruiește din memorie* (cu incidentul ca dovadă) și *URL stabil nu înseamnă document
+  stabil*. Toyota: `fragilitate: instabil_pe_versiune` + avertisment de rollback. Škoda:
+  corecție de premisă. Suzuki auto-net: `data_document: 2026-04-30` — nu mai e „nedatată",
+  `CreationDate` verificat, cu copia locală pusă de Serban în `data/manual/` byte-identică cu
+  ce servește URL-ul. Ford: pagina de promoții marcată `mort_404`, pagina de model adăugată cu
+  avertismentul de atribuire. `validat_la: 2026-09-04` doar pe intrările reverificate azi.
+- `data/scans/scan-2026-09-04.json` → URL-uri corectate (19 observații poartă
+  `url_corectat_la`), trei re-atribuiri de găleată, două note noi, antet recalculat mecanic.
+- `history/history-2026-09-04.md` → §8, incidentul integral.
+- `data/latest.json` + dashboard recalculate; `pytest tests/ -q` → **26 passed**.
+
+### De ce fișierul a fost corectat, nu dublat
+
+CLAUDE.md §2 cere ca o eroare descoperită *ulterior* să se corecteze printr-o intrare nouă, nu
+prin editare. Regula protejează comparabilitatea seriei în timp, iar instrucțiunea rulării o
+scopa explicit la scanurile anterioare („nu editezi scanurile 2026-08-19 / 2026-08-20").
+Aici eroarea a fost găsită în aceeași rulare, înainte de închiderea scanului, iar un al doilea
+fișier cu aceeași dată ar fi introdus un interval de zero zile în serie și ar fi depins de un
+accident de sortare lexicografică pentru a fi ales de `find_latest_scan` (`scan-2026-09-04-…`
+sortează **înaintea** `scan-2026-09-04.json`, deci nici nu ar fi fost citit). Incidentul e
+păstrat integral în această intrare și în §8 din jurnal; ce s-a înlocuit sunt 12 șiruri
+greșite, enumerate acolo. Corecția e reversibilă din git dacă preferi convenția strictă.
+
+### Ce rămâne deschis
+
+1. **Opel Frontera și Mazda CX-30** — zero surse citibile în registru. Vor rămâne în
+   `sources_failed` la fiecare rulare până când registrul primește o sursă de altă clasă.
+2. **Ford Puma** — idem, pentru lipsa unei liste curente pe nivel.
+3. **SEAT Ateca** — 404 pe toate cele cinci URL-uri, dar Arona răspunde 200 pe același host.
+   Retragerea e probabilă, neconfirmată; rămâne în `sources_failed`, nu în `fara_oferta`.
+4. **Catalog: Renault Symbioz** — oferta MY26 dă `E-Tech full hybrid 160`, `models.json` are
+   `1.6 E-Tech Full Hybrid 145 CP`. Divergență de putere, de rezolvat în catalog, nu în scan.
+5. ~~**Catalog: Suzuki Vitara AllGrip 4x4** — nu are configurație catalogată~~ — **închis
+   2026-09-04 prin D-033**, semnalat de Serban. Rămâne deschis același tipar la S-Cross.
+6. **Verificare de versiune în scan** — de comparat `CreationDate` cu `data_document` din
+   registru și de semnalat regresia. Altfel un rollback intră în serie ca mișcare de preț.
+7. **Calibrarea pragului de 3 %** — la 15 zile, trei variații au trecut doar normalizat, și
+   toate trei s-au dovedit artefacte de substituție de sursă. Dacă tiparul se repetă pe un
+   interval real de 30 de zile, întrebarea e dacă pragul măsoară mișcare de preț sau zgomot
+   de sursă.
+
+---
+
+## D-033 — Vitara AllGrip 4x4 intră în catalog: carantina protejează cheia, dar nu ține locul unui rând lipsă
+
+**Data:** 2026-09-04 · **Semnalat de:** Serban, după închiderea scanului — „Vitara AllGrip nu
+apare in tabel. Si nici AllGrip ca Tractiune."
+
+### Simptomul și cauza
+
+Două simptome, o singură cauză. Versiunea AllGrip era **în ofertă**, prețul îi era **citit din
+document** (24.560 € listă importator doc 2024-06; 25.225 € listă dealer doc 2026-04-30), și
+totuși nu apărea nicăieri în tabel — doar în lista de carantină, cu motivul *„nu are configurație
+în models.json"*.
+
+Mecanismul e corect: `build_join` refuză să atașeze o observație unui rând care nu există, iar
+D-020/D-024 interzic lipirea unei cifre de o cheie neverificată. Ce lipsea era pasul următor —
+**carantina e un semnal, nu o destinație.** O observație care stă în carantină pentru că *modelul
+nu e catalogat* descrie o gaură în catalog, nu o incertitudine despre piață. Prima e reparabilă
+și trebuie reparată; a doua se raportează. Le tratasem la fel.
+
+Al doilea simptom decurgea din primul, prin filtrul implicit: `awd` *era* o valoare de filtru
+(o produce Duster 4x4), dar singurul rând AWD catalogat nu are preț la acest scan →
+`in_buget: nedeterminat` → ascuns de `filtru_implicit: in_buget: true`. Zero rânduri AWD
+vizibile. Consecința cea mai proastă: profilul `continuitate_vitara`, care pune **0,40 pe bonusul
+moștenit** (AWD + manuală + gardă la sol), se aplica unei liste fără nicio tracțiune integrală
+cotată — o lentilă construită anume pentru mașina actuală, măsurând nimic.
+
+### Decizia
+
+**Rând nou în catalog** — `suzuki|vitara|MY-nedeterminat|1.4-boosterjet-mhev|awd|manuala|passion`,
+`model: "Vitara AllGrip"` (numele din documentul sursă: „Noua Vitara AllGrip"; precedentul
+`Duster 4x4` face la fel), echipare **PASSION ALLGRIP**, 6MT. Cele două observații au fost
+ridicate din carantină și modelul lor renumit ca să prindă cheia — **niciun preț nu se schimbă**,
+se schimbă doar faptul că motivul carantinei nu mai e adevărat. `models_found` 12 → 13; acoperirea
+rămâne `complet` (30 = 13 + 0 + 5 + 10 + 2, verificat cu `verifica_acoperire`).
+
+**PASSION e nivelul selectat** pentru că e cel mai ieftin care atinge pragul de 7 dotări,
+verificat în listă, nu presupus: COOL aduce aer condiționat automat, cruise control adaptiv,
+oglinzi electrice, geamuri față electrice, ecran 9" cu Android Auto/CarPlay wireless și cameră de
+marșarier; PASSION adaugă **scaunele față încălzite** — singurul lipsă la COOL — plus Hill Descent
+Control și indicator mod tracțiune ALLGRIP.
+
+### Regula de provenienţă a datelor tehnice, pentru orice viitor rând-frate
+
+Documentul dealer își structurează tabelul pe coloane de tracțiune. Deci:
+
+- fapte date **pe coloană** (tracțiune, WLTP 5,4 vs 5,3 l/100km, masă proprie 1250–1290 vs
+  1180–1227 kg) → din document, `confirmed`;
+- fapte date pe **un rând care acoperă ambele tracțiuni** (lungime, portbagaj, putere, cuplu) →
+  copiate din rândul 2wd. Sunt fapte ale *modelului*, nu ale versiunii; a le lua din al doilea
+  document ar fi inventat o diferență intra-model care fizic nu există;
+- consum real → `derived` cu **metoda scrisă în câmp**: WLTP 5,4 al AllGrip × raportul real/WLTP
+  1,17 măsurat pe 2wd (Spritmonitor 6,2 / WLTP 5,3) = 6,3. Nu există eșantion Spritmonitor pentru
+  AllGrip. Nu e „consum real din WLTP" (§8.3 interzice) — e transportul unui raport observat, cu
+  metoda declarată și marcat pentru înlocuire;
+- reziduală → 47 %, copiată din rândul 2wd. Precedentul Duster dă 4x4-ului +0,01 față de 2wd;
+  **nu s-a extrapolat**, pentru că un tipar pe o marcă nu e o măsurătoare pe alta.
+
+### Ce a scos la lumină: două divergențe care nu privesc AllGrip
+
+Documentul dealer (2026-04-30) dă **lungime 4185 mm** și **portbagaj 362 l**, pe rânduri care
+acoperă ambele tracțiuni; catalogul are 4175 mm și 375 l din `suzuki.ro`. La fel puterea: 110 CP
+/ 4500 rpm la dealer vs 95 kW = 129 CP în lista oficială, pe **același** motor K14D declarat
+identic pe ambele tracțiuni. Marcate în `conflict` pe câmpurile respective, pe rândul nou
+(§8.4 — nu se alege tăcut). **Rândul 2wd are exact aceeași problemă** și nimeni nu o văzuse:
+adăugarea unui frate a forțat compararea a două documente care descriu aceeași caroserie.
+Efect practic la filtrare: niciunul (4185 trece plafonul de 4450 la fel ca 4175).
+
+### Rezultatul
+
+Listă 25.225 € · net estimat cu Rabla **22.937 €** · TCO 15 ani fără revânzare 50.520 €
+(0,241 €/km) · `in_buget: da` · acoperire de pondere **1,0** pe toate profilele. Pe
+`continuitate_vitara` iese al treilea (0,6596), dar **primul dintre rândurile scorate pe acoperire
+completă**: cele două de deasupra — Duster 4x4 (0,7257) și Kia XCeed (0,6745) — stau la 0,8, iar
+Duster 4x4 e acolo fără niciun preț la acest scan, deci cu componenta TCO lipsă și ponderea
+redistribuită. Un rând fără preț care conduce un clasament de continuitate e artefactul pe care
+coloana de acoperire există ca să îl arate.
+
+### Ce rămâne deschis
+
+1. **`suzuki|s-cross|...` are aceeași gaură.** Poartă doar o notă în proză —
+   `tractiune_disponibila: "ALLGRIP Select pe Passion, Spirit, Luxus — NU pe Cool"` — nu o
+   configurație punctabilă, deși aceeași listă dealer dă **S-Cross AllGrip Passion 6MT la
+   27.270 €**. Peste plafonul de 27.000 €, deci ar intra ca rând de referință
+   (`in_buget: false`), nu absent (D-016). Nu a fost adăugat în această rundă: observațiile lui
+   nu au fost înregistrate la scan, iar completarea lor depășește ce a fost semnalat.
+2. **Reconcilierea 4175/4185 și 375/362** pe ambele rânduri Vitara.
+3. ~~**Consumul real AllGrip** — de înlocuit derivarea cu o măsurătoare când apare un eșantion.~~
+   — închis 2026-09-04 prin **D-034**: eșantionul exista (6,2), derivarea 6,3 se sprijinea pe o
+   presupunere falsă a mea. Rămâne deschis dacă eșantionul e filtrat pe AllGrip sau agregat.
+4. **Verificare sistematică:** câte alte configurații din registru există în ofertă fără rând
+   catalogat? Nota `tractiune_disponibila` de la S-Cross arată că tiparul „știm că versiunea
+   există, dar doar în proză" e deja în catalog. O trecere prin `variante_suplimentare` ar
+   spune cât de mare e gaura.
+
+---
+
 ---
 
 ## Întrebări deschise
@@ -516,12 +750,10 @@ Al doilea: un model poate lipsi din tabel din patru motive complet diferite — 
 - ~~Invariantul de acoperire nu e verificat mecanic~~ — închis 2026-09-03 prin
   `build.verifica_acoperire` / `build.normalize_delta` + `tests/test_scan_contract.py`
   (16 teste). Vezi completarea la D-031.
-- **`history/` este gol.** Zero fișiere, deși există două scanuri. CLAUDE.md §9
-  pasul 6 cere `history/history-<azi>.md` la fiecare rulare și spune explicit că
-  „pasul 6 este cel care dă valoare seriei". D-031 presupune că `history/`
-  raportează delta normalizată — presupunere fără suport deocamdată. Delta
-  `2026-08-19 → 2026-08-20` rămâne nedocumentată; se poate reconstrui din cele
-  două fișiere existente, dar **marcată ca reconstrucție**, nu ca observație.
+- ~~**`history/` este gol.**~~ — închis 2026-09-04 prin D-032:
+  `history/history-2026-09-04.md` e primul fișier al găleții, cu delta brută **și**
+  normalizată pe interval de 15 zile. Delta `2026-08-19 → 2026-08-20` rămâne
+  nedocumentată; reconstruibilă din cele două fișiere, dar **marcată ca reconstrucție**.
 - **Homoglifă în numele câmpului `rezidua_incerta` (conflict spec↔date, NEREZOLVAT).**
   `spec/criteria.yaml:132` (`marcaje.incertitudine_reziduala.camp`) și `:493`
   (`query.filtrabile`) scriu `rezidualа_incerta` — cu un `l` în plus **și** un `а`
@@ -535,3 +767,58 @@ Al doilea: un model poate lipsi din tabel din patru motive complet diferite — 
   e sursa unică de adevăr, iar direcția de aliniere e decizia lui Serban (HANDOFF §6.5:
   „nu alege tăcut"). Până la rezolvare, dashboard-ul marchează vizibil orice filtru
   fără câmp corespondent în date, în loc să-l lase mut.
+
+---
+
+## D-034 — Consumul real este un instantaneu, nu un fapt stabil (2026-09-04)
+
+**Simptom.** Două corecții raportate de Serban în aceeași propoziție:
+„există eșantion Spritmonitor pentru AllGrip. 6.2 / dar toyota cross are 4.64".
+
+**Cauză, separată pe cele două rânduri.**
+
+1. **Vitara AllGrip 6,3 → 6,2.** Eroare de-a mea, nu a datelor. Am scris în D-033 „NU există
+   eșantion Spritmonitor propriu pentru AllGrip" și am derivat 6,3 transportând raportul real/WLTP
+   de la varianta 2wd. Eșantionul exista. Metoda declarată corect nu compensează o premisă
+   neverificată: am documentat impecabil o derivare care nu trebuia să existe. Valoarea nouă e
+   citită direct, ca la restul catalogului.
+
+2. **Toyota Yaris Cross 4,5 → 4,64.** Nu e o eroare de metodă — e vârsta datelor. Toată coloana
+   `consum_real_l100` din `data/models.json` (27 de rânduri) e o citire Spritmonitor cu o zecimală,
+   făcută la construcția catalogului, fără dată de observare pe câmp. 4,64 e citirea de azi. 4,5
+   nu era greșit *când a fost scris*; e stale, iar câmpul nu are cum să spună asta.
+
+**Decizia.**
+- Ambele valori intră în catalog cu proveniența explicită (`s:` conține citirea, data și autorul
+  raportării). AllGrip primește în plus `de_verificat`: 6,2 e **identic** cu valoarea 2wd, deși
+  WLTP separă cele două tracțiuni (5,4 vs 5,3) — de confirmat că eșantionul e filtrat pe AllGrip
+  și nu agregat pe ambele.
+- **Nu am refresh-uit celelalte 25 de rânduri.** Motivul e în consecință, mai jos: un refresh
+  parțial e mai rău decât niciunul.
+
+**Consecință — de aici vine valoarea intrării.** Coloana e comparabilă doar dacă toate citirile
+sunt din același moment. Refresh-ul unui singur rând îl **dezavantajează sistematic**, dacă
+eșantioanele derivă în sus (cum a derivat Toyota: +0,14). Măsurabil imediat:
+
+| | înainte | după |
+|---|---|---|
+| TCO 15 ani Yaris Cross | 45.776 € | **46.202 €** |
+| TCO 15 ani Jazz Crosstar (neatins) | 46.419 € | 46.419 € |
+| distanța dintre primul și al doilea | 643 € | **217 €** |
+
+Toyota rămâne prima la TCO, dar cu o marjă care încape în incertitudinea propriului preț de listă
+(`estimated`, ofertă expirată 31.08). Iar la consum **nu mai e prima**: Jazz 4,6 < Yaris 4,64.
+Clasamentul de vârf nu mai e discriminant — și diferența nu vine din piață, vine din faptul că am
+împrospătat un rând și nu pe celelalte.
+
+**De rezolvat (nu în această rulare).**
+1. `consum_real_l100` are nevoie de `observed_at` pe câmp, ca orice fapt volatil (§4.4). Fără el,
+   „4,5" și „4,64" arată identic ca tip de dovadă.
+2. Refresh-ul coloanei se face **integral sau deloc**, într-o rulare dedicată. Până atunci,
+   diferențele de TCO sub ~500 € între rânduri cu consumuri de vintage diferit nu se interpretează.
+3. Reclasificare de luat în calcul: coloana e volatilă (`data/scans/`-like), nu stabilă
+   (`models.json`). Contrazice împărțirea din §2 — de discutat, nu de aplicat unilateral.
+
+**Rezultat.** Vitara AllGrip: combustibil 19.184 → 18.879 €, TCO 50.520 → **50.216 €** (0,239 €/km).
+Yaris Cross: 13.702 → 14.129 €, TCO 45.776 → **46.202 €** (0,220 €/km). Diferența dintre cele două
+se îngustează de la −4.745 € la **−4.013 €**. 26 de teste trec. Acoperirea rămâne `complet`.
