@@ -5,8 +5,8 @@
 # un scan de actualizare (ieftin). Descoperirea s-a făcut o dată. Scanul lunar
 # citeşte de aici şi NU mai caută.
 
-version: 4
-updated: 2026-09-04
+version: 5
+updated: 2026-11-01
 populat_din: scan-2026-08-19
 
 # ===========================================================================
@@ -199,12 +199,7 @@ surse:
       nivel: 2b
       validat_la: 2026-08-19
 
-  nissan:
-    - url: https://www.nissan.ro/promotii/oferta-juke.html
-      nivel: 1
-      acopera: [Juke]
-      validat_la: 2026-08-19
-      nota: "'Rabla by Nissan' 2.000 EUR NU e prima de stat — testul valorii"
+  nissan: []   # Juke: URL mort 3x (2026-11-01), vezi lista_neagra
 
   honda:
     - url: https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf
@@ -360,9 +355,6 @@ surse:
     - url: https://www.seat.ro/ateca/ateca-reference
       nivel: 1
       validat_la: 2026-08-19
-    - url: https://www.seat.ro/ateca/ateca-style
-      nivel: 1
-      validat_la: 2026-08-19
 
   mg:
     - url: https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf
@@ -413,6 +405,8 @@ lista_neagra:
     - https://www.seat.ro/ateca/prezentare-generala
     - https://www.seat.ro/ateca/oferte
     - https://dabauto.ro/fca/oferta-jeep-compass-e-hybrid/
+    - https://www.seat.ro/ateca/ateca-style              # 404 x3 (09-04, 10-01, 11-01); WebSearch inlocuitor: nimic
+    - https://www.nissan.ro/promotii/oferta-juke.html    # 404 x3; WebSearch inlocuitor: nimic
   domeniu_mort:
     - https://www.jeep.ro/          # "reserved domain"
   efemer_nu_se_salveaza:
