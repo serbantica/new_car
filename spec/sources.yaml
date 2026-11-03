@@ -5,8 +5,8 @@
 # un scan de actualizare (ieftin). Descoperirea s-a făcut o dată. Scanul lunar
 # citeşte de aici şi NU mai caută.
 
-version: 5
-updated: 2026-11-01
+version: 6
+updated: 2026-11-03
 populat_din: scan-2026-08-19
 
 # ===========================================================================
@@ -405,6 +405,7 @@ lista_neagra:
     - https://www.seat.ro/ateca/prezentare-generala
     - https://www.seat.ro/ateca/oferte
     - https://dabauto.ro/fca/oferta-jeep-compass-e-hybrid/
+    - https://www.suzuki.ro/wp-content/themes/Suzuki/assets/files/ListaPreturi.pdf   # 404 x3 (11-01, 11-03 + 10-01); acoperit prin suzuki.auto-net.ro, fara inlocuitor nou
     - https://www.seat.ro/ateca/ateca-style              # 404 x3 (09-04, 10-01, 11-01); WebSearch inlocuitor: nimic
     - https://www.nissan.ro/promotii/oferta-juke.html    # 404 x3; WebSearch inlocuitor: nimic
   domeniu_mort:
