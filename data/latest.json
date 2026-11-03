@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generat_la": "2026-10-01",
-  "sursa_scan": "scan-2026-10-01.json",
-  "scan_date": "2026-10-01",
+  "generat_la": "2026-11-03",
+  "sursa_scan": "scan-2026-11-03.json",
+  "scan_date": "2026-11-03",
   "avertisment": "DERIVAT — niciodata editat manual. Regenerabil cu `python3 build.py`.",
   "antet_dashboard": "Netul estimat NU e o oferta. E cea mai buna reconstituire a pretului public la data scanarii. Scorurile sunt normalizate pe lista curenta si NU sunt comparabile intre scanuri.",
   "cheie_identitate": [
@@ -325,8 +325,8 @@
             "confidence": "confirmed",
             "source_url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf",
             "data_document": "2026-04-30",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat fata de 2026-09-04. PDF byte-identic (md5 9cfd7ea9) cu data/manual/lista_vitara.pdf. Lista importatorului suzuki.ro/ListaPreturi.pdf raspunde acum 404 (vezi sources_failed), deci contradictia 22.360 vs 22.980 din scanul precedent nu mai e re-observabila; nu se reia 22.360."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Neschimbat fata de 2026-10-01. Vitara: PDF byte-identic (md5 9cfd7ea9). S-Cross: CreationDate 2026-04-30, pret identic."
           }
         ]
       },
@@ -600,8 +600,8 @@
             "confidence": "confirmed",
             "source_url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_vitara.pdf",
             "data_document": "2026-04-30",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat fata de 2026-09-04."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Neschimbat fata de 2026-10-01. Vitara: PDF byte-identic (md5 9cfd7ea9). S-Cross: CreationDate 2026-04-30, pret identic."
           }
         ]
       },
@@ -793,7 +793,7 @@
           "v": 26911.61,
           "c": "estimated",
           "s": null,
-          "data_document": "2026-08-01",
+          "data_document": "2026-08-28",
           "pret_trim_baza_eur": 26911.61,
           "optiuni_incluse_eur": null,
           "pachet_pret_necunoscut": false
@@ -860,9 +860,9 @@
             "tip_pret": "lista",
             "confidence": "estimated",
             "source_url": "https://www.toyota.ro/content/dam/toyota/ro/nmsc/brosuri-liste-pret/liste-de-pret/Preturi_Yaris_Cross_Hybrid.pdf",
-            "data_document": "2026-08-01",
-            "observed_at": "2026-10-01",
-            "nota": "Documentul servit e MY26 V.08 (CreationDate 2026-07-27), cu preturi \"valabile 01-31 August 2026\": perioada a expirat la 31.08. Nu e dovada ca pretul curent (octombrie) e acelasi -> estimated. 22.241 fara TVA x 1,21 = 26.911,61. Neschimbat fata de 2026-09-04."
+            "data_document": "2026-08-28",
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Documentul servit acum e MY26 V.09 / Septembrie 2026 (CreationDate 2026-08-28), preturi 'valabile 01-30 Septembrie 2026' - perioada a expirat la 30.09. Pret identic cu V.08 (22.241 fara TVA x 1,21 = 26.911,61). Versiune noua pe acelasi URL, dar tot nu acopera luna curenta -> estimated."
           }
         ]
       },
@@ -1526,91 +1526,31 @@
       "motiv_selectie": "Selection are Climatronic, tempomat, scaune incalzite si camera spate.",
       "conflicte": null,
       "bani": {
-        "pret_lista": {
-          "v": 22406,
-          "c": "confirmed",
-          "s": null,
-          "data_document": "2026-07-31",
-          "pret_trim_baza_eur": 22406,
-          "optiuni_incluse_eur": null,
-          "pachet_pret_necunoscut": false
-        },
-        "pret_net_fara_rabla": {
-          "v": 22406,
-          "c": "confirmed",
-          "baza": "pret_lista (niciun discount neconditionat defalcat pe rand)"
-        },
+        "pret_lista": null,
+        "pret_net_fara_rabla": null,
         "prima_rabla": {
           "v": 1907,
           "c": "confirmed",
           "grila": "benzina",
           "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
         },
-        "pret_net_estimat": {
-          "v": 20499,
-          "c": "confirmed",
-          "sursa": "pret_net_fara_rabla - prima_rabla"
-        },
+        "pret_net_estimat": null,
         "pret_net_promotional_observat": null,
-        "cost_total_5_ani": {
-          "v": 46864,
-          "c": "derived",
-          "s": "TCO 15 ani (fara_revanzare)",
-          "scenariu_activ": "fara_revanzare",
-          "fara_revanzare": 46864,
-          "cu_revanzare": 44176,
-          "cost_pe_km_fara_revanzare": 0.223,
-          "cost_pe_km_cu_revanzare": 0.21,
-          "breakdown": {
-            "orizont_ani": 15,
-            "total_km": 210000,
-            "cost_achizitie_net_eur": 20499,
-            "cost_combustibil_eur": 17966,
-            "cost_rca_eur": 2700,
-            "cost_revizii_eur": 3600,
-            "cost_anvelope_eur": 1000,
-            "cost_impozit_eur": 300,
-            "cost_extra_ambreiaj_eur": 800,
-            "valoare_reziduala_eur": 2689,
-            "procent_rezidual_15_ani": 0.12,
-            "pret_benzina_eur_l": 1.45,
-            "consum_real_l100": 5.9
-          }
-        },
-        "cost_pe_km": {
-          "v": 0.223,
-          "c": "derived",
-          "s": "cost_total / 210000 km"
-        },
+        "cost_total_5_ani": null,
+        "cost_pe_km": null,
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
-        "nr_observatii": 1,
-        "observatii": [
-          {
-            "model_id": "skoda|kamiq|MY27|1.0-tsi-115|2wd|manuala|selection",
-            "model": "Skoda Kamiq",
-            "echipare": "Selection",
-            "motorizare": "1.0 TSI 115",
-            "cutie": "manuala (6)",
-            "tractiune": "2wd",
-            "pret_eur": 22406,
-            "tip_pret": "lista",
-            "confidence": "confirmed",
-            "source_url": "https://skoda.metrotehnica.ro/index.php/download_file/view/3081/153/",
-            "data_document": "2026-07-31",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat; CreationDate 2026-07-31, acelasi document. 18.517 fara TVA."
-          }
-        ]
+        "nr_observatii": 0,
+        "observatii": []
       },
       "marcaje": {
         "in_buget": {
-          "stare": "da",
-          "fara_rabla": true,
-          "cu_rabla": true,
+          "stare": null,
+          "fara_rabla": null,
+          "cu_rabla": null,
           "plafon_eur": 27000,
-          "valoare_fara_rabla_eur": 22406,
-          "valoare_cu_rabla_eur": 20499
+          "valoare_fara_rabla_eur": null,
+          "valoare_cu_rabla_eur": null
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
@@ -1622,19 +1562,19 @@
         "garantie_ani": 2,
         "cuplu_termic_nm": 200,
         "bonus_mostenit": 0.4,
-        "pret_net_estimat": 20499,
-        "cost_total_5_ani": 46864,
+        "pret_net_estimat": null,
+        "cost_total_5_ani": null,
         "consum_real_l100": 5.9,
         "portbagaj_l": 400
       },
       "scoruri": {
         "default": {
-          "scor": 0.4989,
-          "acoperire_pondere": 1.0,
+          "scor": 0.2658,
+          "acoperire_pondere": 0.6,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.8487,
+              "valoare_norm": null,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1665,12 +1605,12 @@
           }
         },
         "cash_minim": {
-          "scor": 0.5989,
-          "acoperire_pondere": 1.0,
+          "scor": 0.3078,
+          "acoperire_pondere": 0.45,
           "componente": {
             "pret_net_estimat": {
               "pondere": 0.55,
-              "valoare_norm": 0.837,
+              "valoare_norm": null,
               "nota": "min-max invers pe univers"
             },
             "fiabilitate_garantie": {
@@ -1696,8 +1636,8 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.453,
-          "acoperire_pondere": 1.0,
+          "scor": 0.3541,
+          "acoperire_pondere": 0.8,
           "componente": {
             "bonus_mostenit": {
               "pondere": 0.4,
@@ -1711,7 +1651,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.8487,
+              "valoare_norm": null,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -1727,8 +1667,8 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.5236,
-          "acoperire_pondere": 1.0,
+          "scor": 0.3842,
+          "acoperire_pondere": 0.7,
           "componente": {
             "consum_real": {
               "pondere": 0.45,
@@ -1737,7 +1677,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.8487,
+              "valoare_norm": null,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -1866,8 +1806,8 @@
             "confidence": "confirmed",
             "source_url": "https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf",
             "data_document": "2026-10-01",
-            "observed_at": "2026-10-01",
-            "nota": "Lista Autonet, CreationDate 2026-10-01. Pret de vanzare cu TVA = 127.925 lei = 24.010 EUR, neschimbat. Pachetul din cheia catalogului (\"+pachet\") nu e pretuit in document: comparatia este pe Trend fara pachet, ca in scanul precedent."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document neschimbat (CreationDate 2026-10-01). Lista 127.925 lei = 24.010 EUR, neschimbata. +pachet din cheie nepretuit in document."
           },
           {
             "model_id": "kia|stonic|MY26|1.0-tgdi-100|2wd|manuala|trend+pachet",
@@ -1881,8 +1821,8 @@
             "confidence": "estimated",
             "source_url": "https://kia.auto-net.ro/wp-content/pdf/liste_preturi/lista_stonic.pdf",
             "data_document": "2026-10-01",
-            "observed_at": "2026-10-01",
-            "nota": "Promotie 1.500 EUR (7.992 lei) prelungita pana la 30.09.2026 inclusiv, \"cu posibilitatea extinderii\". Azi e 01.10: valabilitatea documentului a expirat ieri si nu apare nicio extindere confirmata -> estimated (era confirmed la 2026-09-04). 1.500 EUR nu se potriveste primei de stat (1.907/2.288 EUR) -> reducere comerciala importator. Curs importator 5,3280 RON/EUR (estimativ, necontrolat la BNR)."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document neschimbat (CreationDate 2026-10-01). Promotia 1.500 EUR (7.992 lei) era valabila pana la 30.09.2026 'cu posibilitatea extinderii'; nicio extindere confirmata la 2026-11-01 (documentul nu s-a schimbat) -> estimated. 1.500 EUR nu se potriveste grilei Rabla -> reducere comerciala importator."
           }
         ]
       },
@@ -2157,8 +2097,8 @@
             "confidence": "estimated",
             "source_url": "https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf",
             "data_document": "2022-11-24",
-            "observed_at": "2026-10-01",
-            "nota": "CORECTIE fata de scanul 2026-09-04 (care l-a inregistrat confirmed / \"2026-08\"): PDF-ul are CreationDate 2022-11-24 si nota de subsol invoca \"Programul Rabla 2022 / Ghidul PSIPAN 2022\" -> document vechi de ~46 luni, estimated prin regula de 12 luni. Pretul e numeric identic cu scanul precedent; se schimba doar increderea."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document 2022-11-24 neschimbat (md5 3e2cd78b); estimated. Pret numeric identic."
           },
           {
             "model_id": "honda|jazz-crosstar|MY-nedeterminat|1.5-ehev|2wd|ecvt|executive",
@@ -2172,8 +2112,8 @@
             "confidence": "estimated",
             "source_url": "https://hondatrading.ro/wp-content/uploads/Honda-Jazz-Crosstar_Preturi_online-1.pdf",
             "data_document": "2022-11-24",
-            "observed_at": "2026-10-01",
-            "nota": "27.250 - 3.300 = 23.950. 3.300 EUR = \"Rabla 1+2 + Eco Bonusuri\" din programul 2022 la curs 5 RON/EUR (cumul de bonusuri 2022, nu grila 2026 de 1.907/2.288 EUR) -> NU e prima de stat 2026. Nu intra in net."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document 2022-11-24 neschimbat (md5 3e2cd78b); estimated. Cei 3.300 EUR sunt bonusuri din programul 2022, nu prima 2026; nu intra in net."
           }
         ]
       },
@@ -2434,8 +2374,8 @@
             "confidence": "confirmed",
             "source_url": "https://suzuki.auto-net.ro/wp-content/pdf/liste_preturi/lista_scross.pdf",
             "data_document": "2026-04-30",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat. Observatie: CreationDate PDF 2026-04-30; MY24 din catalog neverificat in document."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Neschimbat fata de 2026-10-01. Vitara: PDF byte-identic (md5 9cfd7ea9). S-Cross: CreationDate 2026-04-30, pret identic."
           }
         ]
       },
@@ -2697,8 +2637,8 @@
             "confidence": "estimated",
             "source_url": "https://www.ford.ro/content/dam/guxeu/ro/documents/price-list/cars/PL-new-puma.pdf",
             "data_document": "2020-09-21",
-            "observed_at": "2026-10-01",
-            "nota": "Document MY21.25, ~72 luni -> estimated. 17.479,0 fara TVA / 20.800 cu TVA. Neschimbat."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document MY21.25, ~72 luni -> estimated. 17.479,0 fara TVA / 20.800 cu TVA. Neschimbat."
           }
         ]
       },
@@ -3491,31 +3431,92 @@
       "motiv_selectie": "Active are AC manual. Allure include Climatizare automata monozona, camera spate HD VisioPark 1, ecran tactil 10' cu wireless Mirror Screen (Apple CarPlay / Android Auto), oglinzi electrice incalzite si rabatabile. Pachetul Iarna adauga scaune fata incalzite (~350 EUR). Preț listă ~24.950 EUR (in buget).",
       "conflicte": null,
       "bani": {
-        "pret_lista": null,
-        "pret_net_fara_rabla": null,
+        "pret_lista": {
+          "v": 25900,
+          "c": "confirmed",
+          "s": null,
+          "data_document": "2026-08-04",
+          "pret_trim_baza_eur": 25900,
+          "optiuni_incluse_eur": null,
+          "pachet_pret_necunoscut": true,
+          "nota": "pretul pachetului calificator nu e publicat; pret_lista e o limita INFERIOARA"
+        },
+        "pret_net_fara_rabla": {
+          "v": 25900,
+          "c": "confirmed",
+          "baza": "pret_lista (niciun discount neconditionat defalcat pe rand)"
+        },
         "prima_rabla": {
           "v": 1907,
           "c": "confirmed",
           "grila": "benzina",
           "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
         },
-        "pret_net_estimat": null,
+        "pret_net_estimat": {
+          "v": 23993,
+          "c": "confirmed",
+          "sursa": "pret_net_fara_rabla - prima_rabla"
+        },
         "pret_net_promotional_observat": null,
-        "cost_total_5_ani": null,
-        "cost_pe_km": null,
+        "cost_total_5_ani": {
+          "v": 51576,
+          "c": "derived",
+          "s": "TCO 15 ani (fara_revanzare)",
+          "scenariu_activ": "fara_revanzare",
+          "fara_revanzare": 51576,
+          "cu_revanzare": 48986,
+          "cost_pe_km_fara_revanzare": 0.246,
+          "cost_pe_km_cu_revanzare": 0.233,
+          "breakdown": {
+            "orizont_ani": 15,
+            "total_km": 210000,
+            "cost_achizitie_net_eur": 23993,
+            "cost_combustibil_eur": 19184,
+            "cost_rca_eur": 2700,
+            "cost_revizii_eur": 3600,
+            "cost_anvelope_eur": 1000,
+            "cost_impozit_eur": 300,
+            "cost_extra_ambreiaj_eur": 800,
+            "valoare_reziduala_eur": 2590,
+            "procent_rezidual_15_ani": 0.1,
+            "pret_benzina_eur_l": 1.45,
+            "consum_real_l100": 6.3
+          }
+        },
+        "cost_pe_km": {
+          "v": 0.246,
+          "c": "derived",
+          "s": "cost_total / 210000 km"
+        },
         "reduceri_conditionate": [],
         "dispersie_dealeri_eur": null,
-        "nr_observatii": 0,
-        "observatii": []
+        "nr_observatii": 1,
+        "observatii": [
+          {
+            "model_id": "peugeot|2008|facelift-2024|1.2-puretech-100|2wd|manuala|allure+pachet-iarna",
+            "model": "Peugeot 2008",
+            "echipare": "Allure",
+            "motorizare": "1.2 PureTech 100",
+            "cutie": "manuala (6MT)",
+            "tractiune": "2wd",
+            "pret_eur": 25900,
+            "tip_pret": "lista",
+            "confidence": "confirmed",
+            "source_url": "https://www.peugeot.ro/content/dam/peugeot/romania/preturi/2008-Lista-preturi-Lista-de-pret-valabila-incepand-cu-luna-august-2026.pdf",
+            "data_document": "2026-08-04",
+            "observed_at": "2026-11-03",
+            "nota": "Sursa accesibila din nou (curl 200, 25 pag., CreationDate 2026-08-04, 'valabila incepand cu luna august 2026'; era 403 Akamai la 10-01 si 11-01). Randul 'Turbo 100ch manuala': Style 19.793/23.950, Allure 21.405 fara TVA / 25.900 cu TVA. Identic cu 2026-09-04 (25.900). Pachet de iarna din cheie (236 EUR cu TVA, observat 09-04 in acelasi document) NU e adaugat la pret. Lipsa observatiei la 10-01 si 11-01 a fost sursa blocata, nu retragere. Valabilitatea 'august 2026' a trecut: lista pe luna curenta nu e confirmata -> pretul ramane confirmed doar ca lista de august."
+          }
+        ]
       },
       "marcaje": {
         "in_buget": {
-          "stare": null,
-          "fara_rabla": null,
-          "cu_rabla": null,
+          "stare": "da",
+          "fara_rabla": true,
+          "cu_rabla": true,
           "plafon_eur": 27000,
-          "valoare_fara_rabla_eur": null,
-          "valoare_cu_rabla_eur": null
+          "valoare_fara_rabla_eur": 25900,
+          "valoare_cu_rabla_eur": 23993
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
@@ -3527,19 +3528,19 @@
         "garantie_ani": 2,
         "cuplu_termic_nm": 205,
         "bonus_mostenit": 0.4,
-        "pret_net_estimat": null,
-        "cost_total_5_ani": null,
+        "pret_net_estimat": 23993,
+        "cost_total_5_ani": 51576,
         "consum_real_l100": 6.3,
         "portbagaj_l": 434
       },
       "scoruri": {
         "default": {
-          "scor": 0.253,
-          "acoperire_pondere": 0.6,
+          "scor": 0.2844,
+          "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": null,
+              "valoare_norm": 0.3314,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -3570,12 +3571,12 @@
           }
         },
         "cash_minim": {
-          "scor": 0.2682,
-          "acoperire_pondere": 0.45,
+          "scor": 0.4234,
+          "acoperire_pondere": 1.0,
           "componente": {
             "pret_net_estimat": {
               "pondere": 0.55,
-              "valoare_norm": null,
+              "valoare_norm": 0.5504,
               "nota": "min-max invers pe univers"
             },
             "fiabilitate_garantie": {
@@ -3601,8 +3602,8 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.3644,
-          "acoperire_pondere": 0.8,
+          "scor": 0.3578,
+          "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
               "pondere": 0.4,
@@ -3616,7 +3617,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": null,
+              "valoare_norm": 0.3314,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -3632,8 +3633,8 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.2842,
-          "acoperire_pondere": 0.7,
+          "scor": 0.2984,
+          "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
               "pondere": 0.45,
@@ -3642,7 +3643,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": null,
+              "valoare_norm": 0.3314,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -4167,8 +4168,8 @@
             "confidence": "estimated",
             "source_url": "https://apancars.ro/ro/attachment?id_attachment=95",
             "data_document": "2024-11-18",
-            "observed_at": "2026-10-01",
-            "nota": "Document 2024-11, neschimbat (md5 5cd6e3ca). Pachet Iarna din cheia catalogului nu e in document."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document 2024-11, neschimbat (md5 5cd6e3ca). Pachet Iarna din cheia catalogului nu e in document."
           }
         ]
       },
@@ -4434,8 +4435,8 @@
             "confidence": "estimated",
             "source_url": "https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf",
             "data_document": "2025-02-20",
-            "observed_at": "2026-10-01",
-            "nota": "Document din feb. 2025 (~19 luni), preturi pentru ianuarie 2025 -> estimated."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document 2025-02-20 neschimbat; estimated."
           },
           {
             "model_id": "mg|zs|MY-nedeterminat|1.5-hybrid-plus|2wd|at|exclusive",
@@ -4449,8 +4450,8 @@
             "confidence": "estimated",
             "source_url": "https://mgsmtmotors.ro/wp-content/uploads/2025/02/Fisa-produs-ZS-HEV.pdf",
             "data_document": "2025-02-20",
-            "observed_at": "2026-10-01",
-            "nota": "Promotie 1.000 EUR \"valabila pana la 31 decembrie 2024\" - expirata de 9 luni; netul nu mai e ofertat dupa propriul document."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Document 2025-02-20 neschimbat; estimated. Promotia expirase la 31.12.2024."
           }
         ]
       },
@@ -4642,7 +4643,7 @@
           "v": 27350,
           "c": "confirmed",
           "s": null,
-          "data_document": "2026-02-09",
+          "data_document": "2026-09-10",
           "pret_trim_baza_eur": 27150,
           "optiuni_incluse_eur": 200,
           "pachet_pret_necunoscut": false
@@ -4710,9 +4711,9 @@
             "tip_pret": "lista",
             "confidence": "confirmed",
             "source_url": "https://www.serus-renault.ro/fise/renault/Renault%20Captur.pdf",
-            "data_document": "2026-02-09",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat. \"Document valabil la data realizarii, 09 februarie 2026\" (CreationDate PDF 2026-04-02). 22.438 fara TVA."
+            "data_document": "2026-09-10",
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Pret identic (27.150 cu TVA / 22.438 fara). Document nou: 'valabil la data realizarii, 10 septembrie 2026' (CreationDate 2026-10-05); anterior 2026-02-09. Pachetul din cheie (iarna, PCV94 300 EUR cu TVA) nu e adaugat la pret."
           }
         ]
       },
@@ -4901,17 +4902,17 @@
       "conflicte": null,
       "bani": {
         "pret_lista": {
-          "v": 28750,
+          "v": 28550,
           "c": "confirmed",
           "s": null,
-          "data_document": "2026-03-10",
-          "pret_trim_baza_eur": 28750,
+          "data_document": "2025-11-03",
+          "pret_trim_baza_eur": 28550,
           "optiuni_incluse_eur": null,
           "pachet_pret_necunoscut": true,
           "nota": "pretul pachetului calificator nu e publicat; pret_lista e o limita INFERIOARA"
         },
         "pret_net_fara_rabla": {
-          "v": 28750,
+          "v": 28550,
           "c": "confirmed",
           "baza": "pret_lista (niciun discount neconditionat defalcat pe rand)"
         },
@@ -4922,38 +4923,38 @@
           "nota_eligibilitate": "Rabla e fereastra anuala; eligibilitatea pe durata de proprietate e intrebare deschisa (D-014). Net in doua variante."
         },
         "pret_net_estimat": {
-          "v": 26462,
+          "v": 26262,
           "c": "confirmed",
           "sursa": "pret_net_fara_rabla - prima_rabla"
         },
         "pret_net_promotional_observat": null,
         "cost_total_5_ani": {
-          "v": 48528,
+          "v": 48328,
           "c": "derived",
           "s": "TCO 15 ani (fara_revanzare)",
           "scenariu_activ": "fara_revanzare",
-          "fara_revanzare": 48528,
-          "cu_revanzare": 45078,
-          "cost_pe_km_fara_revanzare": 0.231,
-          "cost_pe_km_cu_revanzare": 0.215,
+          "fara_revanzare": 48328,
+          "cu_revanzare": 44902,
+          "cost_pe_km_fara_revanzare": 0.23,
+          "cost_pe_km_cu_revanzare": 0.214,
           "breakdown": {
             "orizont_ani": 15,
             "total_km": 210000,
-            "cost_achizitie_net_eur": 26462,
+            "cost_achizitie_net_eur": 26262,
             "cost_combustibil_eur": 14616,
             "cost_rca_eur": 2700,
             "cost_revizii_eur": 3600,
             "cost_anvelope_eur": 1000,
             "cost_impozit_eur": 150,
             "cost_extra_ambreiaj_eur": 0,
-            "valoare_reziduala_eur": 3450,
+            "valoare_reziduala_eur": 3426,
             "procent_rezidual_15_ani": 0.12,
             "pret_benzina_eur_l": 1.45,
             "consum_real_l100": 4.8
           }
         },
         "cost_pe_km": {
-          "v": 0.231,
+          "v": 0.23,
           "c": "derived",
           "s": "cost_total / 210000 km"
         },
@@ -4968,13 +4969,20 @@
             "motorizare": "E-Tech full hybrid 160",
             "cutie": "automata",
             "tractiune": "2wd",
-            "pret_eur": 28750,
+            "pret_eur": 28550,
             "tip_pret": "lista",
             "confidence": "confirmed",
             "source_url": "https://www.serus-renault.ro/fise/renault/Renault%20Symbioz.pdf",
-            "data_document": "2026-03-10",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat. Divergenta de motorizare 145 (catalog) vs 160 CP (fisa) ramane nerezolvata, de rezolvat in catalog, nu in scan. 23.760 fara TVA."
+            "data_document": "2025-11-03",
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: CONFLICT DE VERSIUNE: URL-ul serveste acum un document 'valabil la data realizarii, 3 Noiembrie 2025' (CreationDate 2025-10-27) cu Evolution E-Tech full hybrid 160 = 28.550 cu TVA (23.595 fara). Scanul 2026-10-01 a inregistrat 28.750 din documentul datat 2026-03-10, care nu mai e servit. Se pastreaza ambele valori cu sursele lor; nu se alege tacit. Miscare -200 EUR = -0,70% brut (-0,68% normalizat la 30 zile), sub prag. Document la ~12 luni de la limita regulii de vechime (11 luni 29 zile). Divergenta 145 vs 160 CP din catalog ramane nerezolvata.",
+            "valoare_anterioara": {
+              "pret_eur": 28750,
+              "scan": "scan-2026-10-01",
+              "data_document": "2026-03-10",
+              "sursa_dupa_memorie_scan": "acelasi URL, versiune diferita"
+            },
+            "conflict": true
           }
         ]
       },
@@ -4984,8 +4992,8 @@
           "fara_rabla": false,
           "cu_rabla": true,
           "plafon_eur": 27000,
-          "valoare_fara_rabla_eur": 28750,
-          "valoare_cu_rabla_eur": 26462
+          "valoare_fara_rabla_eur": 28550,
+          "valoare_cu_rabla_eur": 26262
         },
         "rezidua_incerta": false,
         "prag_dotari_atins": {
@@ -4997,19 +5005,19 @@
         "garantie_ani": 3,
         "cuplu_termic_nm": 148,
         "bonus_mostenit": 0.0,
-        "pret_net_estimat": 26462,
-        "cost_total_5_ani": 48528,
+        "pret_net_estimat": 26262,
+        "cost_total_5_ani": 48328,
         "consum_real_l100": 4.8,
         "portbagaj_l": 492
       },
       "scoruri": {
         "default": {
-          "scor": 0.546,
+          "scor": 0.5548,
           "acoperire_pondere": 1.0,
           "componente": {
             "tco_5_ani": {
               "pondere": 0.4,
-              "valoare_norm": 0.666,
+              "valoare_norm": 0.688,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -5040,12 +5048,12 @@
           }
         },
         "cash_minim": {
-          "scor": 0.4509,
+          "scor": 0.4599,
           "acoperire_pondere": 1.0,
           "componente": {
             "pret_net_estimat": {
               "pondere": 0.55,
-              "valoare_norm": 0.3478,
+              "valoare_norm": 0.3642,
               "nota": "min-max invers pe univers"
             },
             "fiabilitate_garantie": {
@@ -5071,7 +5079,7 @@
           }
         },
         "continuitate_vitara": {
-          "scor": 0.3028,
+          "scor": 0.3072,
           "acoperire_pondere": 1.0,
           "componente": {
             "bonus_mostenit": {
@@ -5086,7 +5094,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.2,
-              "valoare_norm": 0.666,
+              "valoare_norm": 0.688,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "cuplu_disponibil": {
@@ -5102,7 +5110,7 @@
           }
         },
         "economie_carburant": {
-          "scor": 0.7233,
+          "scor": 0.7299,
           "acoperire_pondere": 1.0,
           "componente": {
             "consum_real": {
@@ -5112,7 +5120,7 @@
             },
             "tco_5_ani": {
               "pondere": 0.3,
-              "valoare_norm": 0.666,
+              "valoare_norm": 0.688,
               "nota": "min-max invers pe univers (TCO 5 ani)"
             },
             "fiabilitate_garantie": {
@@ -6597,7 +6605,7 @@
         },
         "pret_net_promotional_observat": {
           "v": 29990,
-          "c": "confirmed",
+          "c": "estimated",
           "url": null,
           "valabil_pana": null,
           "nota": "pret afisat de dealer; compozitie posibil diferita de net. NU e topit in netul derivat."
@@ -6648,8 +6656,8 @@
             "confidence": "confirmed",
             "source_url": "https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf",
             "data_document": "2026-04-21",
-            "observed_at": "2026-10-01",
-            "nota": "Neschimbat; CreationDate 2026-04-21."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Neschimbat; CreationDate 2026-04-21."
           },
           {
             "model_id": "honda|hr-v|MY25|1.5-ehev-131|2wd|ecvt|elegance",
@@ -6660,11 +6668,11 @@
             "tractiune": "2wd",
             "pret_eur": 29990,
             "tip_pret": "net_promotional",
-            "confidence": "confirmed",
+            "confidence": "estimated",
             "source_url": "https://hondatrading.ro/wp-content/uploads/Honda-HR-V-Preturi-si-Specificatii.pdf",
             "data_document": "2026-04-21",
-            "observed_at": "2026-10-01",
-            "nota": "Reducere comerciala Honda Trading 3.000 EUR TVA incl., unitati an productie 2026, valabila pana la 31.10.2026, in limita stocului. 3.000 EUR nu e prima de stat. Neschimbat."
+            "observed_at": "2026-11-03",
+            "nota": "Re-observat 2026-11-03: document identic cu scanul 2026-11-01 (CreationDate/md5 neschimbate), deci pret neschimbat. Nota precedenta: Reducerea comerciala Honda Trading 3.000 EUR era 'valabila pana la 31.10.2026, in limita stocului' (document 2026-04-21, neschimbat). Azi 2026-11-01 valabilitatea a expirat ieri si nu apare prelungire -> estimated (era confirmed la 2026-10-01). 3.000 EUR nu e prima de stat."
           }
         ]
       },
